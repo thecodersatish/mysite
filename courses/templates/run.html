@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="">
+    <meta name="author" content="Themepixels">
+
+    <!-- Favicon -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> -->
+
+    <title>Online-editor</title>
+    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ext-language_tools.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>  
+  <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
+    <style>
+        #custom-editor{
+            width:100%;
+            height: 500px;
+            display:inline-block;
+            position:relative;
+        }
+        #editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        #input-editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        #output-editor {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        /* width */
+        ::-webkit-scrollbar {
+          height: 5px;
+          width: 5px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: rgb(202, 202, 202); 
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: rgb(141, 141, 141); 
+        }
+    </style>
+  </head>
+  <body class="skin-blue animate">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'home' %}">CodeHub</a>
+        </div>
+    </nav>
+    <br>
+    <div class="container-fluid">
+        <div class="text-center">
+            <h3>Online IDE</h3>
+          </div>
+        <select class="form-select" aria-label="languages" style="width: 150px;" id="language">
+            <option value="50">C</option>
+            <option value="52">C++14</option>
+            <option value="70">Python2</option>
+            <option value="71">Python3</option>
+            <option value="62">Java</option>
+            <option value="63">JavaScript</option>
+          </select>
+        <br>
+        <div class="row">
+            <div class="col-lg-8">
+                <div id="custom-editor">
+                    <div id="editor"></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="row gy-2">
+                    <div class="col-lg-12 col-md-6">
+                        <h5>Input:</h5>
+                        <div class="border shadow-sm" style="height: 215px;display:inline-block;position:relative;width: 100%;">
+                            <div id="input-editor"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-6">
+                        <h5>Output:</h5>
+                        <div class="border shadow-sm" style="height: 215px;display:inline-block;position:relative;width: 100%;">
+                            <div id="output-editor"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <button class="btn btn-success shadow" style="width: 100px;" onclick="run()" id="run"><i class="fa fa-play text-white"></i>Run</button>
+    </div>
+    <br>
+    </body>
+    <script>
+        function encode(str){
+            return btoa(unescape(str || ""));
+        }
+
+        function decode(bytes) {
+            var escaped = escape(atob(bytes || ""));
+            try {
+                return decodeURIComponent(escaped);
+            } catch {
+                return unescape(escaped);
+            }
+        }
+        ace.require("ace/ext/language_tools");
+        var editor = ace.edit("editor");
+        var input_editor = ace.edit("input-editor");
+        var output_editor = ace.edit("output-editor");
+        editor.resize()
+        editor.setTheme("ace/theme/dracula");
+        editor.session.setMode("ace/mode/c_cpp");
+        editor.setOptions({
+            fontSize: "13pt",
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutoCompletion:true,
+        });
+        input_editor.setOptions({fontSize:"13pt"});
+        output_editor.setOptions({fontSize:"13pt"});
+        input_editor.renderer.setShowGutter(false);
+        output_editor.renderer.setShowGutter(false);
+        editor.setValue('//C program\n#include<stdio.h>\n\nint main(){\n    printf("Hello world");\n}');
+        editor.clearSelection();
+        $(function(){
+            $("#language").on('change',function(){
+                if(this.value==50){
+                    editor.setValue('//C program\n#include<stdio.h>\n\nint main(){\n    printf("Hello world");\n}');
+                    editor.session.setMode("ace/mode/c_cpp");
+                }
+                else if(this.value==52){
+                    editor.setValue('//C++ program\n#include<iostream>\n\nint main(){\n\n    printf("Hello world");\n}');
+                    editor.session.setMode("ace/mode/c_cpp");
+                }
+                else if(this.value==70){
+                    editor.setValue('#python program\nprint "Hello world"');
+                    editor.session.setMode("ace/mode/python");
+                }
+                else if(this.value==71){
+                    editor.setValue('#python program\nprint("Hello world")');
+                    editor.session.setMode("ace/mode/python");
+                }
+                else if(this.value==62){
+                    editor.setValue('//java program\nclass Main{\n    public static void main(String args[]){\n        System.out.println("Hello world;");\n    }\n}');
+                    editor.session.setMode("ace/mode/java");
+                }
+                else if(this.value==63){
+                    editor.setValue('console.log("Hello world");');
+                    editor.session.setMode("ace/mode/javascript");
+                }
+                editor.clearSelection();
+            });
+        });
+        function run(){
+            $("#run").html('Running....');
+            $("#run").prop('disabled',true);
+            $.ajax({
+                url : "{% url 'run' %}", // the endpoint
+                type : "POST", // http method
+                data : { source : encode(editor.getValue()),
+                        input : encode(input_editor.getValue()),
+                        language_code : $('#language').val() }, // data sent with the post request
+
+                // handle a successful response
+                success : function(json) {
+                    if(json['status']['id']==6){
+                        output_editor.setValue(decode(json['compile_output']));
+                    }
+                    else if(json['status_id']==5){
+                        output_editor.setValue(json['status']['description'])
+                    }
+                    else if(json['status_id']==8){
+                        output_editor.setValue(decode(json['stdout'])+"\n"+json['status']['description']+": Output Limit Exceeded")
+                    }
+                    else if(json['status_id']==11){
+                        output_editor.setValue(decode(json['stdout'])+"\n"+json['status']['description']);
+                    }
+                    else{
+                        if(json['compile_output']!=null)
+                        output_editor.setValue(decode(json['stdout'])+"\n"+decode(json['compile_output']));
+                        else
+                        output_editor.setValue(decode(json['stdout']));
+                    }
+                    output_editor.clearSelection();
+                    output_editor.focus();
+                    $("#run").html('<i class="fa fa-play text-white"></i>Run');
+                    $("#run").prop('disabled',false);
+                },
+
+                statusCode:{
+                    500: function(){
+                        alert("unable to process request. please try again");
+                    }
+                },
+
+                // handle a non-successful response
+                error : function(xhr,errmsg,err) {
+                    alert(response["responseJSON"]["error"]);
+                }
+            });
+        }
+    </script>
+</html>

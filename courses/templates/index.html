@@ -1,0 +1,465 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Codeyst-Home</title>
+  <meta content="" name="description">
+
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'home_assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'home_assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'home_assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'home_assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'home_assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'home_assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'home_assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'home_assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File --> 
+  <link href="{% static 'home_assets/css/style.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: FlexStart - v1.9.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="{% url 'home' %}" class="logo d-flex align-items-center">
+        <img src="{% static 'home_assets/img/logo.png' %}" alt="">
+        <span>Codeyst</span>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto " href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#services">Most Subscribed Courses</a></li>
+          <li><a class="nav-link scrollto" href="#team">Dreams with Codeyst</a></li>
+          <li><a class="getstarted scrollto" href="{% url 'register' %}">Register</a></li>
+          <li><a class="getstarted scrollto" href="{% url 'login' %}">Login</a></li>
+
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">We are here to make the best coding minds</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented coders we will help you to navigate your future to next level</h2>
+          <div data-aos="fade-up" data-aos-delay="600">
+            <div class="text-center text-lg-start">
+              
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+          <img src="{% static 'home_assets/img/features-2.png' %}" class="img-fluid" alt="">
+        </div>
+      </div>
+    </div>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+   
+    <!-- ======= Values Section ======= -->
+    
+     <section id="about" class="about">
+
+      <div class="container" data-aos="fade-up">
+        <div class="row gx-0">
+
+          <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="content">
+              <h3>Who We Are</h3>
+              <h2>Codeyst navigate your feature to nextLevel</h2>
+              <p>
+                hi there..
+              </p>
+              
+            </div>
+          </div>
+
+          <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+            <img src="{% static 'home_assets/img/hero-img.png' %}" class="img-fluid" alt="">
+          </div>
+
+        </div>
+      </div>
+       <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+
+       <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+          <h2>Team</h2>
+          <p>Our hard working team</p>
+        </header>
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/satishd.jpg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Satish Dodda</h4>
+                <span>Chief Executive Officer</span>
+               
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/satisha.jpg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Satish Adabala</h4>
+                <span>Lead developer and CTO</span>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/hemanth.jpeg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Hemanth</h4>
+                <span>production manager</span>
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/satishd.jpeg' %}" class="img-fluid" alt="">
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+              <div class="member-info">
+                <h4>Satish</h4>
+                <span>python tutor</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+</section>
+
+    </section><!-- End About Section -->
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+
+      <div class="container" data-aos="fade-up">
+
+        
+
+    <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing">
+
+      <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+          <p>Our Most Subscribed Courses </p>
+        </header>
+
+        <div class="row gy-4" data-aos="fade-left">
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+           <a href="">  <div class="box">
+              
+              
+              <img src="{% static 'home_assets/img/c.png' %}"  class="img-fluid" alt="">
+             <h3 style="color: #07d5c0;" >C Programming</h3>
+            </div></a>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+          <a href="">   <div class="box">
+              
+              
+              
+              <img src="{% static 'home_assets/img/c++.png' %}" class="img-fluid" alt="">
+             <h3 style="color: #65c600;">C++ Programming </h3>
+            </div></a>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+          <a href="">   <div class="box">
+              
+              
+              <img src="{% static 'home_assets/img/python.jpg' %}" class="img-fluid" alt="">
+             <h3 style="color: #ff901c;">Python Programming </h3>
+            </div></a>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+        <a href="">     <div class="box">
+              
+              
+              <img src="{% static 'home_assets/img/java1.png' %}" class="img-fluid" alt="">
+            <h3 style="color: #ff0071;">Java Programming </h3>
+            </div></a>
+          </div>
+
+        </div>
+
+      </div>
+      <div>
+        <br> <br>
+      </div>
+      <div class="row gy-4" data-aos="fade-left">
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+        <a href="">     <div class="box">
+              
+              
+              <img src="{% static 'home_assets/img/datastructure.jpg' %}" class="img-fluid" alt="">
+              <h3 style="color: #07d5c0;">Data structures with c++</h3>
+            </div></a>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+          <a href="">   <div class="box"> 
+              <img src="{% static 'home_assets/img/datastructure.jpg' %}" class="img-fluid" alt="">
+              <h3 style="color: #65c600;">Advanced Data structures</h3>
+            </div></a>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+           <a href="">  <div class="box">
+              <img src="{% static 'home_assets/img/python.jpg' %}" class="img-fluid" alt="">
+              <h3>Advanced python </h3>
+            </div></a>
+          </div>
+
+          <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+           <a href="">  <div class="box">
+              <img src="{% static 'home_assets/img/java1.png' %}" class="img-fluid" alt="">
+             <h3>Core java</h3>
+            </div></a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- End Pricing Section -->
+    </div>
+
+    </section>
+    <!-- ======= F.A.Q Section ======= -->
+   
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+
+      <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+          <p>Dreams with Codeyst</p>
+        </header>
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6 " data-aos="zoom-in" data-aos-delay="100">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/certificate.jpg' %}" class="img-fluid" alt="">
+              </div>
+              <div class="member-info">
+                <h4>Verfied Certificate</h4>
+                <p>Codeyst will give you digitially verfied certificate Which will help you to show case your talent</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 " data-aos="zoom-in" data-aos-delay="200">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/placementtraining.jpg' %}" class="img-fluid" alt="">
+              </div>
+              <div class="member-info">
+                <h4>Placement training</h4>
+                <p>Our experts help you with resume preparation and mock interviews and conducts doubt clearing sessions</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 " data-aos="fade-up" data-aos-delay="300">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/handson.jpg' %}" class="img-fluid" alt="">
+                
+              </div>
+              <div class="member-info">
+                <h4>Handson pratice</h4>
+                <p>codeyst courses come with 1000+ practice exercises and assessments to make you job-ready from day 1</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 " data-aos="fade-up" data-aos-delay="400">
+            <div class="member">
+              <div class="member-img">
+                <img src="{% static 'home_assets/img/mentorsupport.jpg' %}" class="img-fluid" alt="">
+               
+              </div>
+              <div class="member-info">
+                <h4>Mentor support</h4>
+                <p>Chat with our mentors and get your doubts cleared. Get chat support for 12 hours every day.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- End Team Section -->
+
+   
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href="index.html" class="logo d-flex align-items-center">
+              <img src="{% static 'assets/img/logo.png' %}" alt="">
+              <span>Codeyst</span>
+            </a>
+            <p>A coding site</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">login</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Register</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Our Primary Course</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">C</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">C++</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Java</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Python</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Competative programming Basics</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Contact Us</h4>
+            <p>
+              Vizag andhra pradesh <br><br>
+              <strong>Phone:</strong> +91 8639 5420 85<br>
+              <strong>Phone:</strong> +91 8555 0953 49<br>
+              <strong>Email:</strong> Satish.D@codeyst.com<br>
+              <strong>Email:</strong> Satish.A@codeyst.com<br>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Codeyst</span></strong>. All Rights Reserved
+      </div>
+     
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'home_assets/vendor/purecounter/purecounter.js' %}"></script>
+  <script src="{% static 'home_assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'home_assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'home_assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'home_assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'home_assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'home_assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'home_assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
