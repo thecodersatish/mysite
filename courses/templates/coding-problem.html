@@ -262,15 +262,17 @@
           <button class="btn btn-outline-blue" style="width: 100px;" id="save">Save</button>
           </div>
           <div>
-            <button class="btn shadow" style="width: 110px;background-color: #FF1493;color: white;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
+            <button class="btn btn-success shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
           </div>
           </div>
-          <div class="bg-white border" id="error" style="display:none;margin-top: 10px;padding: 10px;border-radius: 10px;">
+          <div class="bg-white border" id="error" style="display: none;margin-top: 10px;padding: 10px;border-radius: 10px;">
           <div class="d-flex flex-row justify-content-between">
-            <div style="color: red;font-size:medium;white-space: pre;" id="error-description">
+            <div style="color: red;font-size:medium;">
+              Error:
             </div>
             <div><i class="fa fa-remove" title="close" id="close_error" style="font-size: 18px;color:red;cursor: pointer;"></i></div>
             </div>
+            <div id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></div>
           </div>
           <div id="custom-editor">
             <div id="editor" class="border shadow-sm">{{question.source}}</div>
@@ -283,7 +285,7 @@
             </div>
             <div class="d-flex flex-row">
               <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code">
-              <button style="width: 120px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play"></i>Play</button>
+              <button style="width: 120px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Play</button>
             </div>
           </div>
           <div class="container" id="custominputbox" style="display: none;">
@@ -355,6 +357,27 @@
             <button class="btn btn-outline-blue" style="width: 100px;">Prev</button><button class="btn btn-outline-blue" style="width: 100px;">Next</button>
           </div>
         </div>
+        <div class="toast-container position-absolute top-60 end-0 p-3">
+          <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body">
+              Saved!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+        </div>
+        <div class="modal" tabindex="-1" id="myModal">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-body" style="text-align: center;">
+                <img src="{% static 'assets/img/accepted.png' %}" height="50px">
+                <h1 style="margin-bottom: 10px;">Congratulations</h1>
+                <button class="btn" data-bs-dismiss="modal" aria-label="Close" style="background-color: #282a4a;width: 100px;color: white;">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div><!-- content-body -->
     </div><!-- content -->
     </div>
@@ -395,6 +418,11 @@
         //calling save function on clicking save button
         $('#save').on('click',function(){
           save();
+          var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+          var toastList = toastElList.map(function(toastEl) {
+            return new bootstrap.Toast(toastEl)
+          })
+          toastList.forEach(toast => toast.show()) 
         });
         //error closing
         $('#close_error').on('click',function(){
@@ -464,6 +492,11 @@
         {
             e.preventDefault();
             save();
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            var toastList = toastElList.map(function(toastEl) {
+              return new bootstrap.Toast(toastEl)
+            })
+            toastList.forEach(toast => toast.show()) 
             return false;
         }
         return true;
@@ -473,6 +506,7 @@
       function run(){
         save();
         $('#error').hide();
+        $("#testcases").hide();
         $("#run").html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>');
         $("#run").prop('disabled',true);
         if ($('#custominput').is(':checked')) {
@@ -506,7 +540,7 @@
                   else
                   $('#output').html(decode(json['stdout']));
                 }
-                $("#run").html('<i class="fa fa-play text-white"></i>Run');
+                $("#run").html('<i class="fa fa-play text-white" style="padding-right: 5px;font-size: 18px;"></i>Run');
                 $("#run").prop('disabled',false);
               },
 
@@ -524,70 +558,70 @@
         }
         else{
           $.ajax({
-              url : "{% url 'validate' %}", // the endpoint
-              type : "POST", // http method
-              data : { source : encode(editor.getValue()),
-                      language_code : 50,
-                      problem_code : "{{question.code}}" }, // data sent with the post request
+            url : "{% url 'validate' %}", // the endpoint
+            type : "POST", // http method
+            data : { source : encode(editor.getValue()),
+                    language_code : 50,
+                    problem_code : "{{question.code}}" }, // data sent with the post request
 
-              // handle a successful response
-              success : function(json) {
-                if(json[0]['status']['id']==6){
-                  $('#error-description').html(decode(json[0]['compile_output']));
-                  $('#error').show();
-                  var element = document.getElementById("error");
-                  element.scrollIntoView({behavior: "smooth"});
+            // handle a successful response
+            success : function(json) {
+              if(json[0]['status']['id']==6){
+                $('#error-description').html(decode(json[0]['compile_output']));
+                $('#error').show();
+                var element = document.getElementById("error");
+                element.scrollIntoView({behavior: "smooth"});
+              }
+              else{
+                $("#testcase1input").html(decode(json[0]['stdin']));
+                $("#testcase1expected").html(decode(json[0]['expected_output']));
+                $("#testcase2input").html(decode(json[1]['stdin']));
+                $("#testcase2expected").html(decode(json[1]['expected_output']));
+                if(json[0]['status']['id']==5){
+                  $('#testcase1actual').html(json[0]['status']['description'])
+                }
+                else if(json[0]['status']['id']==8){
+                  $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json[0]['message']));
                 }
                 else{
-                  $("#testcase1input").html(decode(json[0]['stdin']));
-                  $("#testcase1expected").html(decode(json[0]['expected_output']));
-                  $("#testcase2input").html(decode(json[1]['stdin']));
-                  $("#testcase2expected").html(decode(json[1]['expected_output']));
-                  if(json[0]['status']['id']==5){
-                    $('#testcase1actual').html(json[0]['status']['description'])
-                  }
-                  else if(json[0]['status']['id']==8){
-                    $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json[0]['message']));
-                  }
-                  else{
-                    $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json['compile_output']));
-                  }
-                  if(json[1]['status']['id']==5){
-                    $('#testcase2actual').html(json[1]['status']['description'])
-                  }
-                  else if(json[1]['status']['id']==8){
-                    $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json[1]['message']));
-                  }
-                  else{
-                    $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json['compile_output']));
-                  }
-                  if(json[0]['status']['id']==3)
-                  $('#testcase1').html('Testcase 1 (Passed)');
-                  else
-                  $('#testcase1').html('Testcase 1 (Failed)');
-                  if(json[1]['status']['id']==3)
-                  $('#testcase2').html('Testcase 2 (Passed)');
-                  else
-                  $('#testcase2').html('Testcase 2 (Failed)');
-                  launch();
-                  $('#testcases').show();
-                  var element = document.getElementById("testcases");
-                  element.scrollIntoView({behavior: "smooth"});
+                  $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json['compile_output']));
                 }
-                $("#run").html('<i class="fa fa-play text-white"></i>Run');
-                $("#run").prop('disabled',false);
-              },
-
-              statusCode:{
-                  500: function(){
-                      alert("unable to process request. please try again");
-                  }
-              },
-
-              // handle a non-successful response
-              error : function(xhr,errmsg,err) {
-                  alert(response["responseJSON"]["error"]);
+                if(json[1]['status']['id']==5){
+                  $('#testcase2actual').html(json[1]['status']['description'])
+                }
+                else if(json[1]['status']['id']==8){
+                  $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json[1]['message']));
+                }
+                else{
+                  $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json['compile_output']));
+                }
+                if(json[0]['status']['id']==3)
+                $('#testcase1').html('Testcase 1 (Passed)');
+                else
+                $('#testcase1').html('Testcase 1 (Failed)');
+                if(json[1]['status']['id']==3)
+                $('#testcase2').html('Testcase 2 (Passed)');
+                else
+                $('#testcase2').html('Testcase 2 (Failed)');
+                launch();
+                $('#testcases').show();
+                var element = document.getElementById("testcases");
+                element.scrollIntoView({behavior: "smooth"});
               }
+              $("#run").html('<i class="fa fa-play text-white" style="padding-right: 5px;font-size: 18px;"></i>Run');
+              $("#run").prop('disabled',false);
+            },
+
+            statusCode:{
+                500: function(){
+                    alert("unable to process request. please try again");
+                }
+            },
+
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                alert(response["responseJSON"]["error"]);
+            }
           });
         }
       }
@@ -617,6 +651,32 @@
         dmp.diff_cleanupEfficiency(d);
         var ds = dmp.diff_prettyHtml(d);
         document.getElementById('testcase2actualdiff').innerHTML = ds;
+      }
+
+      //submit function
+      function submit(){
+        save();
+        $('#error').hide();
+        $("#testcases").hide();
+        $("#submit").html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>');
+        $("#submit").prop('disabled',true);
+        $.ajax({
+          url : "{% url 'problem_submit' %}", // the endpoint
+          type : "POST", // http method
+          data : { source : encode(editor.getValue()),
+                  language_code : 50,
+                  problem_code : "{{question.code}}" }, // data sent with the post request
+
+          // handle a successful response
+          success : function(json) {
+            $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
+            $("#submit").prop('disabled',false);
+            var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+              keyboard: false
+            });
+            myModal.show();
+          }
+        });
       }
     </script>
     </body>

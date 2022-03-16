@@ -11,6 +11,7 @@ urlpatterns = [
     path('dashboard/',views.dashboard,name='dashboard'),
     path('logout/',views.logout_user,name='logout'),
     path('quiz_submit/',views.quiz_submit,name='quiz_submit'),
+    path('problem_submit',views.problem_submit,name='problem_submit'),
     re_path(r'^courses/(?P<course_code>[^/]+)',include([
         re_path(r'overview',views.course_overview,name='course_overview'),
         re_path(r'module/(?P<module_code>[^/]+)',include([

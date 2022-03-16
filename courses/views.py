@@ -216,6 +216,36 @@ def validate(request):
 
 @csrf_exempt
 @login_required
+def problem_submit(request):
+    if request.method=="POST":
+        problem = Problem.objects.get(code=request.POST.get('problem_code'))
+        data = "{\"submissions\": ["
+        f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
+        for i in range(5):
+            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
+            if i!=4:
+                data += ","
+        data += "]}"
+        url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
+        querystring = {"base64_encoded":"true","fields":"*","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
+        headers = {
+        'content-type': "application/json",
+        'x-rapidapi-host': "judge0-ce.p.rapidapi.com",
+        'x-rapidapi-key': "513e11481bmshd740ecb0d4d638ap1d286cjsn0f35f7d4e420"
+        }
+        response = requests.request("POST", url, data=data, headers=headers, params=querystring)
+        tokens=response.json()
+        for i in range(5):
+            url = "https://judge0-ce.p.rapidapi.com/submissions/"+tokens[i]["token"]
+            response = requests.request("GET", url, headers=headers, params=querystring)
+            while response.json()["status_id"]<=2:
+                response = requests.request("GET", url, headers=headers, params=querystring)
+            if response.json()["status_id"]!=3:
+                return JsonResponse({"status":response.json()["status"]['description']})
+        return JsonResponse({"status":"Accepted"})
+
+@csrf_exempt
+@login_required
 def questions_completed(request):
     if request.method=="POST":
         print(request.POST.get('course'))
