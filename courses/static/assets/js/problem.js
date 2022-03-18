@@ -16,17 +16,6 @@ $(function(){
         $('#submissions-content').hide();
         $('#support-content').hide();
     });
-    $('#submissions').on('click',function(){
-        $('#submissions').addClass('content-active');
-        $('#description').removeClass('content-active');
-        $('#support').removeClass('content-active');
-        if($(window).width()<962){
-            $('#right').hide();
-        }
-        $('#description-content').hide();
-        $('#submissions-content').fadeIn('slow');
-        $('#support-content').hide();
-    });
     $('#support').on('click',function(){
         $('#support').addClass('content-active');
         $('#description').removeClass('content-active');

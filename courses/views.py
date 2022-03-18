@@ -14,6 +14,7 @@ from django.core import serializers
 from django.forms.models import model_to_dict
 from django.db import connection
 from json import dumps
+import datetime
 
 
 def index(request):
@@ -219,6 +220,8 @@ def validate(request):
 def problem_submit(request):
     if request.method=="POST":
         problem = Problem.objects.get(code=request.POST.get('problem_code'))
+        if Problem_Submission.objects.filter(problem=problem,user=request.user,status=3).exists():
+            return JsonResponse({"status_id":1})
         data = "{\"submissions\": ["
         f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
         for i in range(5):
@@ -235,14 +238,28 @@ def problem_submit(request):
         }
         response = requests.request("POST", url, data=data, headers=headers, params=querystring)
         tokens=response.json()
+        c=0
         for i in range(5):
             url = "https://judge0-ce.p.rapidapi.com/submissions/"+tokens[i]["token"]
             response = requests.request("GET", url, headers=headers, params=querystring)
             while response.json()["status_id"]<=2:
                 response = requests.request("GET", url, headers=headers, params=querystring)
             if response.json()["status_id"]!=3:
-                return JsonResponse({"status":response.json()["status"]['description']})
-        return JsonResponse({"status":"Accepted"})
+                break
+            c+=1
+        obj = Problem_Submission(user=request.user,problem=problem,source=str(request.POST.get('source')),status=response.json()['status_id'],date=datetime.datetime.now(),testcases_passed=c)
+        obj.save()
+        submissions = [model_to_dict(i) for i in Problem_Submission.objects.all().filter(user=request.user,problem=problem)]
+        return JsonResponse({"status_id":response.json()['status_id'],"submissions":submissions})
+
+
+@csrf_exempt
+@login_required
+def problem_submissions(request):
+    if request.method=="GET":
+        problem = Problem.objects.get(code=request.GET.get('problem_code'))
+        submissions = [model_to_dict(i) for i in Problem_Submission.objects.all().filter(user=request.user,problem=problem)]
+        return JsonResponse({"submissions":submissions})
 
 @csrf_exempt
 @login_required

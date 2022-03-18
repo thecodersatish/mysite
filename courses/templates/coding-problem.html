@@ -31,7 +31,7 @@
           background: #fadad7;
         }
         ins {
-          background: #9df1a1;
+          background: #87f88d;
           color: green;
           text-decoration: none;
         }
@@ -75,13 +75,14 @@
         p{
           font-size: 16px;
         }
-        .submissions{
-          margin-top: 10px;
+        .submission{
+          padding: 15px;
+          border-radius: 10px;
+          background-color: #f5f5f5;
           border: 1px solid #ccc;
-          border-radius: 5px;
-          padding: 10px;
-          font-size: 18px;
-          background-color: #fdfdfd;
+          margin-bottom: 10px;
+          cursor: pointer;
+          font-size: 17px;
         }
         .content-active{
           background-color: #282a4a!important;
@@ -215,41 +216,14 @@
             </div>
             <div id="submissions-content" style="display: none;">
               <h4 class="text-blue">Submissions</h4>
-              <ul id="list" class="list-group">
-                <li class="d-flex flex-row justify-content-between submissions">
-                  <div class="d-flex flex-row">
-                    <span>#3</span>
-                    <span style="color: green;padding-left: 20px;">Accepted</span>
-                  </div>
-                  <div style="color: green;">
-                    100%
-                  </div>
-                </li>
-                <li class="d-flex flex-row justify-content-between submissions">
-                  <div class="d-flex flex-row">
-                    <span>#2</span>
-                    <span style="padding-left: 20px;">Requirements not matched</span>
-                  </div>
-                  <div>
-                    50%
-                  </div>
-                </li>
-                <li class="d-flex flex-row justify-content-between submissions">
-                  <div class="d-flex flex-row">
-                    <span>#1</span>
-                    <span style="padding-left: 20px;">Wrong Answer</span>
-                  </div>
-                  <div >
-                    70%
-                  </div>
-                </li>
-              </ul>
+              <div class="accordion" id="myAccordion">
+              </div>
             </div>
             <div id="support-content" style="display: none;">
               <h4 class="text-blue">Support</h4>
             </div>
           </div>
-        <div class="col-lg-8 right bg-light" id="right">
+        <div class="col-lg-8 right bg-light" id="right" style="position: relative;display: inline-block;">
           <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
           <div class="d-flex flex-row">
           <select class="form-select" aria-label="languages" style="width: 110px;">
@@ -285,7 +259,7 @@
             </div>
             <div class="d-flex flex-row">
               <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code">
-              <button style="width: 120px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Play</button>
+              <button style="width: 120px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run</button>
             </div>
           </div>
           <div class="container" id="custominputbox" style="display: none;">
@@ -357,15 +331,15 @@
             <button class="btn btn-outline-blue" style="width: 100px;">Prev</button><button class="btn btn-outline-blue" style="width: 100px;">Next</button>
           </div>
         </div>
-        <div class="toast-container position-absolute top-60 end-0 p-3">
+        <div class="toast-container position-absolute p-3" style="width: 200px;bottom: 0;right: 0;">
           <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-          <div class="d-flex">
-            <div class="toast-body">
-              Saved!
+            <div class="d-flex">
+              <div class="toast-body">
+                Saved!
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
           </div>
-        </div>
         </div>
         <div class="modal" tabindex="-1" id="myModal">
           <div class="modal-dialog modal-dialog-centered">
@@ -459,6 +433,18 @@
             $('#testcase2actualdiff').hide();
             $('#testcase2actual').show();
           }
+        });
+        $('#submissions').on('click',function(){
+          $('#submissions').addClass('content-active');
+          $('#description').removeClass('content-active');
+          $('#support').removeClass('content-active');
+          if($(window).width()<962){
+            $('#right').hide();
+          }
+          $('#description-content').hide();
+          $('#submissions-content').show();
+          $('#support-content').hide();
+          get_submissions();
         });
       });
       //save function
@@ -604,6 +590,10 @@
                 else
                 $('#testcase2').html('Testcase 2 (Failed)');
                 launch();
+                $('#testcase1').addClass('content-active');
+                $('#testcase2').removeClass('content-active');
+                $('#testcase2-content').hide();
+                $('#testcase1-content').show();
                 $('#testcases').show();
                 var element = document.getElementById("testcases");
                 element.scrollIntoView({behavior: "smooth"});
@@ -671,10 +661,77 @@
           success : function(json) {
             $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
             $("#submit").prop('disabled',false);
-            var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
-              keyboard: false
-            });
-            myModal.show();
+            if(json['status_id']==1){
+              alert("One of your solutions already accepted");
+            }
+            else{
+              get_submissions();
+              if(json['status_id']==3){
+                var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+                  keyboard: false
+                });
+                myModal.show();
+                $('#submissions').addClass('content-active');
+                $('#description').removeClass('content-active');
+                $('#support').removeClass('content-active');
+                if($(window).width()<962){
+                    $('#right').hide();
+                }
+                $('#description-content').hide();
+                $('#submissions-content').fadeIn('slow');
+                $('#support-content').hide();
+              }
+            }
+          }
+        });
+      }
+      //get all submissions
+      function get_submissions(){
+        $.ajax({
+          url : "{% url 'problem_submissions' %}", // the endpoint
+          type : "GET", // http method
+          data : { problem_code : "{{question.code}}" }, // data sent with the post request
+
+          // handle a successful response
+          success : function(json) {
+            $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
+            $("#submit").prop('disabled',false);
+            $("#myAccordion").html("");
+            for(var i=json['submissions'].length-1;i>=0;i--){
+              var s='<div class="accordion-item">\
+            <div class="accordion-header" id="headingOne">\
+                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#submission'+i+'">\
+                <div class="d-flex flex-row justify-content-between">\
+                    <div><span>#'+(i+1)+'</span>';
+              if(json['submissions'][i]['status']==3)
+              s+='<span style="color: green;padding-left: 10px;">Accepted';
+              else if(json['submissions'][i]['status']==4)
+              s+='<span style="color: red;padding-left: 10px;">Wrong Answer';
+              else if(json['submissions'][i]['status']==5)
+              s+='<span style="color: red;padding-left: 10px;">Time Limit Exceeded';
+              else if(json['submissions'][i]['status']==6)
+              s+='<span style="color: red;padding-left: 10px;">Compilation Error';
+              else
+              s+="Runtime Error";
+              s+='</span>\
+                  </div>\
+                  <div>(';
+              s+=json['submissions'][i]['testcases_passed']*20;
+              s +='%)</div></div>\
+            </button>\
+            </div>\
+            <div id="submission'+i+'" class="accordion-collapse collapse" data-bs-parent="#myAccordion">\
+                <div class="card-body" style="padding:1px">\
+                  <div class="d-flex flex-row justify-content-between" style="margin:5px"><h5>submission time</h5><h5>'+json['submissions'][i]['date'].substring(0,10)+" "+json['submissions'][i]['date'].substring(11,19)+'</h5></div>\
+                    <pre id="source'+i+'"></pre>\
+                </div>\
+            </div>\
+            </div>';
+              $('#myAccordion').append(s);
+              $('#source'+i).text(decode(json['submissions'][i]['source']));
+            }
+            if(json['submissions'].length==0)
+            $("#myAccordion").html("<h4>No Submissions<h4>");
           }
         });
       }

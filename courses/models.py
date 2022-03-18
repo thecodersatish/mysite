@@ -89,3 +89,11 @@ class Previous_Code(models.Model):
     problem=models.ForeignKey(Problem,on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     source=models.TextField(max_length=20000)
+
+class Problem_Submission(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem,on_delete=models.CASCADE)
+    status = models.IntegerField()
+    source = source=models.TextField(max_length=20000)
+    date = models.DateTimeField()
+    testcases_passed = models.IntegerField(default=0)
