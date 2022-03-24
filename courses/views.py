@@ -1,3 +1,5 @@
+from os import stat
+from random import random
 import re
 import requests
 from django.http import HttpResponse,JsonResponse
@@ -9,6 +11,7 @@ from .forms import LoginForm,SignUpForm
 from django.contrib.auth.decorators import login_required
 from .models import *
 import json
+import random
 from django.db.models import F,Q,FilteredRelation
 from django.core import serializers
 from django.forms.models import model_to_dict
@@ -280,7 +283,70 @@ def questions_completed(request):
 
 @login_required
 def rearrange_view(request,course_code,module_code,problem_code):
-    return render(request,'rearrange.html',{})
+    course = Course.objects.get(code=course_code)
+    module= Module.objects.get(course=course,code=module_code)
+    questions = []
+    for i in Rearrange_Problem.objects.all().filter(module=module):
+        d=model_to_dict(i)
+        if Rearrange_Problem_Submission.objects.filter(problem=i,user=request.user,status=1).exists():
+            d['status'] = True
+        elif Rearrange_Problem_Submission.objects.filter(problem=i,user=request.user,status=0).exists():
+            d['status'] = False
+        questions.append(d)
+    if problem_code=="":
+        question = Rearrange_Problem.objects.filter(course=course,module=module)[0]
+    else:
+        question = Rearrange_Problem.objects.get(course=course,module=module,code=problem_code)
+    statements = [model_to_dict(i) for i in Statement.objects.filter(problem=question)]
+    if not Rearrange_Problem_Submission.objects.filter(problem=question,user=request.user,status=1).exists():
+        random.shuffle(statements)
+        context = model_to_dict(question)
+        context['status'] = False
+    else:
+        context = model_to_dict(question)
+        context['status'] = True
+    return render(request,'rearrange.html',{'questions':questions,'question':context,'statements':json.dumps(statements)})
+
+@csrf_exempt
+def rearrange_submit(request):
+    if request.method=="POST":
+        problem = Rearrange_Problem.objects.get(code=request.POST.get('problem_code'))
+        url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
+        data = "{\"submissions\": ["
+        f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
+        for i in range(2):
+            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
+            if i!=1:
+                data += ","
+        data += "]}"
+        f.close()
+        querystring = {"base64_encoded":"true","fields":"*","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
+        headers = {
+        'content-type': "application/json",
+        'x-rapidapi-host': "judge0-ce.p.rapidapi.com",
+        'x-rapidapi-key': "513e11481bmshd740ecb0d4d638ap1d286cjsn0f35f7d4e420"
+        }
+        response = requests.request("POST", url, data=data, headers=headers, params=querystring)
+        tokens=response.json()
+        querystring = {"base64_encoded":"true","fields":"*"}
+        d={}
+        for i in range(2):
+            url = "https://judge0-ce.p.rapidapi.com/submissions/"+tokens[i]["token"]
+            response = requests.request("GET", url, headers=headers, params=querystring)
+            while response.json()["status_id"]<=2:
+                response = requests.request("GET", url, headers=headers, params=querystring)
+            d[i]=response.json()
+        status = 0
+        if d[0]['status_id']==3 and d[1]['status_id']==3:
+            status = 1
+        if Rearrange_Problem_Submission.objects.filter(problem=problem,user=request.user).exists():
+            obj = Rearrange_Problem_Submission.objects.get(problem=problem,user=request.user)
+            obj.status = status
+            obj.save()
+        else:
+            obj = Rearrange_Problem_Submission(problem=problem,user=request.user,status=status)
+            obj.save()
+        return JsonResponse(d)
 
 @csrf_exempt
 @login_required

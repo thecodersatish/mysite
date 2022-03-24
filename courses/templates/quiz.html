@@ -120,7 +120,7 @@
           <div id="error" style="color: red;"></div>
           <br>
           {% if question.status %}
-          <button class="btn btn-success" disabled>Accepted</button>
+          <button class="btn btn-success">Accepted</button>
           {% else %}
           <button class="btn btn-primary" onclick="submit()" id="quizsubmit">Submit</button>
           {% endif %}
@@ -137,54 +137,58 @@
     <script src="{% static 'common/lib/feathericons/feather.min.js' %}"></script>
     <script src="{% static 'common/assets/js/script.js' %}"></script>
     <script>
-      $(function(){
-if('{{question.status}}'=='True'){
-    $('input[id="{{question.option_selected}}"]').prop("checked", true);
-    $('span[id="{{question.option_selected}}"]').html('correct answer');
-    $('input[name="questionradio"]').attr("disabled",true);
-}else if('{{question.status}}'=='False'){
-    $('input[id="{{question.option_selected}}"]').prop("checked", true);
-    $('span[id="{{question.option_selected}}"]').html('wrong answer');
-}
-$("#quizsubmit").on('click',function(){
-    var answer=$('input[name="questionradio"]:checked').val();
-    if(answer){
-    $('#error').html('');
-    $("#quizsubmit").html("submittining...");
-    $('span[name="questionspan"]').html("");
-    $.ajax({
-        url : "/quiz_submit/", // the endpoint
-        type : "POST", // http method
-        data : { code:"{{question.code}}",
-                answer:$('input[name="questionradio"]:checked').val()}, // data sent with the post request
-    // handle a successful response
-        success : function(json) {
-        if(json['status']){
-            $("span[id="+answer+"]").html('correct answer');
-            $('#status').html('<i class="fa fa-check"></i>');
-            $('input[name="questionradio"]').attr("disabled",true);
-            $('#quizsubmit').removeClass("btn-primary");
-            $('#quizsubmit').addClass("btn-success disabled");
-            $('#quizsubmit').html("Accepted");
+    if (!!window.performance && window.performance.navigation.type === 2) {
+      // value 2 means "The page was accessed by navigating into the history"
+      window.location.reload(); // reload whole page
+    }
+    $(function(){
+      if('{{question.status}}'=='True'){
+          $('input[id="{{question.option_selected}}"]').prop("checked", true);
+          $('span[id="{{question.option_selected}}"]').html('correct answer');
+          $('input[name="questionradio"]').attr("disabled",true);
+      }else if('{{question.status}}'=='False'){
+          $('input[id="{{question.option_selected}}"]').prop("checked", true);
+          $('span[id="{{question.option_selected}}"]').html('wrong answer');
+      }
+      $("#quizsubmit").on('click',function(){
+        var answer=$('input[name="questionradio"]:checked').val();
+        if(answer){
+        $('#error').html('');
+        $("#quizsubmit").html("submittining...");
+        $('span[name="questionspan"]').html("");
+        $.ajax({
+            url : "/quiz_submit/", // the endpoint
+            type : "POST", // http method
+            data : { code:"{{question.code}}",
+                    answer:$('input[name="questionradio"]:checked').val()}, // data sent with the post request
+        // handle a successful response
+            success : function(json) {
+            if(json['status']){
+                $("span[id="+answer+"]").html('correct answer');
+                $('#status').html('<i class="fa fa-check"></i>');
+                $('input[name="questionradio"]').attr("disabled",true);
+                $('#quizsubmit').removeClass("btn-primary");
+                $('#quizsubmit').addClass("btn-success disabled");
+                $('#quizsubmit').html("Accepted");
+            }
+            else{
+                $("span[id="+answer+"]").html('wrong answer');
+                $('#status').html('<i class="fa fa-remove"></i>');
+                $("#quizsubmit").html("Submit");
+            }
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            alert(response["responseJSON"]["error"]);
+        }
+        });
         }
         else{
-            $("span[id="+answer+"]").html('wrong answer');
-            $('#status').html('<i class="fa fa-remove"></i>');
-            $("#quizsubmit").html("Submit");
+        $('#error').html("please select an option");
         }
-    },
-
-    // handle a non-successful response
-    error : function(xhr,errmsg,err) {
-        alert(response["responseJSON"]["error"]);
-    }
-    });
-    }
-    else{
-    $('#error').html("please select an option");
-    }
-});
-});
+      });
+      });
     </script>
   </body>
 </html>

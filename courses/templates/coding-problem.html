@@ -189,14 +189,14 @@
             <div class="container d-flex flex-row justify-content-between" style="font-size: 17px;display: flex;
             justify-content: center;
             align-items: center;height: 50px;
-            background-color: #e6e6e6;">
+            background-color: lightblue;">
               {{forloop.counter}}
               <div id="status">
               {% if q.status %}
-              <i class="fa fa-check" style="color: #2b6780;"></i>
+              <i class="fa fa-check"></i>
               {% endif %}
               {% if q.status == False %}
-              <i class="fa fa-remove" style="color: #2b6780"></i>
+              <i class="fa fa-remove"></i>
               {% endif %}
               </div>
               <div class="question">{{q.title}}</div>
@@ -244,19 +244,19 @@
             <p>{{question.description |safe}}</p>
             <hr />
             <h4 class="heading">Input Format:</h4>
-            <p>{{question.input_format}}</p>
+            <p>{{question.input_format |safe}}</p>
             <hr />
             <h4 class="heading">Output Format:</h4>
-            <p>{{question.output_format}}</p>
+            <p>{{question.output_format |safe}}</p>
             <hr />
             <h4 class="heading">Sample input 1</h4>
-            <pre>{{question.input1}}</pre>
+            <pre>{{question.input1 |safe}}</pre>
             <h4 class="heading">Sample Output 1</h4>
-            <pre>{{question.output1}}</pre>
+            <pre>{{question.output1 |safe}}</pre>
             <h4 class="heading">Sample input 2</h4>
-            <pre>{{question.input2}}</pre>
+            <pre>{{question.input2 |safe}}</pre>
             <h4 class="heading">Sample Output 2</h4>
-            <pre>{{question.output2}}</pre>
+            <pre>{{question.output2 |safe}}</pre>
             </div>
             <div id="submissions-content" style="display: none;">
               <h4 class="text-blue">Submissions</h4>
@@ -397,6 +397,11 @@
     <script src="{% static 'assets/js/diff.js' %}" ></script>
     <script src="{% static 'assets/js/confetti.js' %}" ></script>
     <script defer>
+      window.onpageshow = function(event){
+        if(event.persisted){
+          window.location.reload();
+        }
+      }
       //editor initializaation
       var editor = ace.edit("editor")
       , session  = editor.getSession()
@@ -699,6 +704,7 @@
             else{
               get_submissions();
               if(json['status_id']==3){
+                $('#status').html('<i class="fa fa-check"></i>');
                 var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
                   keyboard: false
                 });
@@ -716,9 +722,12 @@
                         confetti.stop()
                     }, 5000); // 5000 is time that after 5 second stop the confetti ( 5000 = 5 sec)
                 };
-        // after this here we are calling both the function so it works
+                // after this here we are calling both the function so it works
                 start();
                 stop();
+              }
+              else{
+                $('#status').html('<i class="fa fa-remove"></i>');
               }
               $('#submissions').addClass('content-active');
               $('#description').removeClass('content-active');

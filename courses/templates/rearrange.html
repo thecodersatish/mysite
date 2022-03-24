@@ -44,8 +44,34 @@
           border: 1px solid #ccc;
           border-radius: 4px;
         }
+        .statement{
+          display: block;
+          padding: 15px;
+          margin: 0 0 9px;
+          font-size: 0.9rem;
+          letter-spacing: 0.1rem;
+          line-height: 1.42857143;
+          color: #333;
+          word-break: break-all;
+          word-wrap: break-word;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          user-select: none;
+        }
         p{
           font-size: 17px;
+        }
+        #error{
+          display: none;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          padding: 10px;
+          border-radius: 10px;
+        }
+        .content-active{
+          background-color: #282a4a!important;
+          color: white;
         }
         @media (min-width: 962px) {
           .left{
@@ -88,14 +114,17 @@
           {% for q in questions %}
           {% if q.code == question.code %}
           <a href="{{q.code}}" class="link-primary">
-            <div class="container d-flex justify-content-between" style="font-size: 17px;">
-              <div><p>{{forloop.counter}}</p></div>
+            <div class="container d-flex justify-content-between" style="font-size: 17px;display: flex;
+            justify-content: center;
+            align-items: center;height: 50px;
+            background-color: lightblue;">
+              <div>{{forloop.counter}}</div>
               <div id="status">
               {% if q.status %}
-              <i class="fa fa-check" style="color: green;"></i>
+              <i class="fa fa-check"></i>
               {% endif %}
               {% if q.status == False %}
-              <i class="fa fa-remove" style="color: red;"></i>
+              <i class="fa fa-remove"></i>
               {% endif %}
               </div>
               <div class="question">{{q.question}}</div>
@@ -105,7 +134,7 @@
           {% if q.code != question.code %}
           <a href="{{q.code}}" class="link-dark">
             <div class="container d-flex justify-content-between" style="font-size: 17px;">
-              <div><p>{{forloop.counter}}</p></div>
+              <div>{{forloop.counter}}</div>
               {% if q.status %}
               <i class="fa fa-check" style="color: green;"></i>
               {% endif %}
@@ -133,62 +162,291 @@
             <a href="/courses/{{question.course}}/overview" class="text-blue"><span style="font-size: 16px;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Course Overview</span></a>
             <br>
             <br>
-            <h2 class="text-blue">Word Triangle</h2>  
-          <p>Given a word, write a program to print substrings in the expected pattern of N rows, where N is the length of the word.</p>
-          <hr />
-          <h4 class="heading">Input Format:</h4>
-          <p>The input will be a single line containing a string.</p>
-          <hr />
-          <h4 class="heading">Output Format:</h4>
-          <p>The output should be N rows containing each substring in a new line.</p>
-          <hr />
-          <h4 class="heading">Sample input 1</h4>
-          <pre>Raju</pre>
-          <h4 class="heading">Sample Output 1</h4>
-          <pre>R<br>Ra<br>Raj<br>Raju</pre>
-          <h4 class="heading">Sample input 2</h4>
-          <pre>Substring</pre>
-          <h4 class="heading">Sample Output 2</h4>
-          <pre>S<br/>Su<br/>Sub<br/>Subs<br/>Subst<br/>Substr<br/>Substri<br/>Substrin<br/>Substring</pre>
+            <h2 class="text-blue">{{question.title}}</h2>  
+            <p>{{question.description |safe}}</p>
+            <hr />
+            <h4 class="heading">Input Format:</h4>
+            <p>{{question.input_format |safe}}</p>
+            <hr />
+            <h4 class="heading">Output Format:</h4>
+            <p>{{question.output_format |safe}}</p>
+            <hr />
+            <h4 class="heading">Sample input 1</h4>
+            <pre>{{question.input1 |safe}}</pre>
+            <h4 class="heading">Sample Output 1</h4>
+            <pre>{{question.output1 |safe}}</pre>
+            <h4 class="heading">Sample input 2</h4>
+            <pre>{{question.input2 |safe}}</pre>
+            <h4 class="heading">Sample Output 2</h4>
+            <pre>{{question.output2 |safe}}</pre>
         </div>
         <div class="col-sm-8 right bg-light">
-            <div>
-                <h4 style="padding-top: 10px;">Rearrange the following statements:</h4>
-                <ul id="list" class="list-group" uk-sortable="handle: .uk-sortable-handle">
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span>Item 0</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> Item 1</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> #include "stido.h"</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> Item 3</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> Item 4</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> Item 5</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> Item 6</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> Item 7</li>
-                  <li class="uk-card uk-card-default uk-card-body uk-card-small" style="margin-top: 12px;margin-bottom: 12px;"><span class="uk-sortable-handle uk-margin-small-right uk-text-center" uk-icon="icon: table"></span> Item 8</li>
-                </ul>
+          <div>
+            <h4 style="padding-top: 10px;">Rearrange the following statements:</h4>
+            <div class="bg-white border" id="error">
+              <div class="d-flex flex-row justify-content-between">
+                <div style="color: red;font-size:medium;">
+                  Error:
+                </div>
+                <div><i class="fa fa-remove" title="close" id="close_error" style="font-size: 18px;color:red;cursor: pointer;"></i></div>
+                </div>
+                <div id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></div>
               </div>
-                <br>
-                <div style="text-align: center;">
-                  <button class="btn shadow" style="width: 100px;background-color: #FF1493;color: white;" onclick="submit()" id="submit">Submit</button>
+            {% if question.status %}
+            <ul id="list" class="list-group">
+            </ul>
+            {% else %}
+            <ul id="list" class="list-group" uk-sortable>
+            </ul>
+            {% endif %}
+            <div class="bg-white" id="testcases" style="display: none;margin-top: 10px;">
+              <ul class="list-group list-group-horizontal" style="padding: 0px;">
+                <a class="list-group-item content-active" id="testcase1" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
+                <a class="list-group-item" id="testcase2" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
+                <a class="list-group-item" id="close-testcases" href="javascript:void(0)" style="width:50px;text-align: center;background-color: #ffdf6a;color: white;"><i class="fa fa-remove"></i></a>
+              </ul>
+              <div class="testcases-content" style="padding: 10px;">
+                <div id="testcase1-content">
+                  <h5>Input:</h5>
+                  <pre id="testcase1input" style="height: 135px;background-color: white;margin:0px"></pre>
+                  <div class="row gy-1" style="margin-top: 5px;">
+                    <div class="col-sm-6">
+                      <h5>Expected Result:</h5>
+                      <pre id="testcase1expected" style="height: 150px;background-color: white;margin:0px"></pre>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="d-flex flex-row justify-content-between">
+                        <h5>Actual Result:</h5>
+                        <div class="form-check form-switch" style="font-size: 18px;">
+                          <input class="form-check-input" type="checkbox" role="switch" id="diff1"/>
+                          <label class="form-check-label" for="diff1">Diff</label>
+                        </div>
+                      </div>
+                      <pre id="testcase1actual" style="height: 150px;background-color: white;margin:0px"></pre>
+                      <pre id="testcase1actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"></pre>
+                    </div>
+                  </div>
                 </div>
-                <br>
-                <div class="container d-flex justify-content-between">
-                <button class="btn btn-outline-blue">Prev</button><button class="btn btn-outline-blue">Next</button>
+                <div id="testcase2-content" style="display: none;">
+                  <h5>Input:</h5>
+                  <pre id="testcase2input" style="height: 135px;background-color: white;margin:0px"></pre>
+                  <div class="row gy-1" style="margin-top: 5px;">
+                    <div class="col-sm-6">
+                      <h5>Expected Result:</h5>
+                      <pre id="testcase2expected" style="height: 150px;background-color: white;margin:0px"></pre>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="d-flex flex-row justify-content-between">
+                        <h5>Actual Result:</h5>
+                        <div class="form-check form-switch" style="font-size: 18px;">
+                          <input class="form-check-input" type="checkbox" role="switch" id="diff2"/>
+                          <label class="form-check-label" for="diff2">Diff</label>
+                        </div>
+                      </div>
+                      <pre id="testcase2actual" style="height: 150px;background-color: white;margin:0px"></pre>
+                      <pre id="testcase2actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"></pre>
+                    </div>
+                  </div>
                 </div>
-            <div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div style="text-align: center;">
+            {% if question.status %}
+            <button class="btn btn-success shadow">Accepted</button>
+            {% else %}
+            <button class="btn btn-primary shadow" style="width: 100px;" onclick="submit()" id="submit">Submit</button>
+            {% endif %}
+          </div>
+          <br>
+          <div class="container d-flex justify-content-between">
+          <button class="btn btn-outline-blue">Prev</button><button class="btn btn-outline-blue">Next</button>
+          </div>
+          <div>
         </div><!-- content-body -->
       </div><!-- content -->
-      <script src="{% static 'common/lib/jquery/jquery.min.js' %}"></script>
-      <script src="{% static 'common/lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
       <script src="{% static 'common/lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
       <script src="{% static 'common/lib/feathericons/feather.min.js' %}"></script>
       <script src="{% static 'common/assets/js/script.js' %}"></script>
+      <script src="{% static 'assets/js/diff.js' %}" ></script>
       <script>
-        function putListToMyArray(){
-          let myArray = [];
-          $('#list > li').each(function(){
-            myArray.push($(this).text());
+        var statements = JSON.parse("{{statements|escapejs}}");
+        for(var i=0;i<statements.length;i++){
+          $('#list').append('<xmp class="statement">'+decode(statements[i]['statement'])+'</xmp>')
+        }
+        function encode(str){
+          return btoa(unescape(str || ""));
+        }
+
+        function decode(bytes) {
+          var escaped = escape(atob(bytes || ""));
+          try {
+              return decodeURIComponent(escaped);
+          } catch {
+              return unescape(escaped);
+          }
+        }
+        $(function(){
+          //difference toggle
+          $("#diff1").on('change', function() {
+            if ($(this).is(':checked')) {
+              $('#testcase1actual').hide();
+              $('#testcase1actualdiff').show();
+            }
+            else {
+              $('#testcase1actualdiff').hide();
+              $('#testcase1actual').show();
+            }
           });
-          alert(myArray);
+          $("#diff2").on('change', function() {
+            if ($(this).is(':checked')) {
+              $('#testcase2actual').hide();
+              $('#testcase2actualdiff').show();
+            }
+            else {
+              $('#testcase2actualdiff').hide();
+              $('#testcase2actual').show();
+            }
+          });
+          $('#testcase1').on('click',function(){
+              $('#testcase1').addClass('content-active');
+              $('#testcase2').removeClass('content-active');
+              $('#testcase2-content').hide();
+              $('#testcase1-content').fadeIn('slow');
+          });
+          $('#testcase2').on('click',function(){
+              $('#testcase2').addClass('content-active');
+              $('#testcase1').removeClass('content-active');
+              $('#testcase1-content').hide();
+              $('#testcase2-content').fadeIn('slow');
+          });
+          $('#close-testcases').on('click',function(){
+              $('#testcases').hide();
+          });
+          //error closing
+          $('#close_error').on('click',function(){
+            $('#error').hide();
+          });
+        });
+        //difference function
+        var dmp = new diff_match_patch();
+
+        function launch() {
+          var text1 = $('#testcase1expected').html();
+          var text2 = $('#testcase1actual').html();
+          dmp.Diff_Timeout = 99.0;
+          dmp.Diff_EditCost = 30.0;
+
+          var ms_start = (new Date()).getTime();
+          var d = dmp.diff_main(text1, text2);
+          var ms_end = (new Date()).getTime();
+          dmp.diff_cleanupEfficiency(d);
+          var ds = dmp.diff_prettyHtml(d);
+          document.getElementById('testcase1actualdiff').innerHTML = ds;
+          text1 = $('#testcase2expected').html();
+          text2 = $('#testcase2actual').html();
+          dmp.Diff_Timeout = 99.0;
+          dmp.Diff_EditCost = 30.0;
+
+          var ms_start = (new Date()).getTime();
+          var d = dmp.diff_main(text1, text2);
+          var ms_end = (new Date()).getTime();
+          dmp.diff_cleanupEfficiency(d);
+          var ds = dmp.diff_prettyHtml(d);
+          document.getElementById('testcase2actualdiff').innerHTML = ds;
+        }
+        function submit(){
+          $('#error').hide();
+          $("#testcases").hide();
+          $('#submit').html('<i class="fa fa-spinner fa-spin"></i>');
+          $('#submit').prop('disabled',true);
+          let source = "";
+          $('#list > xmp').each(function(){
+            source += $(this).text()+"\n";
+          });
+          $.ajax({
+            url : "{% url 'rearrange_submit' %}", // the endpoint
+            type : "POST", // http method
+            data : { source : encode(source),
+                    language_code : 50,
+                    problem_code : "{{question.code}}" }, // data sent with the post request
+
+            // handle a successful response
+            success : function(json) {
+              if(json[0]['status']['id']==6){
+                $('#error-description').html(decode(json[0]['compile_output']));
+                $('#error').show();
+                var element = document.getElementById("error");
+                element.scrollIntoView({behavior: "smooth"});
+              }
+              else{
+                $("#testcase1input").html(decode(json[0]['stdin']));
+                $("#testcase1expected").html(decode(json[0]['expected_output']));
+                $("#testcase2input").html(decode(json[1]['stdin']));
+                $("#testcase2expected").html(decode(json[1]['expected_output']));
+                if(json[0]['status']['id']==5){
+                  $('#testcase1actual').html(json[0]['status']['description'])
+                }
+                else if(json[0]['status']['id']==8){
+                  $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json[0]['message']));
+                }
+                else{
+                  $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json['compile_output']));
+                }
+                if(json[1]['status']['id']==5){
+                  $('#testcase2actual').html(json[1]['status']['description'])
+                }
+                else if(json[1]['status']['id']==8){
+                  $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json[1]['message']));
+                }
+                else{
+                  $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json['compile_output']));
+                }
+                if(json[0]['status']['id']==3)
+                $('#testcase1').html('Testcase 1 (Passed)');
+                else
+                $('#testcase1').html('Testcase 1 (Failed)');
+                if(json[1]['status']['id']==3)
+                $('#testcase2').html('Testcase 2 (Passed)');
+                else
+                $('#testcase2').html('Testcase 2 (Failed)');
+                launch();
+                $('#testcase1').addClass('content-active');
+                $('#testcase2').removeClass('content-active');
+                $('#testcase2-content').hide();
+                $('#testcase1-content').show();
+                $('#testcases').show();
+                var element = document.getElementById("testcases");
+                element.scrollIntoView({behavior: "smooth"});
+              }
+              if(json[0]['status_id']==3 && json[1]['status_id']==3){
+                $('#list').removeAttr('uk-sortable');
+                $('#status').html('<i class="fa fa-check"></i>');
+                $('#submit').html('Accepted');
+                $('#submit').removeClass('btn-primary');
+                $('#submit').addClass('btn-success');
+                $('#status').removeAttr('onclick');
+                $("#submit").prop('disabled',false);
+              }
+              else{
+                $('#status').html('<i class="fa fa-remove"></i>');
+                $("#submit").html('Submit');
+                $("#submit").prop('disabled',false);
+              }
+            },
+
+            statusCode:{
+                500: function(){
+                    alert("unable to process request. please try again");
+                }
+            },
+
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                alert(response["responseJSON"]["error"]);
+            }
+          });
         }
       </script>
     </body>
