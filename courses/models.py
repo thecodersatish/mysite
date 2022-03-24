@@ -64,7 +64,7 @@ class Quiz(models.Model):
     choice4 = models.CharField(max_length = 1000,null=False,blank=False)
     correct_choice = models.CharField(max_length = 1000,null=False,blank=False)
 
-class Quiz_Submissions(models.Model):
+class Quiz_Submission(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz,on_delete=models.CASCADE)
     status = models.BooleanField()
@@ -94,6 +94,28 @@ class Problem_Submission(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem,on_delete=models.CASCADE)
     status = models.IntegerField()
-    source = source=models.TextField(max_length=20000)
-    date = models.DateTimeField()
+    source = source=models.TextField(max_length=20000,default="")
+    date = models.DateTimeField(auto_now=True)
     testcases_passed = models.IntegerField(default=0)
+
+class Rearrange_Problem(models.Model):
+    course = models.ForeignKey(Course,on_delete=models.CASCADE)
+    module = models.ForeignKey(Module,on_delete=models.CASCADE)
+    code = models.CharField(max_length=20,null=False,blank=False,primary_key = True)
+    title = models.CharField(max_length = 50,blank=False,null=False)
+    description = models.CharField(max_length = 8000,null=False,blank=False)
+    input_format = models.CharField(max_length = 2000,null=False,blank=False)
+    output_format = models.CharField(max_length = 2000,null=False,blank=False)
+    input1 = models.CharField(max_length = 500,null=False,blank=False)
+    output1 = models.CharField(max_length = 500,null=False,blank=False)
+    input2 = models.CharField(max_length = 500,null=False,blank=False)
+    output2 = models.CharField(max_length = 500,null=False,blank=False)
+
+class Rearrange_Problem_Submission(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
+    status = models.BooleanField()
+
+class Statement(models.Model):
+    problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
+    statement = models.CharField(max_length=500)

@@ -100,7 +100,7 @@ def quiz_view(request,course_code,module_code,quiz_code):
         d=model_to_dict(i)
         questions.append(d)
         try:
-            obj = Quiz_Submissions.objects.get(quiz=i,user=request.user)
+            obj = Quiz_Submission.objects.get(quiz=i,user=request.user)
             d['status'] = obj.status
         except:
             pass
@@ -112,7 +112,7 @@ def quiz_view(request,course_code,module_code,quiz_code):
     if context['has_script']:
         context['script']=base64.b64decode(context['script']).decode()
     try:
-        obj = Quiz_Submissions.objects.get(quiz=question,user=request.user)
+        obj = Quiz_Submission.objects.get(quiz=question,user=request.user)
         context['status'] = obj.status
         context['option_selected']=obj.option_selected
     except:
@@ -128,12 +128,12 @@ def quiz_submit(request):
         quiz = Quiz.objects.get(code=request.POST.get('code'))
         correct = quiz.correct_choice==answer
         try:
-            obj = Quiz_Submissions.objects.get(quiz=quiz,user=request.user)
+            obj = Quiz_Submission.objects.get(quiz=quiz,user=request.user)
             obj.status = correct
             obj.option_selected=answer
             obj.save()
         except:
-            obj = Quiz_Submissions(quiz=quiz,user=request.user,status=correct,option_selected=answer)
+            obj = Quiz_Submission(quiz=quiz,user=request.user,status=correct,option_selected=answer)
             obj.save()
         return JsonResponse({'status':correct})
 
@@ -155,10 +155,6 @@ def problem_view(request,course_code,module_code,problem_code):
         context['source']=base64.b64decode(prev_code.source).decode()
     except:
         context['source']=base64.b64decode(context['default_code']).decode()
-    context['input1']=base64.b64decode(context['input1']).decode()
-    context['input2']=base64.b64decode(context['input2']).decode()
-    context['output1']=base64.b64decode(context['output1']).decode()
-    context['output2']=base64.b64decode(context['output2']).decode()
     return render(request,'coding-problem.html',{'questions':questions,'question':context})
 
 
@@ -168,6 +164,7 @@ def run(request):
     if request.method=="POST":
         url = "https://judge0-ce.p.rapidapi.com/submissions"
         input=request.POST.get('input')
+        print(request.POST.get('source'))
         data = "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+input+"\"}"
         querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
         headers = {
@@ -194,8 +191,14 @@ def validate(request):
     if request.method=="POST":
         problem = Problem.objects.get(code=request.POST.get('problem_code'))
         url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
-        data = "{\"submissions\": [{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+problem.input1+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+problem.output1+"\"},"
-        data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+problem.input2+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+problem.output2+"\"}]}"
+        data = "{\"submissions\": ["
+        f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
+        for i in range(2):
+            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
+            if i!=1:
+                data += ","
+        data += "]}"
+        f.close()
         querystring = {"base64_encoded":"true","fields":"*","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
         headers = {
         'content-type': "application/json",
@@ -229,6 +232,7 @@ def problem_submit(request):
             if i!=4:
                 data += ","
         data += "]}"
+        f.close()
         url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
         querystring = {"base64_encoded":"true","fields":"*","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
         headers = {
