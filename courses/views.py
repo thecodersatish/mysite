@@ -144,6 +144,10 @@ def problem_view(request,course_code,module_code,problem_code):
     questions = []
     for i in Problem.objects.all().filter(module=module):
         d=model_to_dict(i)
+        if Problem_Submission.objects.filter(problem=i,user=request.user,status=3).exists():
+            d['status'] = True
+        elif Problem_Submission.objects.filter(problem=i,user=request.user).exists():
+            d['status'] = False
         questions.append(d)
     if problem_code=="":
         question = Problem.objects.all().filter(course=course,module=module)[0]

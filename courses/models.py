@@ -95,7 +95,7 @@ class Problem_Submission(models.Model):
     problem = models.ForeignKey(Problem,on_delete=models.CASCADE)
     status = models.IntegerField()
     source = source=models.TextField(max_length=20000,default="")
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField()
     testcases_passed = models.IntegerField(default=0)
 
 class Rearrange_Problem(models.Model):

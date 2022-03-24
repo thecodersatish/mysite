@@ -25,110 +25,154 @@
   <!-- Template CSS -->
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
     <style>
-        del {
-          text-decoration: none;
-          color: #b30000;
-          background: #fadad7;
+      del {
+        text-decoration: none;
+        color: #b30000;
+        background: #fadad7;
+      }
+      ins {
+        background: #87f88d;
+        color: green;
+        text-decoration: none;
+      }
+      #result {
+        white-space: pre-wrap;
+      }
+      #custom-editor{
+          width:100%;
+          height: 500px;
+          display:inline-block;
+          position:relative;
+          margin-top: 10px;
+      }
+      #editor {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          border-radius: 5px;
+      }
+      .readonly-highlight{
+        background-color: lightblue;
+        opacity: 0.2;
+        position: absolute;
+      }
+      pre{
+        display: block;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        font-size: 15px;
+        line-height: 1.42857143;
+        color: #333;
+        word-break: break-all;
+        word-wrap: break-word;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+      p{
+        font-size: 16px;
+      }
+      .list-group-item{
+        padding-left: 1px;
+        padding-right: 1px;
+      }
+      .submission{
+        padding: 15px;
+        border-radius: 10px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        cursor: pointer;
+        font-size: 17px;
+      }
+      .content-active{
+        background-color: #282a4a!important;
+        color: white;
+      }
+      .content-active:hover{
+        color: white;
+      }
+      #testcases{
+        margin-bottom: 10px;
+      }
+      @media (min-width: 962px) {
+        .left{
+          overflow-y: scroll;
+          height: calc(100vh - 57px);
         }
-        ins {
-          background: #87f88d;
-          color: green;
-          text-decoration: none;
-        }
-        #result {
-          white-space: pre-wrap;
+        .right{
+          overflow-y: scroll;
+          height: calc(100vh - 57px);
         }
         #custom-editor{
-            width:100%;
-            height: 500px;
-            display:inline-block;
-            position:relative;
-            margin-top: 10px;
+          height: 84%;
         }
-        #editor {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            border-radius: 5px;
-        }
-        .readonly-highlight{
-          background-color: lightblue;
-          opacity: 0.2;
-          position: absolute;
-        }
-        pre{
-          display: block;
-          padding: 9.5px;
-          margin: 0 0 10px;
-          font-size: 15px;
-          line-height: 1.42857143;
-          color: #333;
-          word-break: break-all;
-          word-wrap: break-word;
-          background-color: #f5f5f5;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          overflow-x: auto;
-        }
-        p{
-          font-size: 16px;
-        }
-        .submission{
-          padding: 15px;
-          border-radius: 10px;
-          background-color: #f5f5f5;
-          border: 1px solid #ccc;
-          margin-bottom: 10px;
-          cursor: pointer;
-          font-size: 17px;
-        }
-        .content-active{
-          background-color: #282a4a!important;
-          color: white;
-        }
-        .content-active:hover{
-          color: white;
-        }
-        #testcases{
-          margin-bottom: 10px;
-        }
-        @media (min-width: 962px) {
-          .left{
-            overflow-y: scroll;
-            height: calc(100vh - 57px);
-          }
-          .right{
-            overflow-y: scroll;
-            height: calc(100vh - 57px);
-          }
-          #custom-editor{
-            height: 84%;
-          }
-        }
-        /* width */
-        ::-webkit-scrollbar {
-          height: 5px;
-          width: 5px;
-        }
+      }
+      /* width */
+      ::-webkit-scrollbar {
+        height: 5px;
+        width: 5px;
+      }
 
-        /* Track */
-        ::-webkit-scrollbar-track {
-          background: #f1f1f1; 
-        }
-        
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-          background: rgb(202, 202, 202); 
-        }
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+      
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: rgb(202, 202, 202); 
+      }
 
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-          background: rgb(141, 141, 141); 
-        }
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgb(141, 141, 141); 
+      }
+      #snackbar {
+        visibility: hidden;
+        width: 100px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 10px;
+        position: fixed;
+        z-index: 1;
+        right: 30px;
+        bottom: 30px;
+        font-size: 17px;
+      }
 
-          </style>
+      #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+
+      @-webkit-keyframes fadein {
+        from {bottom: 0; opacity: 0;} 
+        to {bottom: 30px; opacity: 1;}
+      }
+
+      @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+      }
+
+      @-webkit-keyframes fadeout {
+        from {bottom: 30px; opacity: 1;} 
+        to {bottom: 0; opacity: 0;}
+      }
+
+      @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+      }
+    </style>
   </head>
   <body class="animate bg-white">
 
@@ -146,7 +190,7 @@
             justify-content: center;
             align-items: center;height: 50px;
             background-color: #e6e6e6;">
-              <div>{{forloop.counter}}</div>
+              {{forloop.counter}}
               <div id="status">
               {% if q.status %}
               <i class="fa fa-check" style="color: #2b6780;"></i>
@@ -331,16 +375,7 @@
             <button class="btn btn-outline-blue" style="width: 100px;">Prev</button><button class="btn btn-outline-blue" style="width: 100px;">Next</button>
           </div>
         </div>
-        <div class="toast-container position-absolute p-3" style="width: 200px;bottom: 0;right: 0;">
-          <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-              <div class="toast-body">
-                Saved!
-              </div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-          </div>
-        </div>
+        <div id="snackbar">saved..</div>
         <div class="modal" tabindex="-1" id="myModal">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -360,6 +395,7 @@
     <script src="{% static 'common/assets/js/script.js' %}"></script>
     <script src="{% static 'assets/js/problem.js' %}" ></script>
     <script src="{% static 'assets/js/diff.js' %}" ></script>
+    <script src="{% static 'assets/js/confetti.js' %}" ></script>
     <script defer>
       //editor initializaation
       var editor = ace.edit("editor")
@@ -392,11 +428,9 @@
         //calling save function on clicking save button
         $('#save').on('click',function(){
           save();
-          var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-          var toastList = toastElList.map(function(toastEl) {
-            return new bootstrap.Toast(toastEl)
-          })
-          toastList.forEach(toast => toast.show()) 
+          var x = document.getElementById("snackbar");
+          x.className = "show";
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         });
         //error closing
         $('#close_error').on('click',function(){
@@ -476,14 +510,12 @@
 
         if (key && (key == '115' || key == '83' ) && (e.ctrlKey || e.metaKey) && !(e.altKey))
         {
-            e.preventDefault();
-            save();
-            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-            var toastList = toastElList.map(function(toastEl) {
-              return new bootstrap.Toast(toastEl)
-            })
-            toastList.forEach(toast => toast.show()) 
-            return false;
+          e.preventDefault();
+          save();
+          var x = document.getElementById("snackbar");
+          x.className = "show";
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000); 
+          return false;
         }
         return true;
       });
@@ -493,7 +525,7 @@
         save();
         $('#error').hide();
         $("#testcases").hide();
-        $("#run").html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>');
+        $("#run").html('<i class="fa fa-spinner fa-spin"></i>');
         $("#run").prop('disabled',true);
         if ($('#custominput').is(':checked')) {
           $.ajax({
@@ -648,7 +680,7 @@
         save();
         $('#error').hide();
         $("#testcases").hide();
-        $("#submit").html('<div class="spinner-border spinner-border-sm" role="status"><span class="sr-only">Loading...</span></div>');
+        $("#submit").html('<i class="fa fa-spinner fa-spin"></i>');
         $("#submit").prop('disabled',true);
         $.ajax({
           url : "{% url 'problem_submit' %}", // the endpoint
@@ -671,16 +703,32 @@
                   keyboard: false
                 });
                 myModal.show();
-                $('#submissions').addClass('content-active');
-                $('#description').removeClass('content-active');
-                $('#support').removeClass('content-active');
-                if($(window).width()<962){
-                    $('#right').hide();
-                }
-                $('#description-content').hide();
-                $('#submissions-content').fadeIn('slow');
-                $('#support-content').hide();
+                const start = () => {
+                    setTimeout(function() {
+                        confetti.start()
+                    }, 0); // 1000 is time that after 1 second start the confetti ( 1000 = 1 sec)
+                };
+
+                //  for stopping the confetti 
+
+                const stop = () => {
+                    setTimeout(function() {
+                        confetti.stop()
+                    }, 5000); // 5000 is time that after 5 second stop the confetti ( 5000 = 5 sec)
+                };
+        // after this here we are calling both the function so it works
+                start();
+                stop();
               }
+              $('#submissions').addClass('content-active');
+              $('#description').removeClass('content-active');
+              $('#support').removeClass('content-active');
+              if($(window).width()<962){
+                  $('#right').hide();
+              }
+              $('#description-content').hide();
+              $('#submissions-content').fadeIn('slow');
+              $('#support-content').hide();
             }
           }
         });
