@@ -119,3 +119,23 @@ class Rearrange_Problem_Submission(models.Model):
 class Statement(models.Model):
     problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
     statement = models.CharField(max_length=500)
+
+class Assignment(models.Model):
+    module = models.ForeignKey(Module,on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    start_time = models.DateField()
+    questions_accepted = models.IntegerField(default=0)
+
+class Assignment_Problem(models.Model):
+    course = models.ForeignKey(Course,on_delete=models.CASCADE)
+    module = models.ForeignKey(Module,on_delete=models.CASCADE)
+    code = models.CharField(max_length=20,null=False,blank=False,primary_key = True)
+    title = models.CharField(max_length = 50,blank=False,null=False)
+    description = models.CharField(max_length = 8000,null=False,blank=False)
+    default_code=models.TextField(max_length=10000,default="")
+    input_format = models.CharField(max_length = 2000,null=False,blank=False)
+    output_format = models.CharField(max_length = 2000,null=False,blank=False)
+    input1 = models.CharField(max_length = 500,null=False,blank=False)
+    output1 = models.CharField(max_length = 500,null=False,blank=False)
+    input2 = models.CharField(max_length = 500,null=False,blank=False)
+    output2 = models.CharField(max_length = 500,null=False,blank=False)
