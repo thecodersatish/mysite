@@ -5,7 +5,7 @@
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
 
     <!-- Meta -->
     <meta name="description" content="">
@@ -27,7 +27,7 @@
     <style>
         #custom-editor{
             width:100%;
-            height: 500px;
+            height: 100%;
             display:inline-block;
             position:relative;
         }
@@ -51,6 +51,11 @@
             right: 0;
             bottom: 0;
             left: 0;
+        }
+        @media (max-width: 962px) {
+            #custom-editor{
+                height: 500px;
+            }   
         }
         /* width */
         ::-webkit-scrollbar {
@@ -86,8 +91,8 @@
             <h3>Online IDE</h3>
           </div>
         <select class="form-select" aria-label="languages" style="width: 150px;" id="language">
-            <option value="50">C</option>
-            <option value="52">C++14</option>
+            <option value="75">C</option>
+            <option value="76">C++14</option>
             <option value="70">Python2</option>
             <option value="71">Python3</option>
             <option value="62">Java</option>
@@ -104,13 +109,13 @@
                 <div class="row gy-2">
                     <div class="col-lg-12 col-md-6">
                         <h5>Input:</h5>
-                        <div class="border shadow-sm" style="height: 215px;display:inline-block;position:relative;width: 100%;">
+                        <div class="border shadow-sm" style="height: 30vh;display:inline-block;position:relative;width: 100%;">
                             <div id="input-editor"></div>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-6">
                         <h5>Output:</h5>
-                        <div class="border shadow-sm" style="height: 215px;display:inline-block;position:relative;width: 100%;">
+                        <div class="border shadow-sm" style="height: 30vh;display:inline-block;position:relative;width: 100%;">
                             <div id="output-editor"></div>
                         </div>
                     </div>
@@ -126,7 +131,7 @@
     </body>
     <script>
         function encode(str){
-            return btoa(unescape(str || ""));
+            return btoa(str);
         }
 
         function decode(bytes) {
@@ -158,12 +163,12 @@
         editor.clearSelection();
         $(function(){
             $("#language").on('change',function(){
-                if(this.value==50){
+                if(this.value==75){
                     editor.setValue('//C program\n#include<stdio.h>\n\nint main(){\n    printf("Hello world");\n}');
                     editor.session.setMode("ace/mode/c_cpp");
                 }
-                else if(this.value==52){
-                    editor.setValue('//C++ program\n#include<iostream>\n\nint main(){\n\n    printf("Hello world");\n}');
+                else if(this.value==76){
+                    editor.setValue('//C++ program\n#include<iostream>\nusing namespace std;\n\nint main(){\n\n    cout<<"Hello world";\n}');
                     editor.session.setMode("ace/mode/c_cpp");
                 }
                 else if(this.value==70){

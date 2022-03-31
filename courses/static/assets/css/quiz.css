@@ -55,3 +55,9 @@ padding: 2px;
 font-size: 15px;
 color: white;
 }
+
+.sidebar-link{
+  font-size: 17px;display: flex;
+  justify-content: center;
+  align-items: center;height: 50px;
+}

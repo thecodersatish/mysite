@@ -171,7 +171,6 @@ def run(request):
     if request.method=="POST":
         url = "https://judge0-ce.p.rapidapi.com/submissions"
         input=request.POST.get('input')
-        print(request.POST.get('source'))
         data = "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+input+"\"}"
         querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
         headers = {
@@ -180,12 +179,10 @@ def run(request):
         'x-rapidapi-key': "513e11481bmshd740ecb0d4d638ap1d286cjsn0f35f7d4e420"
         }
         response = requests.request("POST", url, data=data, headers=headers, params=querystring)
-        print(response.json())
         url = "https://judge0-ce.p.rapidapi.com/submissions/"+response.json()["token"]
         querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true"}
         response = requests.request("GET", url, headers=headers, params=querystring)
         d=response.json()
-        print(d)
         return HttpResponse(
             JsonResponse(d),
             content_type="application/json"
@@ -350,11 +347,20 @@ def rearrange_submit(request):
 
 @csrf_exempt
 @login_required
+def assessment_view(request,course_code,module_code):
+    return render(request,'assessment-landing.html',{})
+
+@csrf_exempt
+@login_required
+def assessment_problem_view(request,course_code,module_code):
+    return render(request,'assessment-problems.html',{})
+
+@csrf_exempt
+@login_required
 def save_code(request):
     if request.method=="POST":
         problem=Problem.objects.get(code=request.POST.get('problem_code'))
         code=str(base64.b64encode(bytes(request.POST.get('source'), 'utf-8')))[2:-1]
-        print(len(code))
         try:
             obj=Previous_Code.objects.get(user=request.user,problem=problem)
             obj.source=code
