@@ -37,7 +37,7 @@
     </style>
     </head>
     <body class="bg-light">
-        <nav class="navbar navbar-expand-lg navbar-dark text-white shadow-sm">
+        <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
               <a class="navbar-brand" href="{% url 'home' %}"><i class="fa fa-home"></i> CodeHub</a>
             </div>
@@ -48,8 +48,8 @@
                 <h4>Module Assessment</h4>
                 <br>
                 <div style="overflow: auto;width: 100%;">
-                <table class="table table-striped border">
-                    <thead>
+                <table class="table table-bordered">
+                    <tbody>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Section</th>
@@ -58,15 +58,13 @@
                         <th scope="col">Score</th>
                         <th scope="col">Status</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
+                    <tr class="bg-white">
                         <th scope="row">1</th>
                         <td>Programming</td>
                         <td>2</td>
                         <td>01:00:00</td>
                         <td>50%</td>
-                        <td><a class="btn btn-primary">Start</a></td>
+                        <td><a class="btn btn-primary" href="problems">Start</a></td>
                     </tr>
                     </tbody>
                 </table>

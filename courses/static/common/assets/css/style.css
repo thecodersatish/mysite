@@ -81,8 +81,11 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 
-.navbar{
-  background-color: #282a4a;
+.navbar {
+  position: relative;
+  z-index: 1020;
+  background-color: rgba(255,255,255,0.95);
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%), inset 0 -1px 0 rgb(0 0 0 / 15%);
 }
 
 hr {
@@ -201,12 +204,12 @@ sup {
   top: -.5em; }
 
 a {
-  color: #2b6777;
+  color: #1f2d3e;
   text-decoration: none;
   font-size: 18px;
 }
-  a:hover {
-    color: #2b6777; }
+a:hover {
+  color: #2b6777; }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
   color: inherit;

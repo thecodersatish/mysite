@@ -72,7 +72,7 @@
     </div><!-- sidebar -->
 
     <div class="content">
-      <div class="content-header navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="content-header navbar navbar-expand-lg fixed-top">
           <button class="btn content-menu d-lg-none"><i class="fa fa-bars text-white" id="mobileMenu" style="font-size: 22px;"></i></button>
           <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
           <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
@@ -88,30 +88,57 @@
         </div>
         {% endif %}
         <div class="row gy-3" style="padding-top: 10px;font-size: 18px;">
+          {% if not question.type %}
           <div> 
-          <label class="form-check-label radiocontainer" for="a">
-            <input class="form-check-input" type="radio" name="questionradio" value="a" id="a">
-            <span style="padding-left: 3px;">{{ question.choice1|linebreaksbr }}</span><span name="questionspan" id="a" class="answer_status"></span>
+          <label class="form-check-label option" for="a">
+            <input class="form-check-input" type="radio" name="options" value="a" id="a">
+            <span style="padding-left: 3px;">{{ question.choice1|linebreaksbr }}</span>
           </label>
           <div>
             <div>
-              <label class="form-check-label radiocontainer" for="b">
-                <input class="form-check-input" type="radio" name="questionradio" value="b" id="b">
-                <span style="padding-left: 3px;">{{ question.choice2|linebreaksbr }}</span><span name="questionspan" id="b" class="answer_status"></span>
+              <label class="form-check-label option" for="b">
+                <input class="form-check-input" type="radio" name="options" value="b" id="b">
+                <span style="padding-left: 3px;">{{ question.choice2|linebreaksbr }}</span>
               </label>
             </div>
             <div>
-              <label class="form-check-label radiocontainer" for="c">
-                <input class="form-check-input" type="radio" name="questionradio" value="c" id="c">
-                <span style="padding-left: 3px;">{{ question.choice3|linebreaksbr }}</span></span><span name="questionspan" id="c" class="answer_status"></span>
+              <label class="form-check-label option" for="c">
+                <input class="form-check-input" type="radio" name="options" value="c" id="c">
+                <span style="padding-left: 3px;">{{ question.choice3|linebreaksbr }}</span></span>
               </label>
             </div>
             <div>
-              <label class="form-check-label radiocontainer" for="d">
-                <input class="form-check-input" type="radio" name="questionradio" value="d" id="d">
-                <span style="padding-left: 3px;">{{ question.choice4|linebreaksbr }}</span><span name="questionspan" id="d" class="answer_status"></span>
+              <label class="form-check-label option" for="d">
+                <input class="form-check-input" type="radio" name="options" value="d" id="d">
+                <span style="padding-left: 3px;">{{ question.choice4|linebreaksbr }}</span>
               </label>
             </div>
+            {% else %}
+            <div> 
+              <label class="form-check-label option" for="a">
+                <input class="form-check-input" type="checkbox" name="options" value="a" id="a">
+                <span style="padding-left: 3px;">{{ question.choice1|linebreaksbr }}</span>
+              </label>
+              <div>
+                <div>
+                  <label class="form-check-label option" for="b">
+                    <input class="form-check-input" type="checkbox" name="options" value="b" id="b">
+                    <span style="padding-left: 3px;">{{ question.choice2|linebreaksbr }}</span>
+                  </label>
+                </div>
+                <div>
+                  <label class="form-check-label option" for="c">
+                    <input class="form-check-input" type="checkbox" name="options" value="c" id="c">
+                    <span style="padding-left: 3px;">{{ question.choice3|linebreaksbr }}</span></span>
+                  </label>
+                </div>
+                <div>
+                  <label class="form-check-label option" for="d">
+                    <input class="form-check-input" type="checkbox" name="options" value="d" id="d">
+                    <span style="padding-left: 3px;">{{ question.choice4|linebreaksbr }}</span>
+                  </label>
+                </div>
+            {% endif %}
           </div>
           <div id="error" style="color: red;"></div>
           <br>
@@ -123,12 +150,10 @@
           <br>
           <br>
           <footer>
-            <button type="button" class="btn btn-outline-blue">Prev</button><span style="padding-right: 50px;"></span><button class="btn btn-outline-blue">Next</button>
+            <button type="button" class="btn btn-outline-primary">Prev</button><span style="padding-right: 50px;"></span><button class="btn btn-outline-primary">Next</button>
           </footer>
         </div><!-- content-body -->
     </div><!-- content -->
-    <script src="{% static 'common/lib/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'common/lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'common/lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
     <script src="{% static 'common/lib/feathericons/feather.min.js' %}"></script>
     <script src="{% static 'common/assets/js/script.js' %}"></script>
@@ -144,40 +169,53 @@
     }
     $(function(){
       if('{{question.status}}'=='True'){
-          $('input[id="{{question.option_selected}}"]').prop("checked", true);
-          $('span[id="{{question.option_selected}}"]').html('correct answer');
-          $('input[name="questionradio"]').attr("disabled",true);
+        var options_selected = "{{question.option_selected}}";
+        for(var i=0;i<options_selected.length;i++){
+          $('input[id="'+options_selected[i]+'"]').prop("checked", true);
+          $('label[for="'+options_selected[i]+'"]').addClass('correct');
+        }
+        $('input[name="options"]').attr("disabled",true);
       }else if('{{question.status}}'=='False'){
-          $('input[id="{{question.option_selected}}"]').prop("checked", true);
-          $('span[id="{{question.option_selected}}"]').html('wrong answer');
+        var options_selected = "{{question.option_selected}}";
+        for(var i=0;i<options_selected.length;i++){
+          $('input[id="'+options_selected[i]+'"]').prop("checked", true);
+          $('label[for="'+options_selected[i]+'"]').addClass('wrong');
+        }
       }
     });
       function submit(){
-        var answer=$('input[name="questionradio"]:checked').val();
+        var answer="";
+        $('input[name="options"]:checked').each(function(){
+          answer+=$(this).val();
+        });
         if(answer){
         $('#error').html('');
         $("#quizsubmit").html("submittining...");
-        $('span[name="questionspan"]').html("");
+        $('label').removeClass('wrong');
         $.ajax({
             url : "/quiz_submit/", // the endpoint
             type : "POST", // http method
             data : { code:"{{question.code}}",
-                    answer:$('input[name="questionradio"]:checked').val()}, // data sent with the post request
+                    answer:answer}, // data sent with the post request
         // handle a successful response
             success : function(json) {
             if(json['status']){
-                $("span[id="+answer+"]").html('correct answer');
-                $('#status').html('<i class="fa fa-check"></i>');
-                $('input[name="questionradio"]').attr("disabled",true);
-                $('#quizsubmit').removeClass("btn-primary");
-                $('#quizsubmit').addClass("btn-success");
-                $('#quizsubmit').removeAttr('onclick');
-                $('#quizsubmit').html("Accepted");
+              $('input[name="options"]:checked').each(function(){
+                $('label[for="'+$(this).val()+'"]').addClass('correct');
+              });
+              $('#status').html('<i class="fa fa-check"></i>');
+              $('input[name="options"]').attr("disabled",true);
+              $('#quizsubmit').removeClass("btn-primary");
+              $('#quizsubmit').addClass("btn-success");
+              $('#quizsubmit').removeAttr('onclick');
+              $('#quizsubmit').html("Accepted");
             }
             else{
-                $("span[id="+answer+"]").html('wrong answer');
-                $('#status').html('<i class="fa fa-remove"></i>');
-                $("#quizsubmit").html("Submit");
+              $('input[name="options"]:checked').each(function(){
+                $('label[for="'+$(this).val()+'"]').addClass('wrong');
+              });
+              $('#status').html('<i class="fa fa-remove"></i>');
+              $("#quizsubmit").html("Submit");
             }
         },
 

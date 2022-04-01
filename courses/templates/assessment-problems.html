@@ -101,11 +101,11 @@
       @media (min-width: 962px) {
         .left{
           overflow-y: scroll;
-          height: calc(100vh - 57px);
+          height: calc(100vh - 60px);
         }
         .right{
           overflow-y: scroll;
-          height: calc(100vh - 57px);
+          height: calc(100vh - 60px);
         }
         #custom-editor{
           height: 84%;
@@ -152,7 +152,14 @@
         -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
         animation: fadein 0.5s, fadeout 0.5s 2.5s;
       }
-
+      .sidebar-link{
+        font-size: 17px;display: flex;
+            justify-content: center;
+            align-items: center;height: 50px;
+      }
+      .sidebar-link-active{
+        border-left: #282a4a 4px solid;
+      }
       @-webkit-keyframes fadein {
         from {bottom: 0; opacity: 0;} 
         to {bottom: 30px; opacity: 1;}
@@ -183,14 +190,9 @@
       </div><!-- sidebar-header -->
       <div class="sidebar-body">
         <nav class="nav-sidebar">
-          {% for q in questions %}
-          {% if q.code == question.code %}
           <a href="{{q.code}}" class="text-blue">
-            <div class="container d-flex flex-row justify-content-between" style="font-size: 17px;display: flex;
-            justify-content: center;
-            align-items: center;height: 50px;
-            border-left: #282a4a 4px solid;">
-              {{forloop.counter}}
+            <div class="container d-flex flex-row justify-content-between sidebar-link sidebar-link-active">
+              1
               <div id="status">
               {% if q.status %}
               <i class="fa fa-check"></i>
@@ -202,13 +204,9 @@
               <div class="question">{{q.title}}</div>
             </div>
           </a>
-          {% endif %}
-          {% if q.code != question.code %}
           <a href="{{q.code}}" class="link-secondary">
-            <div class="container d-flex flex-row justify-content-between" style="font-size: 17px;display: flex;
-            justify-content: center;
-            align-items: center;height: 50px;">
-              <div><p>{{forloop.counter}}</p></div>
+            <div class="container d-flex flex-row justify-content-between sidebar-link">
+              2
               {% if q.status %}
               <i class="fa fa-check" style="color: green;"></i>
               {% endif %}
@@ -218,26 +216,30 @@
               <div class="question">{{q.title}}</div>
             </div>
           </a>
-          {% endif %}
-          {% endfor %}
         </nav>
       </div><!-- sidebar-body -->
     </div><!-- sidebar -->
 
     <div class="content">
-      <div class="content-header navbar navbar-expand-lg navbar-dark fixed-top">
-           <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i class="fa fa-bars text-white"></i></a>
-          <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
-          <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
-        </div><!-- content-header -->
+      <div class="content-header navbar bg-light" style="height: 60px;padding: 0px;padding-left: 10px;">
+        <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i class="fa fa-bars"></i></a>
+        <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
+        <div style="background-color: #ccc;width: 120px;height: 60px;margin-top: auto;margin-bottom: auto;text-align: center;">
+          <div class="row" >
+          <div class="col-12">Time Left</div>
+          <div class="col-12" id="demo"></div>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="height: 60px;width: 100px;">submit</button>
+      </div>
+      <!-- content-header -->
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-4 bg-white left">
-            <a href="/courses/{{question.course}}/overview" class="text-blue"><span style="font-size: 16px;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Course details</span></a>
-            <ul class="list-group list-group-horizontal" style="margin-top: 10px;margin-bottom: 10px;padding: 0px;">
-              <a class="list-group-item content-active" id="description" href="javascript:void(0)" style="width: 32%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
-              <a class="list-group-item" id="submissions" href="javascript:void(0)" style="width: 38%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
-              <a class="list-group-item" id="support" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-headset" style="padding-right: 5px;"></i>Support</a>
+            <ul class="list-group list-group-horizontal text-center" style="margin-top: 10px;margin-bottom: 10px;padding: 0px;">
+              <a class="list-group-item content-active" id="description" href="javascript:void(0)" style="width: 50%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
+              <a class="list-group-item" id="submissions" href="javascript:void(0)" style="width: 50%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
             </ul>
             <div id="description-content">
             <h2 class="text-blue">{{question.title}}</h2>  
@@ -397,7 +399,37 @@
     <script src="{% static 'assets/js/diff.js' %}" ></script>
     <script src="{% static 'assets/js/confetti.js' %}" ></script>
     <script defer>
-    if (!!window.performance && window.performance.navigation.type === 2) {
+      function countdownTimeStart(){
+        var countDownDate = new Date();
+        countDownDate=new Date(countDownDate.setHours(countDownDate.getHours()+1)).getTime();
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get todays date and time
+            var now = new Date().getTime();
+            
+            // Find the distance between now an the count down date
+            var distance = countDownDate - now;
+            if(distance<=0)
+            window.location.href = '';
+            // Time calculations for days, hours, minutes and seconds
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML = hours + "h "
+            + minutes + "m " + seconds + "s ";
+            
+            // If the count down is over, write some text 
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+        }
+        countdownTimeStart();
+      if(!!window.performance && window.performance.navigation.type === 2) {
         // value 2 means "The page was accessed by navigating into the history"
         window.location.reload(); // reload whole page
       }

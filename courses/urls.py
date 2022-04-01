@@ -20,8 +20,10 @@ urlpatterns = [
             re_path(r'/quiz/(?P<quiz_code>[\w-]*)$',views.quiz_view,name='quiz'),
             re_path(r'/problems/(?P<problem_code>[\w-]*)$',views.problem_view,name='handson'),
             re_path(r'/rearrange/(?P<problem_code>[\w-]*)$',views.rearrange_view,name='rearrange'),
-            re_path(r'/assessment/',views.assessment_view,name='assessment'),
-            re_path(r'/assessment/problems',views.assessment_problem_view,name='assessment_problems'),
+            re_path(r'/assessment',include([
+                re_path(r'/$',views.assessment_view,name='assessment'),
+                re_path(r'/problems$',views.assessment_problem_view,name='assessment_problems')
+            ])),
         ]))
     ])),
     path('save_code',views.save_code,name='save_code'),

@@ -171,7 +171,10 @@ def run(request):
     if request.method=="POST":
         url = "https://judge0-ce.p.rapidapi.com/submissions"
         input=request.POST.get('input')
-        data = "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+input+"\"}"
+        with open("courses/temp/python.zip", "rb") as f:
+            bytes = f.read()
+            encode_string = base64.b64encode(bytes)
+        data = "{\"language_id\": "+str(89)+",\"additional_files\": \""+str(encode_string)[2:-1]+"\",\"stdin\": \""+input+"\"}"
         querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
         headers = {
         'content-type': "application/json",
@@ -179,6 +182,7 @@ def run(request):
         'x-rapidapi-key': "513e11481bmshd740ecb0d4d638ap1d286cjsn0f35f7d4e420"
         }
         response = requests.request("POST", url, data=data, headers=headers, params=querystring)
+        print(response)
         url = "https://judge0-ce.p.rapidapi.com/submissions/"+response.json()["token"]
         querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true"}
         response = requests.request("GET", url, headers=headers, params=querystring)
@@ -348,6 +352,7 @@ def rearrange_submit(request):
 @csrf_exempt
 @login_required
 def assessment_view(request,course_code,module_code):
+    print("hi")
     return render(request,'assessment-landing.html',{})
 
 @csrf_exempt

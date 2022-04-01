@@ -57,6 +57,7 @@ class Quiz(models.Model):
     code = models.CharField(max_length=20,null=False,blank=False,primary_key = True)
     question = models.CharField(max_length=250,null=False,blank=False)
     has_script = models.BooleanField()
+    type = models.IntegerField(default=0)
     script = models.CharField(max_length = 1000,blank=True,null=True)
     choice1 = models.CharField(max_length = 1000,null=False,blank=False)
     choice2 = models.CharField(max_length = 1000,null=False,blank=False)
