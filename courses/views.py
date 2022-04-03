@@ -146,7 +146,7 @@ def problem_view(request,course_code,module_code,problem_code):
     module= Module.objects.get(course=course,code=module_code)
     questions = []
     for i in Problem.objects.all().filter(module=module):
-        d=model_to_dict(i)
+        d={'code':i.code}
         if Problem_Submission.objects.filter(problem=i,user=request.user,status=3).exists():
             d['status'] = True
         elif Problem_Submission.objects.filter(problem=i,user=request.user).exists():
@@ -195,9 +195,13 @@ def run(request):
         return render(request,'run.html')
 
 @csrf_exempt
+@login_required
 def validate(request):
     if request.method=="POST":
-        problem = Problem.objects.get(code=request.POST.get('problem_code'))
+        try:
+            problem = Problem.objects.get(code=request.POST.get('problem_code'))
+        except:
+            problem = Assessment_Problem.objects.get(code=request.POST.get('problem_code'))
         url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
         data = "{\"submissions\": ["
         f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
@@ -309,6 +313,7 @@ def rearrange_view(request,course_code,module_code,problem_code):
     return render(request,'rearrange.html',{'questions':questions,'question':context,'statements':json.dumps(statements)})
 
 @csrf_exempt
+@login_required
 def rearrange_submit(request):
     if request.method=="POST":
         problem = Rearrange_Problem.objects.get(code=request.POST.get('problem_code'))
@@ -349,23 +354,38 @@ def rearrange_submit(request):
             obj.save()
         return JsonResponse(d)
 
-@csrf_exempt
 @login_required
 def assessment_view(request,course_code,module_code):
-    print("hi")
     return render(request,'assessment-landing.html',{})
 
-@csrf_exempt
+
 @login_required
 def assessment_problem_view(request,course_code,module_code):
-    return render(request,'assessment-problems.html',{})
+    course = Course.objects.get(code=course_code)
+    module= Module.objects.get(course=course,code=module_code)
+    if Assessment.objects.filter(module=module,user=request.user).exists():
+        assessment = Assessment.objects.get(module=module,user=request.user)
+    else:
+        assessment = Assessment(module=module,user=request.user,start_time=datetime.datetime.now())
+        assessment.save()
+    assessment.start_time += datetime.timedelta(hours = 6.5)
+    formatedDate = assessment.start_time.strftime("%Y-%m-%d %H:%M:%S")
+    questions = []
+    for i in Assessment_Problem.objects.all().filter(module=module):
+        d=model_to_dict(i)
+        if Assessment_Problem_Submission.objects.filter(problem=i,user=request.user,status=3).exists():
+            d['status'] = True
+        elif Assessment_Problem_Submission.objects.filter(problem=i,user=request.user).exists():
+            d['status'] = False
+        questions.append(d)
+    return render(request,'assessment-problems.html',{'start_time':formatedDate,'question1':questions[0],'question2':questions[1]})
 
 @csrf_exempt
 @login_required
 def save_code(request):
     if request.method=="POST":
         problem=Problem.objects.get(code=request.POST.get('problem_code'))
-        code=str(base64.b64encode(bytes(request.POST.get('source'), 'utf-8')))[2:-1]
+        code=request.POST.get('source')
         try:
             obj=Previous_Code.objects.get(user=request.user,problem=problem)
             obj.source=code
@@ -373,3 +393,30 @@ def save_code(request):
             obj=Previous_Code(user=request.user,problem=problem,source=code)
         obj.save()
         return JsonResponse({'status':'saved'})
+
+@csrf_exempt
+@login_required
+def assessment_save_code(request):
+    if request.method=="POST":
+        problem=Assessment_Problem.objects.get(code=request.POST.get('problem_code'))
+        code=request.POST.get('source')
+        try:
+            obj=Assessment_Previous_Code.objects.get(user=request.user,problem=problem)
+            obj.source=code
+        except:
+            obj=Assessment_Previous_Code(user=request.user,problem=problem,source=code)
+        obj.save()
+        return JsonResponse({'status':'saved'})
+
+@csrf_exempt
+@login_required
+def assessment_previous_code(request):
+    if request.method=="GET":
+        print(request.GET.get('problem_code'))
+        problem=Assessment_Problem.objects.get(code=request.GET.get('problem_code'))
+        try:
+            obj=Assessment_Previous_Code.objects.get(user=request.user,problem=problem)
+            source = obj.source
+        except:
+            source = problem.default_code
+        return JsonResponse({'source':source})

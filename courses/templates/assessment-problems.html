@@ -14,7 +14,7 @@
     <!-- Favicon -->
     <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> -->
 
-    <title>{{question.title}}</title>
+    <title>Module Assessment</title>
 
     <!-- Vendor CSS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -58,6 +58,14 @@
         opacity: 0.2;
         position: absolute;
       }
+      .sidebar-link{
+        font-size: 17px;display: flex;
+        justify-content: center;
+        align-items: center;height: 50px;
+      }
+      .sidebar-link-active{
+        border-left: #282a4a 4px solid;
+      }
       pre{
         display: block;
         padding: 9.5px;
@@ -98,6 +106,17 @@
       #testcases{
         margin-bottom: 10px;
       }
+      .loader{
+        display: none;
+        position: absolute;
+        left: 0px;
+        top: 60px;
+        width: 100%;
+        height: calc(100vh - 60px);
+        z-index: 9999;
+        background: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Phi_fenomeni.gif/50px-Phi_fenomeni.gif') 
+                    50% 50% no-repeat rgb(249,249,249);
+      }
       @media (min-width: 962px) {
         .left{
           overflow-y: scroll;
@@ -131,35 +150,6 @@
       ::-webkit-scrollbar-thumb:hover {
         background: rgb(141, 141, 141); 
       }
-      #snackbar {
-        visibility: hidden;
-        width: 100px;
-        margin-left: -125px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 2px;
-        padding: 10px;
-        position: fixed;
-        z-index: 1;
-        right: 30px;
-        bottom: 30px;
-        font-size: 17px;
-      }
-
-      #snackbar.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-      }
-      .sidebar-link{
-        font-size: 17px;display: flex;
-            justify-content: center;
-            align-items: center;height: 50px;
-      }
-      .sidebar-link-active{
-        border-left: #282a4a 4px solid;
-      }
       @-webkit-keyframes fadein {
         from {bottom: 0; opacity: 0;} 
         to {bottom: 30px; opacity: 1;}
@@ -182,7 +172,6 @@
     </style>
   </head>
   <body class="animate bg-white">
-
     <div class="sidebar">
       <div class="sidebar-header">
         <a href="#" class="sidebar-logo"><span></span></a>
@@ -190,27 +179,27 @@
       </div><!-- sidebar-header -->
       <div class="sidebar-body">
         <nav class="nav-sidebar">
-          <a href="{{q.code}}" class="text-blue">
-            <div class="container d-flex flex-row justify-content-between sidebar-link sidebar-link-active">
+          <a class="text-blue" href="javascript:void(0)">
+            <div class="container d-flex flex-row justify-content-between sidebar-link sidebar-link-active" id="0">
               1
               <div id="status">
-              {% if q.status %}
+              {% if question1.status %}
               <i class="fa fa-check"></i>
               {% endif %}
-              {% if q.status == False %}
+              {% if question2.status == False %}
               <i class="fa fa-remove"></i>
               {% endif %}
               </div>
               <div class="question">{{q.title}}</div>
             </div>
           </a>
-          <a href="{{q.code}}" class="link-secondary">
-            <div class="container d-flex flex-row justify-content-between sidebar-link">
+          <a class="link-secondary" href="javascript:void(0)">
+            <div class="container d-flex flex-row justify-content-between sidebar-link" id="1">
               2
-              {% if q.status %}
+              {% if question2.status %}
               <i class="fa fa-check" style="color: green;"></i>
               {% endif %}
-              {% if q.status == False %}
+              {% if question2.status == False %}
               <i class="fa fa-remove" style="color: red;"></i>
               {% endif %}
               <div class="question">{{q.title}}</div>
@@ -226,7 +215,7 @@
         <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
         <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
         <div style="background-color: #ccc;width: 120px;height: 60px;margin-top: auto;margin-bottom: auto;text-align: center;">
-          <div class="row" >
+          <div class="row" id="time_left">
           <div class="col-12">Time Left</div>
           <div class="col-12" id="demo"></div>
           </div>
@@ -235,45 +224,34 @@
       </div>
       <!-- content-header -->
         <div class="container-fluid">
-          <div class="row">
+          <div class="loader bg-light"></div>
+          <div class="row" id="question-container">
             <div class="col-lg-4 bg-white left">
-            <ul class="list-group list-group-horizontal text-center" style="margin-top: 10px;margin-bottom: 10px;padding: 0px;">
-              <a class="list-group-item content-active" id="description" href="javascript:void(0)" style="width: 50%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
-              <a class="list-group-item" id="submissions" href="javascript:void(0)" style="width: 50%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
-            </ul>
-            <div id="description-content">
-            <h2 class="text-blue">{{question.title}}</h2>  
-            <p>{{question.description |safe}}</p>
+            <div>
+            <h2 class="text-blue title">{{question1.title}}</h2>  
+            <p class="description">{{question1.description |safe}}</p>
             <hr />
-            <h4 class="heading">Input Format:</h4>
-            <p>{{question.input_format |safe}}</p>
+            <h4>Input Format:</h4>
+            <p class="input_format">{{question1.input_format |safe}}</p>
             <hr />
-            <h4 class="heading">Output Format:</h4>
-            <p>{{question.output_format |safe}}</p>
+            <h4>Output Format:</h4>
+            <p class="output_format">{{question1.output_format |safe}}</p>
             <hr />
-            <h4 class="heading">Sample input 1</h4>
-            <pre>{{question.input1 |safe}}</pre>
-            <h4 class="heading">Sample Output 1</h4>
-            <pre>{{question.output1 |safe}}</pre>
-            <h4 class="heading">Sample input 2</h4>
-            <pre>{{question.input2 |safe}}</pre>
-            <h4 class="heading">Sample Output 2</h4>
-            <pre>{{question.output2 |safe}}</pre>
-            </div>
-            <div id="submissions-content" style="display: none;">
-              <h4 class="text-blue">Submissions</h4>
-              <div class="accordion" id="myAccordion">
-              </div>
-            </div>
-            <div id="support-content" style="display: none;">
-              <h4 class="text-blue">Support</h4>
+            <h4>Sample input 1</h4>
+            <pre class="input1">{{question1.input1 |safe}}</pre>
+            <h4>Sample Output 1</h4>
+            <pre class="output1">{{question1.output1 |safe}}</pre>
+            <h4>Sample input 2</h4>
+            <pre class="input2">{{question1.input2 |safe}}</pre>
+            <h4>Sample Output 2</h4>
+            <pre class="output2">{{question1.output2 |safe}}</pre>
             </div>
           </div>
         <div class="col-lg-8 right bg-light" id="right" style="position: relative;display: inline-block;">
           <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
           <div class="d-flex flex-row">
-          <select class="form-select" aria-label="languages" style="width: 110px;">
-            <option value="1">C</option>
+          <select class="form-select" aria-label="languages" style="width: 110px;" disabled>
+            <option value="1" selected>C</option>
             <option value="2">C++</option>
             <option value="3">Python</option>
             <option value="4">Java</option>
@@ -295,7 +273,7 @@
             <div id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></div>
           </div>
           <div id="custom-editor">
-            <div id="editor" class="border shadow-sm">{{question.source}}</div>
+            <div id="editor" class="border shadow-sm">{{question1.source}}</div>
           </div>
           <br>
           <div class="d-flex flex-row justify-content-between">
@@ -373,21 +351,6 @@
               </div>
             </div>
           </div>
-          <div class="container d-flex justify-content-between" style="margin-bottom: 10px;">
-            <button class="btn btn-outline-blue" style="width: 100px;">Prev</button><button class="btn btn-outline-blue" style="width: 100px;">Next</button>
-          </div>
-        </div>
-        <div id="snackbar">saved..</div>
-        <div class="modal" tabindex="-1" id="myModal">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-body" style="text-align: center;">
-                <img src="{% static 'assets/img/accepted.png' %}" height="50px">
-                <h1 style="margin-bottom: 10px;">Congratulations</h1>
-                <button class="btn" data-bs-dismiss="modal" aria-label="Close" style="background-color: #282a4a;width: 100px;color: white;">Ok</button>
-              </div>
-            </div>
-          </div>
         </div>
       </div><!-- content-body -->
     </div><!-- content -->
@@ -399,9 +362,12 @@
     <script src="{% static 'assets/js/diff.js' %}" ></script>
     <script src="{% static 'assets/js/confetti.js' %}" ></script>
     <script defer>
+      var saving;
+      var index = 0;
+      var question_codes = ["{{question1.code}}","{{question2.code}}"];
       function countdownTimeStart(){
-        var countDownDate = new Date();
-        countDownDate=new Date(countDownDate.setHours(countDownDate.getHours()+1)).getTime();
+        var start_time = "{{start_time}}";
+        var countDownDate = new Date(start_time);
         // Update the count down every 1 second
         var x = setInterval(function() {
 
@@ -410,8 +376,9 @@
             
             // Find the distance between now an the count down date
             var distance = countDownDate - now;
-            if(distance<=0)
-            window.location.href = '';
+            if(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))<=9){
+              $('#time_left').css('color','red');
+            }
             // Time calculations for days, hours, minutes and seconds
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -466,13 +433,6 @@
         }
       }
       $(function(){
-        //calling save function on clicking save button
-        $('#save').on('click',function(){
-          save();
-          var x = document.getElementById("snackbar");
-          x.className = "show";
-          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-        });
         //error closing
         $('#close_error').on('click',function(){
           $('#error').hide();
@@ -481,7 +441,10 @@
         $('#reset_code').on('click',function(){
           if (confirm('Are you sure you want to reset the code?')) {
             // Save it!
-            var source="{{question.default_code}}";
+            if(index==0)
+            var source="{{question1.default_code}}";
+            if(index==1)
+            var source="{{question2.default_code}}";
             var x=decode(source);
             session.setValue(x);
             editor.clearSelection();
@@ -509,31 +472,68 @@
             $('#testcase2actual').show();
           }
         });
-        $('#submissions').on('click',function(){
-          $('#submissions').addClass('content-active');
-          $('#description').removeClass('content-active');
-          $('#support').removeClass('content-active');
-          if($(window).width()<962){
-            $('#right').hide();
+        $('.sidebar-link').on('click',function(){
+          if($(this).attr('id')!=index){
+            stopSaving();
+            $('.loader').css('display','inline-block');
+            save();
+            $.ajax({
+            url : "/assessment_previous_code", // the endpoint
+            type : "GET", // http method
+            data : { problem_code: question_codes[1-index]}, // data sent with the post request
+            // handle a successful response
+              success : function(json){
+                index = 1-index;
+                if(index==0){
+                  $('.title').html('{{question1.title}}');
+                  $('.descripton').html('{{question1.description |safe}}');
+                  $('.input_format').html('{{question1.input_format |safe}}');
+                  $('.output_format').html('{{question1.output_format |safe}}');
+                  $('.input1').html('{{question1.input1 |safe}}');
+                  $('.ouutput1').html('{{question1.output1 |safe}}');
+                  $('.input2').html('{{question1.input2 |safe}}');
+                  $('.output2').html('{{question1.output2 |safe}}');
+                }
+                else{
+                  $('.title').html('{{question2.title}}');
+                  $('.descripton').html('{{question2.description |safe}}');
+                  $('.input_format').html('{{question2.input_format |safe}}');
+                  $('.output_format').html('{{question2.output_format |safe}}');
+                  $('.input1').html('{{question2.input1 |safe}}');
+                  $('.ouutput1').html('{{question2.output1 |safe}}');
+                  $('.input2').html('{{question2.input2 |safe}}');
+                  $('.output2').html('{{question2.output2 |safe}}');
+                }
+                session.setValue(decode(json['source']));
+                editor.clearSelection();
+                $('.sidebar-link').removeClass('sidebar-link-active');
+                $(this).addClass('sidebar-link-active');
+                $('.loader').css('display','none');
+                startSaving();
+              }
+            });
           }
-          $('#description-content').hide();
-          $('#submissions-content').show();
-          $('#support-content').hide();
-          get_submissions();
         });
       });
+      function startSaving(){
+        saving = setInterval(save, 5000);
+      }
+      function stopSaving(){
+        clearInterval(saving);
+      }
       //save function
       function save(){
         $.ajax({
-            url : "/save_code", // the endpoint
+            url : "/assessment_save_code", // the endpoint
             type : "POST", // http method
-            data : { problem_code:"{{question.code}}",
-                    source: editor.getValue()}, // data sent with the post request
+            data : { problem_code: question_codes[index],
+                    source: encode(editor.getValue())}, // data sent with the post request
         // handle a successful response
             success : function(json) {
             }
           });
       }
+      startSaving();
       //scroll function
       function scrolling(){
         var element = document.getElementById("testcases");
@@ -621,7 +621,7 @@
             type : "POST", // http method
             data : { source : encode(editor.getValue()),
                     language_code : 76,
-                    problem_code : "{{question.code}}" }, // data sent with the post request
+                    problem_code : question_codes[index]}, // data sent with the post request
             // handle a successful response
             success : function(json) {
               if(json[0]['status']['id']==6){
@@ -717,7 +717,6 @@
 
       //submit function
       function submit(){
-        save();
         $('#error').hide();
         $("#testcases").hide();
         $("#submit").html('<i class="fa fa-spinner fa-spin"></i>');
@@ -727,7 +726,7 @@
           type : "POST", // http method
           data : { source : encode(editor.getValue()),
                   language_code : 50,
-                  problem_code : "{{question.code}}" }, // data sent with the post request
+                  problem_code : question_codes[index] }, // data sent with the post request
 
           // handle a successful response
           success : function(json) {
@@ -737,93 +736,13 @@
               alert("One of your solutions already accepted");
             }
             else{
-              get_submissions();
               if(json['status_id']==3){
                 $('#status').html('<i class="fa fa-check"></i>');
-                var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
-                  keyboard: false
-                });
-                myModal.show();
-                const start = () => {
-                    setTimeout(function() {
-                        confetti.start()
-                    }, 0); // 1000 is time that after 1 second start the confetti ( 1000 = 1 sec)
-                };
-
-                //  for stopping the confetti 
-
-                const stop = () => {
-                    setTimeout(function() {
-                        confetti.stop()
-                    }, 5000); // 5000 is time that after 5 second stop the confetti ( 5000 = 5 sec)
-                };
-                // after this here we are calling both the function so it works
-                start();
-                stop();
               }
               else{
                 $('#status').html('<i class="fa fa-remove"></i>');
               }
-              $('#submissions').addClass('content-active');
-              $('#description').removeClass('content-active');
-              $('#support').removeClass('content-active');
-              if($(window).width()<962){
-                  $('#right').hide();
-              }
-              $('#description-content').hide();
-              $('#submissions-content').fadeIn('slow');
-              $('#support-content').hide();
             }
-          }
-        });
-      }
-      //get all submissions
-      function get_submissions(){
-        $.ajax({
-          url : "{% url 'problem_submissions' %}", // the endpoint
-          type : "GET", // http method
-          data : { problem_code : "{{question.code}}" }, // data sent with the post request
-
-          // handle a successful response
-          success : function(json) {
-            $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
-            $("#submit").prop('disabled',false);
-            $("#myAccordion").html("");
-            for(var i=json['submissions'].length-1;i>=0;i--){
-              var s='<div class="accordion-item">\
-            <div class="accordion-header" id="headingOne">\
-                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#submission'+i+'">\
-                <div class="d-flex flex-row justify-content-between">\
-                    <div><span>#'+(i+1)+'</span>';
-              if(json['submissions'][i]['status']==3)
-              s+='<span style="color: green;padding-left: 10px;">Accepted';
-              else if(json['submissions'][i]['status']==4)
-              s+='<span style="color: red;padding-left: 10px;">Wrong Answer';
-              else if(json['submissions'][i]['status']==5)
-              s+='<span style="color: red;padding-left: 10px;">Time Limit Exceeded';
-              else if(json['submissions'][i]['status']==6)
-              s+='<span style="color: red;padding-left: 10px;">Compilation Error';
-              else
-              s+="Runtime Error";
-              s+='</span>\
-                  </div>\
-                  <div>(';
-              s+=json['submissions'][i]['testcases_passed']*20;
-              s +='%)</div></div>\
-            </button>\
-            </div>\
-            <div id="submission'+i+'" class="accordion-collapse collapse" data-bs-parent="#myAccordion">\
-                <div class="card-body" style="padding:1px">\
-                  <div class="d-flex flex-row justify-content-between" style="margin:5px"><h5>submission time</h5><h5>'+json['submissions'][i]['date'].substring(0,10)+" "+json['submissions'][i]['date'].substring(11,16)+'</h5></div>\
-                    <pre id="source'+i+'"></pre>\
-                </div>\
-            </div>\
-            </div>';
-              $('#myAccordion').append(s);
-              $('#source'+i).text(decode(json['submissions'][i]['source']));
-            }
-            if(json['submissions'].length==0)
-            $("#myAccordion").html("<h4>No Submissions<h4>");
           }
         });
       }

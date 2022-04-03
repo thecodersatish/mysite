@@ -121,13 +121,14 @@ class Statement(models.Model):
     problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
     statement = models.CharField(max_length=500)
 
-class Assignment(models.Model):
+class Assessment(models.Model):
     module = models.ForeignKey(Module,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    start_time = models.DateField()
+    start_time = models.DateTimeField()
     questions_accepted = models.IntegerField(default=0)
+    endedByUser = models.BooleanField(default=False)
 
-class Assignment_Problem(models.Model):
+class Assessment_Problem(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE)
     module = models.ForeignKey(Module,on_delete=models.CASCADE)
     code = models.CharField(max_length=20,null=False,blank=False,primary_key = True)
@@ -140,3 +141,13 @@ class Assignment_Problem(models.Model):
     output1 = models.CharField(max_length = 500,null=False,blank=False)
     input2 = models.CharField(max_length = 500,null=False,blank=False)
     output2 = models.CharField(max_length = 500,null=False,blank=False)
+
+class Assessment_Problem_Submission(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    problem = models.ForeignKey(Assessment_Problem,on_delete=models.CASCADE)
+    status = models.IntegerField()
+
+class Assessment_Previous_Code(models.Model):
+    problem=models.ForeignKey(Assessment_Problem,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    source=models.TextField(max_length=20000)

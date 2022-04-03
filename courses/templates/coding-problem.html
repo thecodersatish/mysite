@@ -208,7 +208,7 @@
             <div class="container d-flex flex-row justify-content-between" style="font-size: 17px;display: flex;
             justify-content: center;
             align-items: center;height: 50px;">
-              <div><p>{{forloop.counter}}</p></div>
+              <div>{{forloop.counter}}</div>
               {% if q.status %}
               <i class="fa fa-check" style="color: green;"></i>
               {% endif %}
@@ -496,7 +496,7 @@
             url : "/save_code", // the endpoint
             type : "POST", // http method
             data : { problem_code:"{{question.code}}",
-                    source: editor.getValue()}, // data sent with the post request
+                    source: encode(editor.getValue())}, // data sent with the post request
         // handle a successful response
             success : function(json) {
             }
@@ -758,6 +758,7 @@
             $("#submit").prop('disabled',false);
             $("#myAccordion").html("");
             for(var i=json['submissions'].length-1;i>=0;i--){
+              var sub_time = new Date(json['submissions'][i]['date']);
               var s='<div class="accordion-item">\
             <div class="accordion-header" id="headingOne">\
                 <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#submission'+i+'">\
@@ -782,7 +783,7 @@
             </div>\
             <div id="submission'+i+'" class="accordion-collapse collapse" data-bs-parent="#myAccordion">\
                 <div class="card-body" style="padding:1px">\
-                  <div class="d-flex flex-row justify-content-between" style="margin:5px"><h5>submission time</h5><h5>'+json['submissions'][i]['date'].substring(0,10)+" "+json['submissions'][i]['date'].substring(11,16)+'</h5></div>\
+                  <div class="d-flex flex-row justify-content-between" style="margin:5px"><h5>submission time</h5><h5>'+sub_time.toString().substring(4,21)+'</h5></div>\
                     <pre id="source'+i+'"></pre>\
                 </div>\
             </div>\

@@ -36,6 +36,7 @@ pre{
   -ms-user-select: none;
   user-select: none;
   word-wrap: break-word;
+  background-color: white;
 }
 
 .option:hover{
