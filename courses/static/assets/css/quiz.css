@@ -56,9 +56,9 @@ pre{
 }
 
 .correct{
-  border: #87f88d 1px solid;
+  border-left: #12a041 4px solid;
 }
 
 .wrong{
-  border: #f88277 1px solid;
+  border-left: #f88277 4px solid;
 }

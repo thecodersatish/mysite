@@ -146,7 +146,7 @@ def problem_view(request,course_code,module_code,problem_code):
     module= Module.objects.get(course=course,code=module_code)
     questions = []
     for i in Problem.objects.all().filter(module=module):
-        d={'code':i.code}
+        d={'code':i.code,'title':i.title}
         if Problem_Submission.objects.filter(problem=i,user=request.user,status=3).exists():
             d['status'] = True
         elif Problem_Submission.objects.filter(problem=i,user=request.user).exists():
@@ -292,7 +292,7 @@ def rearrange_view(request,course_code,module_code,problem_code):
     module= Module.objects.get(course=course,code=module_code)
     questions = []
     for i in Rearrange_Problem.objects.all().filter(module=module):
-        d=model_to_dict(i)
+        d={'code':i.code,'title':i.title}
         if Rearrange_Problem_Submission.objects.filter(problem=i,user=request.user,status=1).exists():
             d['status'] = True
         elif Rearrange_Problem_Submission.objects.filter(problem=i,user=request.user,status=0).exists():
@@ -377,6 +377,9 @@ def assessment_problem_view(request,course_code,module_code):
             d['status'] = True
         elif Assessment_Problem_Submission.objects.filter(problem=i,user=request.user).exists():
             d['status'] = False
+        if Assessment_Previous_Code.objects.filter(problem=i,user=request.user).exists():
+            obj = Assessment_Previous_Code.objects.get(problem=i,user=request.user)
+            d['default_code'] = obj.source
         questions.append(d)
     return render(request,'assessment-problems.html',{'start_time':formatedDate,'question1':questions[0],'question2':questions[1]})
 

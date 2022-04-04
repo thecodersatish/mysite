@@ -277,9 +277,11 @@
             <option value="4">Java</option>
           </select>
           <span style="padding-left:10px"></span>
-          <button class="btn btn-outline-blue" style="width: 100px;" id="save">Save</button>
+          <button class="btn btn-outline-blue" style="width: 70px;" id="save">Save</button>
           </div>
-          <div>
+          <div class="d-flex flex-row">
+            <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="cursor: pointer;padding-right: 10px;" title="dark theme" height="35px">
+            <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="light theme" height="35px">
             <button class="btn btn-success shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
           </div>
           </div>
@@ -343,8 +345,8 @@
                         <label class="form-check-label" for="diff1">Diff</label>
                       </div>
                     </div>
-                    <pre id="testcase1actual" style="height: 150px;background-color: white;margin:0px"></pre>
-                    <pre id="testcase1actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"></pre>
+                    <pre id="testcase1actual" style="height: 150px;background-color: white;margin:0px" contenteditable="true"></pre>
+                    <pre id="testcase1actualdiff" style="height: 150px;display: none;background-color: white;margin:0px" contenteditable="true"></pre>
                   </div>
                 </div>
               </div>
@@ -364,8 +366,8 @@
                         <label class="form-check-label" for="diff2">Diff</label>
                       </div>
                     </div>
-                    <pre id="testcase2actual" style="height: 150px;background-color: white;margin:0px"></pre>
-                    <pre id="testcase2actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"></pre>
+                    <pre id="testcase2actual" style="height: 150px;background-color: white;margin:0px" contenteditable="true"></pre>
+                    <pre id="testcase2actualdiff" style="height: 150px;display: none;background-color: white;margin:0px" contenteditable="true"></pre>
                   </div>
                 </div>
               </div>
@@ -418,7 +420,7 @@
       session.setMode("ace/mode/c_cpp");
       editor.setTheme("ace/theme/chrome");
       editor.setOptions({
-        fontSize: "14pt"
+        fontSize: "1.1rem"
       });
 
       function encode(str){
@@ -434,6 +436,17 @@
         }
       }
       $(function(){
+        //change theme
+        $('#dark_theme').on('click',function(){
+          $('#dark_theme').hide();
+          $("#light_theme").show();
+          editor.setTheme("ace/theme/dracula");
+        });
+        $('#light_theme').on('click',function(){
+          $('#light_theme').hide();
+          $("#dark_theme").show();
+          editor.setTheme("ace/theme/chrome");
+        });
         //calling save function on clicking save button
         $('#save').on('click',function(){
           save();

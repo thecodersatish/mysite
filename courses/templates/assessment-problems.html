@@ -130,6 +130,14 @@
           height: 84%;
         }
       }
+      .dot {
+        height: 10px;
+        width: 10px;
+        margin-right: 5px;
+        background-color: #ffdf6a;
+        border-radius: 50%;
+        display: inline-block;
+      }
       /* width */
       ::-webkit-scrollbar {
         height: 5px;
@@ -215,7 +223,7 @@
         <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
         <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
         <div style="background-color: #ccc;width: 120px;height: 60px;margin-top: auto;margin-bottom: auto;text-align: center;">
-          <div class="row" id="time_left">
+          <div class="row" id="time_left" style="margin-top: 7px;margin-bottom: 7px;">
           <div class="col-12">Time Left</div>
           <div class="col-12" id="demo"></div>
           </div>
@@ -227,25 +235,23 @@
           <div class="loader bg-light"></div>
           <div class="row" id="question-container">
             <div class="col-lg-4 bg-white left">
-            <div>
-            <h2 class="text-blue title">{{question1.title}}</h2>  
-            <p class="description">{{question1.description |safe}}</p>
-            <hr />
-            <h4>Input Format:</h4>
-            <p class="input_format">{{question1.input_format |safe}}</p>
-            <hr />
-            <h4>Output Format:</h4>
-            <p class="output_format">{{question1.output_format |safe}}</p>
-            <hr />
-            <h4>Sample input 1</h4>
-            <pre class="input1">{{question1.input1 |safe}}</pre>
-            <h4>Sample Output 1</h4>
-            <pre class="output1">{{question1.output1 |safe}}</pre>
-            <h4>Sample input 2</h4>
-            <pre class="input2">{{question1.input2 |safe}}</pre>
-            <h4>Sample Output 2</h4>
-            <pre class="output2">{{question1.output2 |safe}}</pre>
-            </div>
+              <h2 class="text-blue title" style="padding-top: 10px;">{{question1.title}}</h2>  
+              <p class="description">{{question1.description |safe}}</p>
+              <hr />
+              <h4>Input Format:</h4>
+              <p class="input_format">{{question1.input_format |safe}}</p>
+              <hr />
+              <h4>Output Format:</h4>
+              <p class="output_format">{{question1.output_format |safe}}</p>
+              <hr />
+              <h4>Sample input 1</h4>
+              <pre class="input1">{{question1.input1 |safe}}</pre>
+              <h4>Sample Output 1</h4>
+              <pre class="output1">{{question1.output1 |safe}}</pre>
+              <h4>Sample input 2</h4>
+              <pre class="input2">{{question1.input2 |safe}}</pre>
+              <h4>Sample Output 2</h4>
+              <pre class="output2">{{question1.output2 |safe}}</pre>
           </div>
         <div class="col-lg-8 right bg-light" id="right" style="position: relative;display: inline-block;">
           <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
@@ -257,9 +263,11 @@
             <option value="4">Java</option>
           </select>
           <span style="padding-left:10px"></span>
-          <button class="btn btn-outline-blue" style="width: 100px;" id="save">Save</button>
+          <button class="btn saved" style="color: #ffdf6a;display: none;"><span class="dot"></span>auto save</button>
           </div>
-          <div>
+          <div class="d-flex flex-row">
+            <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="cursor: pointer;padding-right: 10px;" title="dark theme" height="35px">
+            <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="light theme" height="35px">
             <button class="btn btn-success shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
           </div>
           </div>
@@ -323,8 +331,8 @@
                         <label class="form-check-label" for="diff1">Diff</label>
                       </div>
                     </div>
-                    <pre id="testcase1actual" style="height: 150px;background-color: white;margin:0px"></pre>
-                    <pre id="testcase1actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"></pre>
+                    <pre id="testcase1actual" style="height: 150px;background-color: white;margin:0px" contenteditable="true"></pre>
+                    <pre id="testcase1actualdiff" style="height: 150px;display: none;background-color: white;margin:0px" contenteditable="true"></pre>
                   </div>
                 </div>
               </div>
@@ -344,8 +352,8 @@
                         <label class="form-check-label" for="diff2">Diff</label>
                       </div>
                     </div>
-                    <pre id="testcase2actual" style="height: 150px;background-color: white;margin:0px"></pre>
-                    <pre id="testcase2actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"></pre>
+                    <pre id="testcase2actual" style="height: 150px;background-color: white;margin:0px" contenteditable="true"></pre>
+                    <pre id="testcase2actualdiff" style="height: 150px;display: none;background-color: white;margin:0px" contenteditable="true"></pre>
                   </div>
                 </div>
               </div>
@@ -417,9 +425,10 @@
       session.setMode("ace/mode/c_cpp");
       editor.setTheme("ace/theme/chrome");
       editor.setOptions({
-        fontSize: "14pt"
+        fontSize: "1.1rem"
       });
-
+      session.setValue(decode("{{question1.default_code}}"));
+      editor.clearSelection();
       function encode(str){
         return btoa(str);
       }
@@ -433,6 +442,17 @@
         }
       }
       $(function(){
+        //change theme
+        $('#dark_theme').on('click',function(){
+          $('#dark_theme').hide();
+          $("#light_theme").show();
+          editor.setTheme("ace/theme/dracula");
+        });
+        $('#light_theme').on('click',function(){
+          $('#light_theme').hide();
+          $("#dark_theme").show();
+          editor.setTheme("ace/theme/chrome");
+        });
         //error closing
         $('#close_error').on('click',function(){
           $('#error').hide();
@@ -486,7 +506,7 @@
                 index = 1-index;
                 if(index==0){
                   $('.title').html('{{question1.title}}');
-                  $('.descripton').html('{{question1.description |safe}}');
+                  $('.description').html('{{question1.description |safe}}');
                   $('.input_format').html('{{question1.input_format |safe}}');
                   $('.output_format').html('{{question1.output_format |safe}}');
                   $('.input1').html('{{question1.input1 |safe}}');
@@ -496,7 +516,7 @@
                 }
                 else{
                   $('.title').html('{{question2.title}}');
-                  $('.descripton').html('{{question2.description |safe}}');
+                  $('.description').html('{{question2.description |safe}}');
                   $('.input_format').html('{{question2.input_format |safe}}');
                   $('.output_format').html('{{question2.output_format |safe}}');
                   $('.input1').html('{{question2.input1 |safe}}');
@@ -507,16 +527,17 @@
                 session.setValue(decode(json['source']));
                 editor.clearSelection();
                 $('.sidebar-link').removeClass('sidebar-link-active');
-                $(this).addClass('sidebar-link-active');
+                $('#'+index).addClass('sidebar-link-active');
                 $('.loader').css('display','none');
                 startSaving();
+                $('body').removeClass('sidebar-show');
               }
             });
           }
         });
       });
       function startSaving(){
-        saving = setInterval(save, 5000);
+        saving = setInterval(save, 10000);
       }
       function stopSaving(){
         clearInterval(saving);
@@ -529,7 +550,8 @@
             data : { problem_code: question_codes[index],
                     source: encode(editor.getValue())}, // data sent with the post request
         // handle a successful response
-            success : function(json) {
+            success : function(json){
+              $('.saved').show(1).delay(1000).hide(1);
             }
           });
       }
