@@ -39,14 +39,14 @@
     <body class="bg-light">
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-              <a class="navbar-brand" href="{% url 'home' %}"><i class="fa fa-home"></i> CodeHub</a>
+              <a class="navbar-brand" href="{% url 'home' %}"><i class="fa-solid fa-home"></i> CodeHub</a>
             </div>
         </nav>
         <br>
         <div class="container-fluid">
             <div class="center">
                 <h4>Module Assessment</h4>
-                <br>
+                <p id="msg">{{msg}}</p>
                 <div style="overflow: auto;width: 100%;">
                 <table class="table table-bordered">
                     <tbody>
@@ -63,8 +63,18 @@
                         <td>Programming</td>
                         <td>2</td>
                         <td>01:00:00</td>
-                        <td>50%</td>
-                        <td><a class="btn btn-primary" href="problems">Start</a></td>
+                        <td>{{ score }}</td>
+                        <td>
+                            {% if status == 1 %}
+                            <a class="btn btn-primary" href="start">Start</a>
+                            {% endif %}
+                            {% if status == 2 %}
+                            <a class="btn btn-primary" href="start">Continue</a>
+                            {% endif %}
+                            {% if status == 3 %}
+                            Ended
+                            {% endif %}
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -81,4 +91,15 @@
             </div>
         </div>
     </body>
+    <script>
+        if (!!window.performance && window.performance.navigation.type === 2) {
+            // value 2 means "The page was accessed by navigating into the history"
+            window.location.reload(); // reload whole page
+        }
+        window.onpageshow = function(event){
+            if(event.persisted){
+                window.location.reload();
+            }
+        }
+    </script>
 </html>

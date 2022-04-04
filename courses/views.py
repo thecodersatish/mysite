@@ -356,8 +356,41 @@ def rearrange_submit(request):
 
 @login_required
 def assessment_view(request,course_code,module_code):
-    return render(request,'assessment-landing.html',{})
+    course = Course.objects.get(code=course_code)
+    module= Module.objects.get(course=course,code=module_code)
+    if Assessment.objects.filter(module=module,user=request.user).exists():
+        assessment = Assessment.objects.get(module=module,user=request.user)
+        score= str(assessment.questions_accepted*50)+"%"
+        d=assessment.start_time
+        d = d.replace(tzinfo=None)
+        if((datetime.datetime.now()-d)>datetime.timedelta(hours=1)):
+            msg = "You have already taken the assessment."
+            status = 3
+        else:
+            msg = "You are already started the assessment. Click continue to continue the asessment."
+            status = 2
+    else:
+        score = "N/A"
+        msg = ""
+        status = 1
+    return render(request,'assessment-landing.html',{'msg':msg,'status':status,'score':score})
 
+@login_required
+def assessment_start(request,course_code,module_code):
+    course = Course.objects.get(code=course_code)
+    module= Module.objects.get(course=course,code=module_code)
+    if Assessment.objects.filter(module=module,user=request.user).exists():
+        assessment = Assessment.objects.get(module=module,user=request.user)
+        d=assessment.start_time
+        d = d.replace(tzinfo=None)
+        if((datetime.datetime.now()-d)>datetime.timedelta(hours=1)):
+            return redirect(assessment_view,course_code,module_code)
+        else:
+            return redirect(assessment_problem_view,course_code,module_code)
+    else:
+        assessment = Assessment(module=module,user=request.user,start_time=datetime.datetime.now())
+        assessment.save()
+    return redirect(assessment_problem_view,course_code,module_code)
 
 @login_required
 def assessment_problem_view(request,course_code,module_code):
@@ -365,9 +398,12 @@ def assessment_problem_view(request,course_code,module_code):
     module= Module.objects.get(course=course,code=module_code)
     if Assessment.objects.filter(module=module,user=request.user).exists():
         assessment = Assessment.objects.get(module=module,user=request.user)
+        d=assessment.start_time
+        d = d.replace(tzinfo=None)
+        if((datetime.datetime.now()-d)>datetime.timedelta(hours=1)):
+            return redirect(assessment_view,course_code,module_code)
     else:
-        assessment = Assessment(module=module,user=request.user,start_time=datetime.datetime.now())
-        assessment.save()
+        return redirect(assessment_view,course_code,module_code)
     assessment.start_time += datetime.timedelta(hours = 6.5)
     formatedDate = assessment.start_time.strftime("%Y-%m-%d %H:%M:%S")
     questions = []
