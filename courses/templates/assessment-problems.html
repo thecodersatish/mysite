@@ -228,7 +228,7 @@
           <div class="col-12" id="demo"></div>
           </div>
         </div>
-        <button class="btn btn-primary" style="height: 60px;width: 100px;">submit</button>
+        <button class="btn btn-primary" style="height: 60px;width: 100px;" id="end_assessment">submit</button>
       </div>
       <!-- content-header -->
         <div class="container-fluid">
@@ -399,7 +399,7 @@
             // If the count down is over, write some text 
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("demo").innerHTML = "EXPIRED";
+                window.location.href = '/courses/'+"{{assessment.course}}"+"/module/"+"{{assessment.module}}"+"/assessment/end";
             }
         }, 1000);
         }
@@ -469,6 +469,12 @@
             session.setValue(x);
             editor.clearSelection();
             save();
+          }
+        });
+        //end assessment
+        $('#end_assessment').on('click',function(){
+          if (confirm('Are you sure you want to submit the assessment?')) {
+            window.location.href = '/courses/'+"{{assessment.course}}"+"/module/"+"{{assessment.module}}"+"/assessment/end";
           }
         });
         //difference toggle

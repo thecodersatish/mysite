@@ -122,6 +122,7 @@ class Statement(models.Model):
     statement = models.CharField(max_length=500)
 
 class Assessment(models.Model):
+    course = models.ForeignKey(Course,on_delete=models.CASCADE)
     module = models.ForeignKey(Module,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     start_time = models.DateTimeField()

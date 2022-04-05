@@ -23,6 +23,7 @@ urlpatterns = [
             re_path(r'/assessment',include([
                 re_path(r'/$',views.assessment_view,name='assessment'),
                 re_path(r'/start$',views.assessment_start,name='assessment_start'),
+                re_path(r'/end$',views.assessment_end,name='assessment_end'),
                 re_path(r'/problems$',views.assessment_problem_view,name='assessment_problems')
             ])),
         ]))
