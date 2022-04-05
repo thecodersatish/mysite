@@ -85,10 +85,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'courses',
-        'USER': 'thecodersatish',
-        'PASSWORD': 'Satnav143@',
-        'HOST': 'localhost',
-        'PORT': '',
+        'USER': 'courses',
+        'PASSWORD': 'AVNS_3_EbCFRi3Djjq22',
+        'HOST': 'app-4d52fc93-3689-450f-9291-3c78da7919c4-do-user-11243654-0.b.db.ondigitalocean.com',
+        'PORT': '25060',
     }
 }
 
