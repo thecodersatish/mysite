@@ -80,12 +80,12 @@ def logout_user(request):
     return redirect('login')
 
 
-@login_required(login_url='login')
+@login_required
 def dashboard(request):
     profile = Profile.objects.get(user=request.user)
     return render(request,'dashboard.html',{'profile':profile})
 
-@login_required(login_url='login')
+@login_required()
 def course_overview(request,course_code):
     try:
         course = Course.objects.get(code=course_code)
@@ -94,7 +94,7 @@ def course_overview(request,course_code):
     except Course.DoesNotExist:
         return render(request,"page-404.html",{})
 
-@login_required(login_url="login")
+@login_required
 def quiz_view(request,course_code,module_code,quiz_code):
     course = Course.objects.get(code=course_code)
     module= Module.objects.get(course=course,code=module_code)
