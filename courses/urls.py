@@ -7,7 +7,6 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('online-editor/',views.run,name='run'),
     path('validate/',views.validate,name="validate"),
-    path('register/',views.register_user, name='register'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path("accounts/", include("django.contrib.auth.urls")),
     path('quiz_submit/',views.quiz_submit,name='quiz_submit'),
