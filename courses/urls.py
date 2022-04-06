@@ -1,4 +1,5 @@
 from django.urls import path,re_path
+from django.contrib import admin
 from django.conf.urls import include
 from . import views
 
@@ -6,10 +7,9 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('online-editor/',views.run,name='run'),
     path('validate/',views.validate,name="validate"),
-    path('login/',views.login_view,name='login'),
     path('register/',views.register_user, name='register'),
     path('dashboard/',views.dashboard,name='dashboard'),
-    path('logout/',views.logout_user,name='logout'),
+    path("accounts/", include("django.contrib.auth.urls")),
     path('quiz_submit/',views.quiz_submit,name='quiz_submit'),
     path('problem_submit',views.problem_submit,name='problem_submit'),
     path('rearrange_submit',views.rearrange_submit,name='rearrange_submit'),
