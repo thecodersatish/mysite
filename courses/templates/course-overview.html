@@ -41,13 +41,13 @@
                 <h4>Modules</h4>
                 <ul class="treeRoot">
                 {% for module in modules %}
-                    <li class="hasSubMenu"><h4>{{module.name}}</h4>
+                    <li class="hasSubMenu"><h5>{{module.name}}</h5>
                     <ul>
-                        <li><div>Videos</div></li>
-                        <li><div name="quiz" id="{{ module.code }}">Quiz</div></li>
-                        <li><div name="rearrange" id="{{ module.code }}">Rearrange</div></li>
-                        <li><div name="problems" id="{{ module.code }}">Handson</div></li>
-                        <li><div name="assessment" id="{{ module.code }}">Assessment</div></li>
+                        <li><a class="btn" name="problems" id="{{ module.code }}">Videos</a></li>
+                        <li><a class="btn" name="quiz" id="{{ module.code }}">Quiz</a></li>
+                        <li><a class="btn" name="rearrange" id="{{ module.code }}">Rearrange</a></li>
+                        <li><a class="btn" name="problems" id="{{ module.code }}">Handson</a></li>
+                        <li><a class="btn" name="assessment" id="{{ module.code }}">Assessment</a></li>
                     </ul>
                     </li>
                 {% endfor %}
@@ -62,16 +62,16 @@
     <script src="{% static 'assets/js/overview.js' %}"></script>
     <script>
         $(function(){
-            $('div[name="quiz"]').on('click',function(){
+            $('a[name="quiz"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/quiz";
             });
-            $('div[name="rearrange"]').on('click',function(){
+            $('a[name="rearrange"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/rearrange";
             });
-            $('div[name="problems"]').on('click',function(){
+            $('a[name="problems"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/problems";
             });
-            $('div[name="assessment"]').on('click',function(){
+            $('a[name="assessment"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/assessment";
             });
             setInterval(function(){
