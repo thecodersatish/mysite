@@ -26,97 +26,42 @@
     <link rel="stylesheet" href="{% static 'assets/css/overview.css' %}">
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
   </head>
-  <body >
+  <body class="bg-light">
       <!-- As a link -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{% url 'home' %}"><i class="fa fa-home"></i> CodeHub</a>
+          <a class="navbar-brand" href="{% url 'home' %}">CodeHub</a>
         </div>
     </nav>
     <div class="container-fluid">
         <br>
-        <h4>{{course.name}}</h4>
+        <h3>{{course.name}}</h3>
         <div class="row">
-            <div class="col-md-3">
-                
-            </div>
-            <div class="col-md-6"> 
+            <div class="col-md-5"> 
                 <h4>Modules</h4>
+                <ul class="treeRoot">
                 {% for module in modules %}
-                <div class="col-12 module d-flex flex-row justify-content-between" name="module" id="{{module.code}}">
-                    <div>
-                        <h5>{{forloop.counter}}. {{module.name}}</h5>
-                    </div>
-                    <div>
-                        <img src="{% static '/assets/img/check.png' %}" style="height: 20px;" />
-                    </div>
-                </div>
-                <div id="{{module.code}}contents" name="contents" class="row gy-2 gx-2" style="display: none;margin-bottom: 10px;" > 
-                    <div class="col-6 col-md-4">
-                        <div class="card module-topics" name="videos" id="{{module.code}}">
-                            <div class="card-header">
-                              Videos
-                            </div>
-                            <div class="card-body text-center">
-                                <img src="{% static 'assets/img/play.png' %}" class="icon-edit"/>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <div class="card module-topics" name="quiz" id="{{module.code}}">
-                            <div class="card-header">
-                              Quiz
-                            </div>
-                            <div class="card-body text-center">
-                                <img src="{% static 'assets/img/quiz.png' %}" class="icon-edit"/>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <div class="card module-topics" name="rearrange" id="{{module.code}}">
-                            <div class="card-header">
-                              Re-arrange
-                            </div>
-                            <div class="card-body text-center">
-                                <img src="{% static 'assets/img/Rearrange.png' %}" class="icon-edit" />
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <div class="card module-topics" name="problems" id="{{module.code}}">
-                            <div class="card-header">
-                              Handson
-                            </div>
-                            <div class="card-body text-center">
-                                <img src="{% static 'assets/img/code.png' %}" class="icon-edit"/>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-6 col-md-4">
-                        <div class="card module-topics" name="assessment" id="{{module.code}}">
-                            <div class="card-header">
-                              Assessment
-                            </div>
-                            <div class="card-body text-center">
-                                <img src="{% static 'assets/img/terminal.png' %}" class="icon-edit"/>
-                            </div>
-                          </div>
-                    </div>
-                </div>
+                    <li class="hasSubMenu"><h4>{{module.name}}</h4>
+                    <ul>
+                        <li><div>Videos</div></li>
+                        <li><div name="quiz" id="{{ module.code }}">Quiz</div></li>
+                        <li><div name="rearrange" id="{{ module.code }}">Rearrange</div></li>
+                        <li><div name="problems" id="{{ module.code }}">Handson</div></li>
+                        <li><div name="assessment" id="{{ module.code }}">Assessment</div></li>
+                    </ul>
+                    </li>
                 {% endfor %}
+                </ul>
                 <br/>
             </div>
             <div class="col-md-3">
                 
             </div>
         </div>
-
     </div>
+    <script src="{% static 'assets/js/overview.js' %}"></script>
     <script>
         $(function(){
-            $("div[name='module']").on('click',function(){
-                $('#'+this.id+"contents").toggle();
-            });
             $('div[name="quiz"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/quiz";
             });

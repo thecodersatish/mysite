@@ -1,8 +1,7 @@
 .module{
-    padding: 18px;
-    border-radius: 20px;
-    border: 1px solid #cac7c7;
-    box-shadow: 0px 0px 10px 1px #cac7c7;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid #dfdfdf;
     background-color: #FFF;
     margin-bottom: 10px;
     cursor: pointer;
@@ -19,3 +18,67 @@
 .module-topics{
     cursor: pointer;
 }
+ul , li {
+    list-style: none;
+    margin: 0;
+    padding:0;
+  }
+  .treeRoot{
+      margin-top: 20px;
+      padding-left: 20px;
+  }
+  ul.treeRoot > li ul,
+  ul.treeRoot > li ul {
+    padding-left:20px;
+  }
+  ul.treeRoot li{
+    border-left: 1px solid #000;
+  }
+  ul.treeRoot ul li,
+  ul.treeRoot li{
+    border-left:1px solid #000;
+    padding-left: 20px;
+    position: relative;
+    font-size: 16px;
+    line-height: 35px; 
+  }
+  ul.treeRoot ul li:last-child:after,
+  ul.treeRoot li:last-child:after{
+    position:absolute;
+    content: "";
+    display:inline-block;
+   top: 12px;
+    width:1px;
+    left: -1px;
+    bottom: 0;
+    background: #fff
+  }
+  ul.treeRoot ul li:before,
+  ul.treeRoot li:before{
+    height: 1px;
+    background: #000;
+    width: 15px; 
+    left:0;
+    top: 11px;
+    display: inline-block;
+    content: "";
+    position: absolute;
+  }
+  .treeRoot li ul {
+    display: none;
+  }
+  .treeRoot li ul.activeSubMenu{
+    display: block;
+  }
+  li h4{
+      cursor: pointer;
+      padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #cac7c7;
+        background-color: #FFF;
+        margin-bottom: 10px;
+  }
+
+  li div{
+      cursor: pointer;
+  }

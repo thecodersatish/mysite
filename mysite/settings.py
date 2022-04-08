@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from telnetlib import LOGOUT
 from django.core.management.utils import get_random_secret_key
 import sys
 import dj_database_url
@@ -86,10 +87,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd7ourtqseffaff',
-        'USER': 'nipglnmgssewdb',
-        'PASSWORD': '161fd11fd869a3a62dc4eae9f86a4ab83d589d9dd812b8f4c4edfaa136614509',
-        'HOST': 'ec2-52-21-136-176.compute-1.amazonaws.com',
+        'NAME': 'courses',
+        'USER': 'thecodersatish',
+        'PASSWORD': 'Satnav143@',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -150,3 +151,4 @@ STATICFILES_DIRS = (
 
 
 LOGIN_REDIRECT_URL = "/dashboard"
+LOGOUT_REDIRECT_URL = "/accounts/login"

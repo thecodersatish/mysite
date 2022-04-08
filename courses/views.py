@@ -20,6 +20,33 @@ from json import dumps
 import datetime
 
 
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect(request.GET.get('next') or '/')
+    form = LoginForm(request.POST or None)
+    msg = None
+    if request.method == "POST":
+
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            rememberme = form.cleaned_data.get("rememberme")
+            print(rememberme)
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect(request.GET.get('next') or '/')
+            else:
+                msg = 'Invalid credentials'
+        else:
+            msg = 'Error validating the form'
+
+    return render(request, "registration/login.html", {"form": form, "msg": msg})
+
+def logout_view(request):
+    logout(request)
+    return redirect('/accounts/login')
+
 def index(request):
     print(request.user.is_authenticated)
     if request.user.is_authenticated:
@@ -32,7 +59,7 @@ def dashboard(request):
     profile = Profile.objects.get(user=request.user)
     return render(request,'dashboard.html',{'profile':profile})
 
-@login_required()
+@login_required
 def course_overview(request,course_code):
     try:
         course = Course.objects.get(code=course_code)
