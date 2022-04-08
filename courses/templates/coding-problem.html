@@ -295,7 +295,7 @@
             <div id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></div>
           </div>
           <div id="custom-editor">
-            <div id="editor" class="border shadow-sm">{{question.source}}</div>
+            <div id="editor" class="border shadow-sm"></div>
           </div>
           <br>
           <div class="d-flex flex-row justify-content-between">
@@ -422,7 +422,8 @@
       editor.setOptions({
         fontSize: "1.1rem"
       });
-
+      session.setValue(decode("{{question.source}}"));
+      editor.clearSelection();
       function encode(str){
         return btoa(str);
       }
