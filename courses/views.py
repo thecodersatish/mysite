@@ -131,11 +131,9 @@ def problem_view(request,course_code,module_code,problem_code):
     else:
         question = Problem.objects.get(course=course,module=module,code=problem_code)
     context=model_to_dict(question)
-    try:
+    if Previous_Code.objects.filter(user=request.user,problem=question).exists():
         prev_code=Previous_Code.objects.get(user=request.user,problem=question)
-        context['source']=base64.b64decode(prev_code.source).decode()
-    except:
-        context['source']=base64.b64decode(context['default_code']).decode()
+        context['default_code']=prev_code.source
     return render(request,'coding-problem.html',{'questions':questions,'question':context})
 
 
