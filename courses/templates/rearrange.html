@@ -367,6 +367,7 @@
           document.getElementById('testcase2actualdiff').innerHTML = ds;
         }
         function submit(){
+          $('#list').removeAttr('uk-sortable');
           $('#error').hide();
           $("#testcases").hide();
           $('#submit').html('<i class="fa fa-spinner fa-spin"></i>');
@@ -389,6 +390,7 @@
                 $('#error').show();
                 var element = document.getElementById("error");
                 element.scrollIntoView({behavior: "smooth"});
+                $('#list').addAttr('uk-sortable');
               }
               else{
                 $("#testcase1input").html(decode(json[0]['stdin']));
@@ -431,7 +433,6 @@
                 element.scrollIntoView({behavior: "smooth"});
               }
               if(json[0]['status_id']==3 && json[1]['status_id']==3){
-                $('#list').removeAttr('uk-sortable');
                 $('#status').html('<i class="fa fa-check"></i>');
                 $('#submit').html('Accepted');
                 $('#submit').removeClass('btn-primary');
@@ -440,6 +441,7 @@
                 $("#submit").prop('disabled',false);
               }
               else{
+                $('#list').addAttr('uk-sortable');
                 $('#status').html('<i class="fa fa-remove"></i>');
                 $("#submit").html('Submit');
                 $("#submit").prop('disabled',false);
@@ -448,13 +450,15 @@
 
             statusCode:{
                 500: function(){
-                    alert("unable to process request. please try again");
+                  $('#list').addAttr('uk-sortable');
+                  alert("unable to process request. please try again");
                 }
             },
 
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
-                alert(response["responseJSON"]["error"]);
+              $('#list').addAttr('uk-sortable');
+              alert(response["responseJSON"]["error"]);
             }
           });
         }
