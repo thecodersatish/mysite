@@ -199,12 +199,21 @@
                     answer:answer}, // data sent with the post request
         // handle a successful response
             success : function(json) {
-              if(json['accepted']){
-                alert("Already Accepted");
-                return;
-              }
               if(json['updated']){
                 alert('Your submission already in queue.Try again later');
+                return;
+              }
+              if(json['accepted']){
+                alert("Already Accepted");
+                json['answer'].each(function(){
+                  $('label[for="'+$(this).val()+'"]').addClass('correct');
+                });
+                $('#status').html('<i class="fa fa-check"></i>');
+                $('input[name="options"]').attr("disabled",true);
+                $('#quizsubmit').removeClass("btn-primary");
+                $('#quizsubmit').addClass("btn-success");
+                $('#quizsubmit').removeAttr('onclick');
+                $('#quizsubmit').html("Accepted");
                 return;
               }
             if(json['status']){
