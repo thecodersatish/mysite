@@ -390,7 +390,7 @@
                 $('#error').show();
                 var element = document.getElementById("error");
                 element.scrollIntoView({behavior: "smooth"});
-                $('#list').addAttr('uk-sortable');
+                $('#list').attr('uk-sortable','true');
               }
               else{
                 $("#testcase1input").html(decode(json[0]['stdin']));
@@ -441,7 +441,7 @@
                 $("#submit").prop('disabled',false);
               }
               else{
-                $('#list').addAttr('uk-sortable');
+                $('#list').attr('uk-sortable','true');
                 $('#status').html('<i class="fa fa-remove"></i>');
                 $("#submit").html('Submit');
                 $("#submit").prop('disabled',false);
