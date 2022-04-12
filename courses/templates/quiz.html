@@ -199,6 +199,7 @@
                     answer:answer}, // data sent with the post request
         // handle a successful response
             success : function(json) {
+              alert(json);
               if(json['accepeted']){
                 alert("Already Accepted");
                 return;
