@@ -68,7 +68,8 @@ class Quiz(models.Model):
 class Quiz_Submission(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz,on_delete=models.CASCADE)
-    status = models.BooleanField()
+    status = models.BooleanField(null=True)
+    version = models.IntegerField(default=0)
     option_selected = models.CharField(max_length = 1000,blank=False,null=False)
 
 

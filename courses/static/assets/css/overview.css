@@ -74,7 +74,7 @@ ul , li {
       cursor: pointer;
       padding: 15px;
         border-radius: 10px;
-        border: 1px solid #cac7c7;
+        border: 0.1rem solid #cac7c7;
         background-color: #FFF;
         margin-bottom: 10px;
   }

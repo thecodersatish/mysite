@@ -1,3 +1,4 @@
+from ensurepip import version
 from os import stat
 from random import random
 import re
@@ -104,15 +105,12 @@ def quiz_submit(request):
         answer=request.POST.get('answer')
         quiz = Quiz.objects.get(code=request.POST.get('code'))
         correct = quiz.correct_choice==answer
-        try:
-            obj = Quiz_Submission.objects.get(quiz=quiz,user=request.user)
-            obj.status = correct
-            obj.option_selected=answer
-            obj.save()
-        except:
-            obj = Quiz_Submission(quiz=quiz,user=request.user,status=correct,option_selected=answer)
-            obj.save()
-        return JsonResponse({'status':correct})
+        obj = Quiz_Submission.objects.get_or_create(quiz=quiz,user=request.user)[0]
+        if(not obj.status):
+            updated = Quiz_Submission.objects.filter(quiz=quiz,user=request.user,version=obj.version).update(option_selected=answer,version=obj.version+1)
+        else:
+            JsonResponse({'accepted':True})
+        return JsonResponse({'updated':updated==0,'status':correct})
 
 @login_required
 def problem_view(request,course_code,module_code,problem_code):
@@ -237,8 +235,7 @@ def problem_submit(request):
             c+=1
         obj = Problem_Submission(user=request.user,problem=problem,source=str(request.POST.get('source')),status=response.json()['status_id'],date=datetime.datetime.now(),testcases_passed=c)
         obj.save()
-        submissions = [model_to_dict(i) for i in Problem_Submission.objects.all().filter(user=request.user,problem=problem)]
-        return JsonResponse({"status_id":response.json()['status_id'],"submissions":submissions})
+        return JsonResponse({"status_id":response.json()['status_id']})
 
 
 @csrf_exempt

@@ -199,6 +199,14 @@
                     answer:answer}, // data sent with the post request
         // handle a successful response
             success : function(json) {
+              if(json['accepeted']){
+                alert("Already Accepted");
+                return;
+              }
+              if(json['updated']){
+                alert('Your submission already in queue.Try again later');
+                return;
+              }
             if(json['status']){
               $('input[name="options"]:checked').each(function(){
                 $('label[for="'+$(this).val()+'"]').addClass('correct');
