@@ -205,9 +205,9 @@
               }
               if(json['accepted']){
                 alert("Already Accepted");
-                json['answer'].each(function(){
-                  $('label[for="'+$(this).val()+'"]').addClass('correct');
-                });
+                for(let i of json['answer']){
+                  $('label[for="'+i+'"]').addClass('correct');
+                }
                 $('#status').html('<i class="fa fa-check"></i>');
                 $('input[name="options"]').attr("disabled",true);
                 $('#quizsubmit').removeClass("btn-primary");
