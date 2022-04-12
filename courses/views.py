@@ -109,7 +109,7 @@ def quiz_submit(request):
         if(not obj.status):
             updated = Quiz_Submission.objects.filter(quiz=quiz,user=request.user,version=obj.version).update(status=correct,option_selected=answer,version=obj.version+1)
         else:
-            JsonResponse({'accepted':True})
+            return JsonResponse({'accepted':True})
         return JsonResponse({'updated':updated==0,'status':correct})
 
 @login_required
