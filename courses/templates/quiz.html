@@ -205,8 +205,10 @@
               }
               if(json['accepted']){
                 alert("Already Accepted");
+                $('input').prop("checked", false);
                 for(let i of json['answer']){
                   $('label[for="'+i+'"]').addClass('correct');
+                  $('input[id="'+i+'"]').prop("checked", true);
                 }
                 $('#status').html('<i class="fa fa-check"></i>');
                 $('input[name="options"]').attr("disabled",true);
