@@ -215,7 +215,7 @@ def problem_submit(request):
         data = "{\"submissions\": ["
         f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
         for i in range(5):
-            data += "{\"language_id\": "+source+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
+            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
             if i!=4:
                 data += ","
         data += "]}"
