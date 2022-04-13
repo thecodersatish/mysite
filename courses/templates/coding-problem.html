@@ -635,6 +635,8 @@
               s+='<span style="color: red;padding-left: 10px;">Time Limit Exceeded';
               else if(json['submissions'][i]['status']==6)
               s+='<span style="color: red;padding-left: 10px;">Compilation Error';
+              else if(json['submissions'][i]['status']==-1)
+              s+='In Queue';
               else
               s+="Runtime Error";
               s+='</span>\
