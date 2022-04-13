@@ -207,13 +207,15 @@ def problem_submit(request):
         problem = Problem.objects.get(code=request.POST.get('problem_code'))
         if Problem_Submission.objects.filter(problem=problem,user=request.user,status=3).exists():
             return JsonResponse({"status_id":1})
-        obj,submission_created = Problem_Submission.objects.get_or_create(problem=problem,user=request.user,status=-1,date=datetime.datetime.now(),source=str(request.POST.get('source')))
+        d = datetime.datetime.now()
+        source = str(request.POST.get('language_code'))
+        obj,submission_created = Problem_Submission.objects.get_or_create(problem=problem,user=request.user,status=-1)
         if not submission_created:
             return JsonResponse({"status_id":-1})
         data = "{\"submissions\": ["
         f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
         for i in range(5):
-            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
+            data += "{\"language_id\": "+source+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
             if i!=4:
                 data += ","
         data += "]}"
@@ -236,6 +238,8 @@ def problem_submit(request):
             if response.json()["status_id"]!=3:
                 break
             c+=1
+        obj.date = d
+        obj.source = source
         obj.status=response.json()['status_id']
         obj.testcases_passed=c
         obj.save()
