@@ -25,155 +25,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js"></script>  
   <!-- Template CSS -->
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
-    <style>
-      del {
-        text-decoration: none;
-        color: #b30000;
-        background: #fadad7;
-      }
-      ins {
-        background: #87f88d;
-        color: green;
-        text-decoration: none;
-      }
-      #result {
-        white-space: pre-wrap;
-      }
-      #custom-editor{
-          width:100%;
-          height: 500px;
-          display:inline-block;
-          position:relative;
-          margin-top: 10px;
-      }
-      #editor {
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          border-radius: 5px;
-      }
-      .readonly-highlight{
-        background-color: lightblue;
-        opacity: 0.2;
-        position: absolute;
-      }
-      pre{
-        display: block;
-        padding: 9.5px;
-        margin: 0 0 10px;
-        font-size: 15px;
-        line-height: 1.42857143;
-        color: #333;
-        word-break: break-all;
-        word-wrap: break-word;
-        background-color: #f5f5f5;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        overflow-x: auto;
-      }
-      p{
-        font-size: 16px;
-      }
-      .list-group-item{
-        padding-left: 1px;
-        padding-right: 1px;
-      }
-      .submission{
-        padding: 15px;
-        border-radius: 10px;
-        background-color: #f5f5f5;
-        border: 1px solid #ccc;
-        margin-bottom: 10px;
-        cursor: pointer;
-        font-size: 17px;
-      }
-      .content-active{
-        background-color: #282a4a!important;
-        color: white;
-      }
-      .content-active:hover{
-        color: white;
-      }
-      #testcases{
-        margin-bottom: 10px;
-      }
-      @media (min-width: 962px) {
-        .left{
-          overflow-y: scroll;
-          height: calc(100vh - 57px);
-        }
-        .right{
-          overflow-y: scroll;
-          height: calc(100vh - 57px);
-        }
-        #custom-editor{
-          height: 84%;
-        }
-      }
-      /* width */
-      ::-webkit-scrollbar {
-        height: 5px;
-        width: 5px;
-      }
-
-      /* Track */
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-      }
-      
-      /* Handle */
-      ::-webkit-scrollbar-thumb {
-        background: rgb(202, 202, 202); 
-      }
-
-      /* Handle on hover */
-      ::-webkit-scrollbar-thumb:hover {
-        background: rgb(141, 141, 141); 
-      }
-      #snackbar {
-        visibility: hidden;
-        width: 100px;
-        margin-left: -125px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 2px;
-        padding: 10px;
-        position: fixed;
-        z-index: 1;
-        right: 30px;
-        bottom: 30px;
-        font-size: 17px;
-      }
-
-      #snackbar.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-      }
-
-      @-webkit-keyframes fadein {
-        from {bottom: 0; opacity: 0;} 
-        to {bottom: 30px; opacity: 1;}
-      }
-
-      @keyframes fadein {
-        from {bottom: 0; opacity: 0;}
-        to {bottom: 30px; opacity: 1;}
-      }
-
-      @-webkit-keyframes fadeout {
-        from {bottom: 30px; opacity: 1;} 
-        to {bottom: 0; opacity: 0;}
-      }
-
-      @keyframes fadeout {
-        from {bottom: 30px; opacity: 1;}
-        to {bottom: 0; opacity: 0;}
-      }
-    </style>
+    <link rel="stylesheet" href="{% static 'assets/css/handson.css' %}">
   </head>
   <body class="animate bg-white">
 
@@ -413,8 +265,6 @@
       var editor = ace.edit("editor")
       , session  = editor.getSession()
       , Range    = require("ace/range").Range
-      , range    = new Range(-1,-1,-1,-1)
-      , markerId = session.addMarker(range, "readonly-highlight");
         editor.container.style.lineHeight = 1.3
       editor.renderer.updateFontSize();
       editor.resize();
@@ -423,12 +273,11 @@
       editor.setOptions({
         fontSize: "1.1rem"
       });
-      session.setValue(decode("{{question.default_code}}"));
+      session.setValue(decode("{{question.source}}"));
       editor.clearSelection();
       function encode(str){
         return btoa(str);
       }
-
       function decode(bytes) {
         var escaped = escape(atob(bytes || ""));
         try {
@@ -656,13 +505,11 @@
               $("#run").html('<i class="fa fa-play text-white" style="padding-right: 5px;font-size: 18px;"></i>Run');
               $("#run").prop('disabled',false);
             },
-
             statusCode:{
                 500: function(){
                     alert("unable to process request. please try again");
                 }
             },
-
             // handle a non-successful response
             error : function(xhr,errmsg,err) {
                 alert(response["responseJSON"]["error"]);
@@ -716,7 +563,10 @@
           success : function(json) {
             $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
             $("#submit").prop('disabled',false);
-            if(json['status_id']==1){
+            if(json['status_id']==-1){
+              alert("One of your submission already in queue. Please try again");
+            }
+            else if(json['status_id']==1){
               alert("One of your solutions already accepted");
             }
             else{
@@ -732,9 +582,7 @@
                         confetti.start()
                     }, 0); // 1000 is time that after 1 second start the confetti ( 1000 = 1 sec)
                 };
-
                 //  for stopping the confetti 
-
                 const stop = () => {
                     setTimeout(function() {
                         confetti.stop()

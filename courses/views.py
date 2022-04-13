@@ -131,7 +131,7 @@ def problem_view(request,course_code,module_code,problem_code):
     context=model_to_dict(question)
     if Previous_Code.objects.filter(user=request.user,problem=question).exists():
         prev_code=Previous_Code.objects.get(user=request.user,problem=question)
-        context['default_code']=prev_code.source
+        context['source']=prev_code.source
     return render(request,'coding-problem.html',{'questions':questions,'question':context})
 
 
@@ -207,6 +207,9 @@ def problem_submit(request):
         problem = Problem.objects.get(code=request.POST.get('problem_code'))
         if Problem_Submission.objects.filter(problem=problem,user=request.user,status=3).exists():
             return JsonResponse({"status_id":1})
+        obj,submission_created = Problem_Submission.objects.get_or_create(problem=problem,user=request.user,status=-1,date=datetime.datetime.now(),source=str(request.POST.get('source')))
+        if not submission_created:
+            return JsonResponse({"status_id":-1})
         data = "{\"submissions\": ["
         f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
         for i in range(5):
@@ -233,7 +236,8 @@ def problem_submit(request):
             if response.json()["status_id"]!=3:
                 break
             c+=1
-        obj = Problem_Submission(user=request.user,problem=problem,source=str(request.POST.get('source')),status=response.json()['status_id'],date=datetime.datetime.now(),testcases_passed=c)
+        obj.status=response.json()['status_id']
+        obj.testcases_passed=c
         obj.save()
         return JsonResponse({"status_id":response.json()['status_id']})
 
