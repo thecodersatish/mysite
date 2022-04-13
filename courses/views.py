@@ -208,7 +208,7 @@ def problem_submit(request):
         if Problem_Submission.objects.filter(problem=problem,user=request.user,status=3).exists():
             return JsonResponse({"status_id":1})
         d = datetime.datetime.now()
-        source = str(request.POST.get('language_code'))
+        source = str(request.POST.get('source'))
         obj,submission_created = Problem_Submission.objects.get_or_create(problem=problem,user=request.user,status=-1)
         if not submission_created:
             return JsonResponse({"status_id":-1})
