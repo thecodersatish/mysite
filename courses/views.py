@@ -212,10 +212,13 @@ def problem_submit(request):
         obj,submission_created = Problem_Submission.objects.get_or_create(problem=problem,user=request.user,status=-1)
         if not submission_created:
             return JsonResponse({"status_id":-1})
+        if Problem_Submission.objects.filter(problem=problem,user=request.user,status=3).exists():
+            obj.delete()
+            return JsonResponse({"status_id":1})
         data = "{\"submissions\": ["
-        f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
-        for i in range(5):
-            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+f.readline().strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
+        l=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
+        for i in range(2,7):
+            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+l[i].strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
             if i!=4:
                 data += ","
         data += "]}"

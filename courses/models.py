@@ -50,6 +50,7 @@ class Module(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE)
     name = models.CharField(max_length=100,null=False,blank=False)
     code = models.CharField(max_length=20,null=False,blank=False,primary_key = True)
+    type = models.IntegerField(default=0)
 
 class Quiz(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -86,6 +87,9 @@ class Problem(models.Model):
     output1 = models.CharField(max_length = 500,null=False,blank=False)
     input2 = models.CharField(max_length = 500,null=False,blank=False)
     output2 = models.CharField(max_length = 500,null=False,blank=False)
+    non_editable_lines = models.IntegerField(default=0)
+    used = models.CharField(max_length = 100,default="")
+    not_used = models.CharField(max_length = 100,default="")
 
 class Previous_Code(models.Model):
     problem=models.ForeignKey(Problem,on_delete=models.CASCADE)
