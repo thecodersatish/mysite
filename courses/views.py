@@ -295,9 +295,9 @@ def rearrange_view(request,course_code,module_code,problem_code):
 def rearrange_submit(request):
     if request.method=="POST":
         problem = Rearrange_Problem.objects.get(code=request.POST.get('problem_code'))
-        if Rearrange_Problem_Submission.objects.filter(problem=i,user=request.user,status=1).exists():
+        if Rearrange_Problem_Submission.objects.filter(problem=problem,user=request.user,status=1).exists():
             return JsonResponse({'accepted':True})
-        obj = Rearrange_Problem_Submission.objects.get_or_create(problem=problem,user=request.user)
+        obj = Rearrange_Problem_Submission.objects.get_or_create(problem=problem,user=request.user)[0]
         url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
         data = "{\"submissions\": ["
         f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
