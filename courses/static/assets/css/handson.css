@@ -49,8 +49,8 @@ del {
     font-size: 16px;
   }
   .list-group-item{
-    padding-left: 1px;
-    padding-right: 1px;
+    border: none;
+    text-overflow: ellipsis;
   }
   .submission{
     padding: 15px;
@@ -62,11 +62,8 @@ del {
     font-size: 17px;
   }
   .content-active{
-    background-color: #282a4a!important;
-    color: white;
-  }
-  .content-active:hover{
-    color: white;
+    border-bottom: green 3px solid;
+    color: green;
   }
   #testcases{
     margin-bottom: 10px;
@@ -81,7 +78,7 @@ del {
       height: calc(100vh - 57px);
     }
     #custom-editor{
-      height: 84%;
+      height: calc(100% - 110px);
     }
   }
   /* width */

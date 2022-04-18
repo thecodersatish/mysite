@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/handson.css' %}">
   </head>
-  <body class="animate bg-white">
+  <body class="animate">
 
     <div class="sidebar">
       <div class="sidebar-header">
@@ -85,15 +85,14 @@
         </div><!-- content-header -->
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-4 bg-white left">
-            <a href="/courses/{{question.course}}/overview" class="text-blue"><span style="font-size: 16px;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Course details</span></a>
-            <ul class="list-group list-group-horizontal" style="margin-top: 10px;margin-bottom: 10px;padding: 0px;">
-              <a class="list-group-item content-active" id="description" href="javascript:void(0)" style="width: 32%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
-              <a class="list-group-item" id="submissions" href="javascript:void(0)" style="width: 38%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
+            <div class="col-lg-4 left bg-white" style="margin: 0px;padding: 0px;">
+            <ul class="list-group list-group-horizontal bg-light" style="margin-bottom: 10px;padding: 0px;height: 50px;">
+              <a class="list-group-item content-active" id="description" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
+              <a class="list-group-item" id="submissions" href="javascript:void(0)" style="width: 40%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
               <a class="list-group-item" id="support" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-headset" style="padding-right: 5px;"></i>Support</a>
             </ul>
-            <div id="description-content">
-            <h2>{{question.title}}</h2>  
+            <div id="description-content" style="padding: 10px;">
+            <h3>{{question.title}}</h3>
             <p>{{question.description |safe}}</p>
             <hr />
             <h4 class="heading">Input Format:</h4>
@@ -111,16 +110,16 @@
             <h4 class="heading">Sample Output 2</h4>
             <pre>{{question.output2 |safe}}</pre>
             </div>
-            <div id="submissions-content" style="display: none;">
+            <div id="submissions-content" style="display: none;padding: 10px;">
               <h4 class="text-blue">Submissions</h4>
               <div class="accordion" id="myAccordion">
               </div>
             </div>
-            <div id="support-content" style="display: none;">
+            <div id="support-content" style="display: none;padding: 10px;">
               <h4 class="text-blue">Support</h4>
             </div>
           </div>
-        <div class="col-lg-8 right bg-light" id="right" style="position: relative;display: inline-block;">
+        <div class="col-lg-8 right bg-light" id="right" style="position: relative;display: inline-block;margin: 0px;padding: 0px;">
           <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
           <div class="d-flex flex-row">
           <select class="form-select" aria-label="languages" style="width: 110px;" disabled>
@@ -130,18 +129,18 @@
             <option value="4">Java</option>
           </select>
           <span style="padding-left:10px"></span>
-          <button class="btn btn-outline-blue" style="width: 70px;" id="save">Save</button>
+          <button class="btn btn-outline-success" style="width: 70px;" id="save">Save</button>
           </div>
           <div class="d-flex flex-row">
             <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="cursor: pointer;padding-right: 10px;" title="dark theme" height="35px">
             <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="light theme" height="35px">
-            <button class="btn btn-success shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
-          </div>
+            <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code" height="35px" data-toggle="tooltip" data-placement="bottom">
+            </div>
           </div>
           <div class="bg-white border" id="error" style="display: none;margin-top: 10px;padding: 10px;border-radius: 10px;">
           <div class="d-flex flex-row justify-content-between">
             <div style="color: red;font-size:medium;">
-              Error:
+              Error(s):
             </div>
             <div><i class="fa fa-remove" title="close" id="close_error" style="font-size: 18px;color:red;cursor: pointer;"></i></div>
             </div>
@@ -157,8 +156,8 @@
               <label class="form-check-label" for="custominput">Custom input</label>
             </div>
             <div class="d-flex flex-row">
-              <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code">
-              <button style="width: 120px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run</button>
+              <button style="width: 110px;margin-right: 10px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run</button>
+              <button class="btn btn-primary shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
             </div>
           </div>
           <div class="container" id="custominputbox" style="display: none;">
@@ -175,11 +174,11 @@
             </div>
           </div>
           <br>
-          <div class="bg-white" id="testcases" style="display: none;">
+          <div class="container-fluid bg-white" id="testcases" style="display: none;">
             <ul class="list-group list-group-horizontal" style="padding: 0px;">
               <a class="list-group-item content-active" id="testcase1" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
               <a class="list-group-item" id="testcase2" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
-              <a class="list-group-item" id="close-testcases" href="javascript:void(0)" style="width:50px;text-align: center;background-color: #ffdf6a;color: white;"><i class="fa fa-remove"></i></a>
+              <a class="list-group-item btn-primary" id="close-testcases" href="javascript:void(0)" style="width:50px;text-align: center;"><i class="fa fa-remove"></i></a>
             </ul>
             <div class="testcases-content" style="padding: 10px;">
               <div id="testcase1-content">
@@ -227,7 +226,7 @@
             </div>
           </div>
           <div class="container d-flex justify-content-between" style="margin-bottom: 10px;">
-            <button class="btn btn-outline-blue" style="width: 100px;">Prev</button><button class="btn btn-outline-blue" style="width: 100px;">Next</button>
+            <button class="btn btn-outline-primary" style="width: 100px;">Prev</button><button class="btn btn-outline-primary" style="width: 100px;">Next</button>
           </div>
         </div>
         <div id="snackbar">saved..</div>

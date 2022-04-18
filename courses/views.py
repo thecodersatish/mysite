@@ -2,6 +2,7 @@ from ensurepip import version
 from os import stat
 from random import random
 import re
+from turtle import update
 import requests
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render,redirect
@@ -297,6 +298,9 @@ def rearrange_view(request,course_code,module_code,problem_code):
 def rearrange_submit(request):
     if request.method=="POST":
         problem = Rearrange_Problem.objects.get(code=request.POST.get('problem_code'))
+        if Rearrange_Problem_Submission.objects.filter(problem=i,user=request.user,status=1).exists():
+            return JsonResponse({'accepted':True})
+        obj = Rearrange_Problem_Submission.objects.get_or_create(problem=problem,user=request.user)
         url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
         data = "{\"submissions\": ["
         f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
@@ -325,13 +329,11 @@ def rearrange_submit(request):
         status = 0
         if d[0]['status_id']==3 and d[1]['status_id']==3:
             status = 1
-        if Rearrange_Problem_Submission.objects.filter(problem=problem,user=request.user).exists():
-            obj = Rearrange_Problem_Submission.objects.get(problem=problem,user=request.user)
-            obj.status = status
-            obj.save()
+        if(not obj.status):
+            updated = Rearrange_Problem_Submission.objects.filter(user=request.user,problem=problem,version = obj.version).update(status=status,version = obj.version)
         else:
-            obj = Rearrange_Problem_Submission(problem=problem,user=request.user,status=status)
-            obj.save()
+            return JsonResponse({'accepted':True})
+        d["updated"]=updated
         return JsonResponse(d)
 
 @login_required

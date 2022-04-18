@@ -262,7 +262,7 @@
           </div>
           <br>
           <div class="container d-flex justify-content-between">
-          <button class="btn btn-outline-blue">Prev</button><button class="btn btn-outline-blue">Next</button>
+          <button class="btn btn-outline-primary">Prev</button><button class="btn btn-outline-primary">Next</button>
           </div>
           <div>
         </div><!-- content-body -->
@@ -384,7 +384,15 @@
                     problem_code : "{{question.code}}" }, // data sent with the post request
 
             // handle a successful response
-            success : function(json) {
+            success : function(json){
+              if(json["accepted"]){
+                alert("One of your solutions already accepted");
+                return;
+              }
+              if(json["updated"]==0){
+                alert("Your submission already in queue. Try again later");
+                return;
+              }
               if(json[0]['status']['id']==6){
                 $('#error-description').html(decode(json[0]['compile_output']));
                 $('#error').show();

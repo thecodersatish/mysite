@@ -1,3 +1,4 @@
+from ensurepip import version
 from xml.etree.ElementInclude import default_loader
 from django.db import models
 from django.contrib.auth.models import User
@@ -120,7 +121,8 @@ class Rearrange_Problem(models.Model):
 class Rearrange_Problem_Submission(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
-    status = models.BooleanField()
+    status = models.BooleanField(default=0)
+    version = models.IntegerField(default=0)
 
 class Statement(models.Model):
     problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
