@@ -1,8 +1,5 @@
-from ensurepip import version
-from os import stat
 from random import random
 import re
-from turtle import update
 import requests
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render,redirect
