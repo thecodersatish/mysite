@@ -32,7 +32,7 @@ DEBUG = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-ALLOWED_HOSTS = ["codehiest.herokuapp.com","127.0.0.1"]
+ALLOWED_HOSTS = ["codehiest.herokuapp.com","127.0.0.1","mysite-e95ej.ondigitalocean.app"]
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 
