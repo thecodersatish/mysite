@@ -68,15 +68,41 @@ del {
   #testcases{
     margin-bottom: 10px;
   }
+  .container__left {
+    width: 100%;
+  }
   @media (min-width: 962px) {
-    .left{
+    .container__left {
+      /* Initially, the left takes 3/4 width */
+      width: 35%;
+      min-width : 30%;
+      /* Misc */
+      display: flex;
       overflow-y: scroll;
-      height: calc(100vh - 57px);
     }
-    .right{
-      overflow-y: scroll;
-      height: calc(100vh - 57px);
+    .resizer {
+      cursor: col-resize;
+      height: 100%;
+      width: 15px;
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 8px;
     }
+    .container__right {
+        /* Take the remaining width */
+        flex: 1;
+        min-width:55%;
+        display: flex;
+        overflow-y: scroll;
+    }
+    .whole_container {
+      height: calc(100vh - 57px);
+      display: flex;
+      /* Misc */
+      border: 1px solid #cbd5e0;
+      width: 100%;
+  }
     #custom-editor{
       height: calc(100% - 100px);
     }
