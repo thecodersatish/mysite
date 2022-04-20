@@ -75,6 +75,15 @@
           {% endfor %}
         </nav>
       </div><!-- sidebar-body -->
+      <div class="sidebar-footer">
+        <a href="/courses/{{question.course}}/overview"><i class="fa fa-right-from-bracket" style="font-size: 25px;" title="back to course"></i></a>
+        <div class="avatar-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <h6>Back to Course Details</h6>
+            <a href="" class="footer-menu"><i class="ri-settings-4-line"></i></a>
+          </div>
+        </div><!-- avatar-body -->
+      </div><!-- sidebar-footer -->
     </div><!-- sidebar -->
 
     <div class="content">
@@ -86,10 +95,10 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-4 left bg-white" style="margin: 0px;padding: 0px;">
-            <ul class="list-group list-group-horizontal bg-light" style="margin-bottom: 10px;padding: 0px;height: 50px;">
-              <a class="list-group-item content-active" id="description" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
-              <a class="list-group-item" id="submissions" href="javascript:void(0)" style="width: 40%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
-              <a class="list-group-item" id="support" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-headset" style="padding-right: 5px;"></i>Support</a>
+            <ul class="list-group list-group-horizontal bg-light" style="margin-bottom: 10px;padding: 0px;">
+              <a class="list-group-item content-active bg-light" id="description" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
+              <a class="list-group-item bg-light" id="submissions" href="javascript:void(0)" style="width: 40%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
+              <a class="list-group-item bg-light" id="support" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-headset" style="padding-right: 5px;"></i>Support</a>
             </ul>
             <div id="description-content" style="padding: 10px;">
             <h3>{{question.title}}</h3>
@@ -120,7 +129,7 @@
             </div>
           </div>
         <div class="col-lg-8 right bg-light" id="right" style="position: relative;display: inline-block;margin: 0px;padding: 0px;">
-          <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
+          <div class="d-flex flex-row justify-content-between" style="margin-top: 5px;">
           <div class="d-flex flex-row">
           <select class="form-select" aria-label="languages" style="width: 110px;" disabled>
             <option value="1">C</option>

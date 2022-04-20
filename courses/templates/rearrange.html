@@ -117,7 +117,7 @@
           <a href="{{q.code}}" class="text-blue">
             <div class="container d-flex justify-content-between" style="font-size: 17px;display: flex;
             justify-content: center;
-            align-items: center;height: 50px;
+            align-items: center;height: 45px;
             border-left: #282a4a 4px solid;">
               <div>{{forloop.counter}}</div>
               <div id="status">
@@ -131,6 +131,7 @@
               <div class="question">{{q.title}}</div>
             </div>
           </a>
+          <hr>
           {% endif %}
           {% if q.code != question.code %}
           <a href="{{q.code}}" class="link-dark">
@@ -149,6 +150,15 @@
           {% endfor %}
         </nav>
       </div><!-- sidebar-body -->
+      <div class="sidebar-footer">
+        <a href="/courses/{{question.course}}/overview"><i class="fa fa-right-from-bracket" style="font-size: 25px;" title="back to course"></i></a>
+        <div class="avatar-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <h6>Back to Course Details</h6>
+            <a href="" class="footer-menu"><i class="ri-settings-4-line"></i></a>
+          </div>
+        </div><!-- avatar-body -->
+      </div><!-- sidebar-footer -->
     </div><!-- sidebar -->
 
     <div class="content">
@@ -160,10 +170,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-4 left">
-            <a href="/courses/{{question.course}}/overview" class="text-blue"><span style="font-size: 16px;"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back to Course Overview</span></a>
-            <br>
-            <br>
-            <h2>{{question.title}}</h2>  
+            <h3 style="margin-top: 10px;">{{question.title}}</h3>  
             <p>{{question.description |safe}}</p>
             <hr />
             <h4 class="heading">Input Format:</h4>

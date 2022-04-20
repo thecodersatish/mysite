@@ -130,6 +130,8 @@ def problem_view(request,course_code,module_code,problem_code):
     if Previous_Code.objects.filter(user=request.user,problem=question).exists():
         prev_code=Previous_Code.objects.get(user=request.user,problem=question)
         context['source']=prev_code.source
+    else:
+        context['source']=context['default_code']
     return render(request,'coding-problem.html',{'questions':questions,'question':context})
 
 
@@ -214,10 +216,11 @@ def problem_submit(request):
             obj.delete()
             return JsonResponse({"status_id":1})
         data = "{\"submissions\": ["
-        l=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
+        f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
+        l = f.readlines()
         for i in range(2,7):
-            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+l[i].strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+f.readline().strip()+"\"}"
-            if i!=4:
+            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+l[i].strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+l[i+1].strip()+"\"}"
+            if i!=6:
                 data += ","
         data += "]}"
         f.close()

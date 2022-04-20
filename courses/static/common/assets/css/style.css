@@ -3345,7 +3345,7 @@ progress {
   top: 0;
   left: -260px;
   width: 260px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   z-index: 700;
@@ -3476,7 +3476,7 @@ progress {
       opacity: 1; }
 
 .sidebar-body {
-  height: calc(100% - 180px);
+  height: calc(100% - 100px);
   position: relative;
   overflow: hidden; }
   .sidebar-body.pt-20 {
@@ -3650,8 +3650,7 @@ progress {
   align-items: center;
   padding-left: 20px;
   padding-right: 20px;
-  padding-bottom: 20px;
-  height: 70px;
+  height: 50px;
   position: relative; }
 
 .avatar {
