@@ -51,6 +51,7 @@ del {
   .list-group-item{
     border: none;
     text-overflow: ellipsis;
+    background-color: #f4f7fa;
   }
   .submission{
     padding: 15px;
@@ -74,11 +75,10 @@ del {
   @media (min-width: 962px) {
     .container__left {
       /* Initially, the left takes 3/4 width */
-      width: 35%;
-      min-width : 30%;
+      width: 30%;
+      min-width : 25%;
       /* Misc */
       display: flex;
-      overflow-y: scroll;
     }
     .resizer {
       cursor: col-resize;
@@ -88,23 +88,42 @@ del {
       background-repeat: no-repeat;
       background-position: center;
       background-size: 8px;
+      background-color: #f4f7fa;
     }
     .container__right {
         /* Take the remaining width */
         flex: 1;
         min-width:55%;
+        width: 75%;
         display: flex;
-        overflow-y: scroll;
+        overflow: scroll;
+        height: 100%;
     }
     .whole_container {
       height: calc(100vh - 57px);
       display: flex;
+      padding: 0px;
+      margin: 0px;
       /* Misc */
-      border: 1px solid #cbd5e0;
       width: 100%;
   }
     #custom-editor{
-      height: calc(100% - 100px);
+      height: calc(100% - 110px);
+    }
+    .list-group{
+      position: fixed;
+    }
+    #description-content{
+      height: calc(100vh - 107px);
+      overflow-y: scroll;
+    }
+    #submissions-content{
+      height: calc(100vh - 107px);
+      overflow-y: scroll;
+    }
+    #support-content{
+      height: calc(100vh - 107px);
+      overflow-y: scroll;
     }
   }
   /* width */
