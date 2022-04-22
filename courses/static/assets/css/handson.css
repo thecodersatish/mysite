@@ -39,12 +39,13 @@ del {
     color: #333;
     word-break: break-all;
     word-wrap: break-word;
-    background-color: #f5f5f5;
+    background-color: #f7f7f7;
     border: 1px solid #ccc;
+    border-radius: 4px;
   }
   .list-group-item1{
     border: none;
-    background-color: #f5f8fa;
+    background-color: #f2f8fd;
     width: 33.333%;
     text-align: center;
     padding: 0px;
@@ -62,8 +63,8 @@ del {
     font-size: 17px;
   }
   .content-active{
-    border-bottom: #f87958 3px solid;
-    color: #f87958;
+    border-bottom: #31316A 3px solid;
+    color: #31316A;
   }
   #testcases{
     margin-bottom: 10px;
@@ -90,7 +91,7 @@ del {
       background-repeat: no-repeat;
       background-position: center;
       background-size: 8px;
-      background-color: #f5f8fa;
+      background-color: #f2f8fd;
     }
     .container__right {
         /* Take the remaining width */
