@@ -41,16 +41,11 @@ del {
     word-wrap: break-word;
     background-color: #f5f5f5;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    overflow-x: auto;
-  }
-  p{
-    font-size: 16px;
   }
   .list-group-item1{
     border: none;
-    background-color: #f4f7fa;
-    width: 33.3%;
+    background-color: #f5f8fa;
+    width: 33.333%;
     text-align: center;
     padding: 0px;
     text-align: center;
@@ -67,8 +62,8 @@ del {
     font-size: 17px;
   }
   .content-active{
-    border-bottom: green 3px solid;
-    color: green;
+    border-bottom: #f87958 3px solid;
+    color: #f87958;
   }
   #testcases{
     margin-bottom: 10px;
@@ -95,7 +90,7 @@ del {
       background-repeat: no-repeat;
       background-position: center;
       background-size: 8px;
-      background-color: #f4f7fa;
+      background-color: #f5f8fa;
     }
     .container__right {
         /* Take the remaining width */
@@ -107,7 +102,7 @@ del {
         height: 100%;
     }
     .whole_container {
-      height: calc(100vh - 57px);
+      height: calc(100vh - 60px);
       display: flex;
       padding: 0px;
       margin: 0px;

@@ -31,6 +31,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js"></script>  
   <!-- Template CSS -->
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
     <style>
       pre{
           display: block;
@@ -170,22 +171,22 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-4 left">
-            <h3 style="margin-top: 10px;">{{question.title}}</h3>  
+            <h4 style="margin-top: 10px;">{{question.title}}</h4>
             <p>{{question.description |safe}}</p>
             <hr />
-            <h4 class="heading">Input Format:</h4>
+            <h5>Input Format:</h5>
             <p>{{question.input_format |safe}}</p>
             <hr />
-            <h4 class="heading">Output Format:</h4>
+            <h5>Output Format:</h5>
             <p>{{question.output_format |safe}}</p>
             <hr />
-            <h4 class="heading">Sample input 1</h4>
+            <h5>Sample input 1</h5>
             <pre>{{question.input1 |safe}}</pre>
-            <h4 class="heading">Sample Output 1</h4>
+            <h5>Sample Output 1</h5>
             <pre>{{question.output1 |safe}}</pre>
-            <h4 class="heading">Sample input 2</h4>
+            <h5>Sample input 2</h5>
             <pre>{{question.input2 |safe}}</pre>
-            <h4 class="heading">Sample Output 2</h4>
+            <h5>Sample Output 2</h5>
             <pre>{{question.output2 |safe}}</pre>
         </div>
         <div class="col-sm-8 right bg-light">
