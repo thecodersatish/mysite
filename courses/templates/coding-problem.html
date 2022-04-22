@@ -94,10 +94,10 @@
         </div><!-- content-header -->
         <div class="whole_container">
           <div class="container__left bg-white" style="position: relative;display: inline-block;margin: 0px;padding: 0px;">
-            <ul class="list-group list-group-horizontal" style="padding: 0px;position: relative;">
-              <a class="list-group-item content-active" id="description" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-code" style="padding-right: 5px;"></i>Problem</a>
-              <a class="list-group-item" id="submissions" href="javascript:void(0)" style="width: 40%;text-align: center;text-overflow: ellipsis;"><i class="fa-regular fa-clock" style="padding-right: 5px;"></i>Submissions</a>
-              <a class="list-group-item" id="support" href="javascript:void(0)" style="width: 30%;text-align: center;"><i class="fa-solid fa-headset" style="padding-right: 5px;"></i>Support</a>
+            <ul class="list-group list-group-horizontal" style="padding: 0px;position: relative;height: 40px;">
+              <a class="list-group-item content-active" id="description" href="javascript:void(0)"><i class="fa-solid fa-code" style="padding-right: 2px;"></i>Problem</a>
+              <a class="list-group-item" id="submissions" href="javascript:void(0)"><i class="fa-regular fa-clock" style="padding-right: 2px;"></i>Submissions</a>
+              <a class="list-group-item" id="support" href="javascript:void(0)"><i class="fa-solid fa-headset" style="padding-right: 2px;"></i>Support</a>
             </ul>
             <div id="description-content" style="padding: 10px;">
             <h4>{{question.title}}</h4>
@@ -129,21 +129,21 @@
           </div>
           <div class="resizer" id="dragMe"></div>
         <div class="container__right bg-white" id="right" style="display: inline-block;margin: 0px;padding: 0px;">
-          <div class="d-flex flex-row justify-content-between" style="padding: 5px;background-color: #f4f7fa;height: 50px;">
+          <div class="d-flex flex-row justify-content-between" style="padding: 5px;background-color: #f4f7fa;height: 40px;">
             <div class="d-flex flex-row">
-            <select class="form-select" aria-label="languages" style="width: 110px;" disabled>
+            <select class="form-select" aria-label="languages" style="width: 110px;height: 30px;padding: 0px;text-align: center;" disabled>
               <option value="1">C</option>
               <option value="2">C++</option>
               <option value="3">Python</option>
               <option value="4">Java</option>
             </select>
             <span style="padding-left:10px"></span>
-            <button class="btn btn-outline-success" style="width: 70px;" id="save">Save</button>
+            <button class="btn btn-outline-success" style="width: 70px;height: 30px;padding: 0px;text-align: center;" id="save">Save</button>
             </div>
             <div class="d-flex flex-row">
-              <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="cursor: pointer;padding-right: 10px;" title="dark theme" height="35px">
-              <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="light theme" height="35px">
-              <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code" height="35px" data-toggle="tooltip" data-placement="bottom">
+              <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="cursor: pointer;padding-right: 10px;" title="dark theme" height="25px">
+              <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="light theme" height="25px">
+              <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code" height="25px" data-toggle="tooltip" data-placement="bottom">
             </div>
           </div>
           <div class="bg-white border" id="error" style="display: none;margin-top: 10px;padding: 10px;border-radius: 10px;">

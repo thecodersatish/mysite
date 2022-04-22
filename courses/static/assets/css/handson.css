@@ -16,7 +16,6 @@ del {
       height: 500px;
       display:inline-block;
       position:relative;
-      margin-top: 10px;
   }
   #editor {
       position: absolute;
@@ -52,6 +51,12 @@ del {
     border: none;
     text-overflow: ellipsis;
     background-color: #f4f7fa;
+    width: 33.3%;
+    text-align: center;
+    padding: 0px;
+    text-align: center;
+    align-items: center;
+    padding-top: 5px;
   }
   .submission{
     padding: 15px;
@@ -111,7 +116,7 @@ del {
       width: 100%;
   }
     #custom-editor{
-      height: calc(100% - 110px);
+      height: calc(100% - 90px);
     }
     .list-group{
       position: fixed;
