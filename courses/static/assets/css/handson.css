@@ -47,9 +47,8 @@ del {
   p{
     font-size: 16px;
   }
-  .list-group-item{
+  .list-group-item1{
     border: none;
-    text-overflow: ellipsis;
     background-color: #f4f7fa;
     width: 33.3%;
     text-align: center;
@@ -118,7 +117,7 @@ del {
     #custom-editor{
       height: calc(100% - 90px);
     }
-    .list-group{
+    .list-group1{
       position: fixed;
     }
     #description-content{
