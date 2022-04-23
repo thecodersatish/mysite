@@ -110,7 +110,7 @@ def quiz_submit(request):
             return JsonResponse({'accepted':True,'answer':quiz.correct_choice})
         return JsonResponse({'updated':updated==0,'status':correct})
 
-@login_required
+
 def problem_view(request,course_code,module_code,problem_code):
     course = Course.objects.get(code=course_code)
     module= Module.objects.get(course=course,code=module_code)
