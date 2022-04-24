@@ -27,6 +27,11 @@
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/handson.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
+    <style>
+      .resizer{
+        background-image: url("{% static '/assets/img/slider-icon.svg' %}");
+      }
+    </style>
   </head>
   <body class="animate">
 
@@ -77,7 +82,7 @@
         </nav>
       </div><!-- sidebar-body -->
       <div class="sidebar-footer">
-        <a href="/courses/{{question.course}}/overview"><i class="fa fa-right-from-bracket" style="font-size: 25px;" title="back to course"></i></a>
+        <a href="/courses/{{question.course}}/overview"><i class="fa fa-arrow-right-from-bracket" style="font-size: 25px;" title="back to course"></i></a>
         <div class="avatar-body">
           <div class="d-flex align-items-center justify-content-between">
             <h6>Back to Course Details</h6>
@@ -87,14 +92,14 @@
       </div><!-- sidebar-footer -->
     </div><!-- sidebar -->
     <div class="content">
-      <div class="content-header navbar navbar-expand-lg bg-white shadow-sm">
-          <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i class="fa fa-bars" id="mobileMenu" style="font-size: 22px;"></i></a>
-          <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
-          <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
-        </div><!-- content-header -->
+      <div class="content-header navbar navbar-expand-lg">
+        <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i class="fa fa-bars" id="mobileMenu" style="font-size: 22px;"></i></a>
+       <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
+       <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
+     </div><!-- content-header -->
         <div class="whole_container">
-          <div class="container__left bg-light" style="position: relative;display: inline-block;margin: 0px;padding: 0px;">
-            <div class="d-flex flex-row justify-content-between" style="padding: 0px;position: relative;height: 45px;background-color: #f2f8fd;">
+          <div class="container__left" style="display: inline-block;margin: 0px;padding: 0px;">
+            <div class="d-flex flex-row justify-content-between" style="height: 45px;background-color: #f2f8fd;">
               <a class="list-group-item1 content-active" id="description" href="javascript:void(0)"><i class="fa-solid fa-code" style="padding-right: 2px;"></i>Problem</a>
               <a class="list-group-item1" id="submissions" href="javascript:void(0)"><i class="fa-regular fa-clock" style="padding-right: 2px;"></i>Submissions</a>
               <a class="list-group-item1" id="support" href="javascript:void(0)"><i class="fa-solid fa-headset" style="padding-right: 2px;"></i>Support</a>
