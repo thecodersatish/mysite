@@ -2,7 +2,7 @@ pre{
   display: block;
   padding: 9.5px;
   margin: 0 0 10px;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.42857143;
   color: #333;
   word-break: break-all;
@@ -39,13 +39,12 @@ pre{
   background-color: white;
 }
 
-.option:hover{
-  background-color: #f5f5f5;
-}
-
 @media (min-width:962px) {
   .option{
     width: 700px;
+  }
+  i{
+    padding-left: 5px;
   }
 }
 
@@ -56,7 +55,7 @@ pre{
 }
 
 .correct{
-  border-left: #12a041 4px solid;
+  border-right: #12a041 4px solid;
 }
 
 .wrong{

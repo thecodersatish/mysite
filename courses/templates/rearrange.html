@@ -85,6 +85,15 @@
             overflow-y: scroll;
             height: calc(100vh - 60px);
           }
+          i{
+            padding-left: 5px;
+          }
+        }
+        .sidebar-link{
+          font-size: 17px;
+          display: flex;
+          justify-content: center;
+          align-items: center;height: 50px;
         }
         ::-webkit-scrollbar {
           width: 5px;
@@ -117,10 +126,8 @@
           {% for q in questions %}
           {% if q.code == question.code %}
           <a href="{{q.code}}" class="text-blue">
-            <div class="container d-flex justify-content-between" style="font-size: 17px;display: flex;
-            justify-content: center;
-            align-items: center;height: 45px;
-            border-left: #282a4a 4px solid;">
+            <div class="container d-flex justify-content-between sidebar-link" style="
+            border-left: #282a4a 3px solid;">
               <div>{{forloop.counter}}</div>
               <div id="status">
               {% if q.status %}
@@ -137,7 +144,7 @@
           {% endif %}
           {% if q.code != question.code %}
           <a href="{{q.code}}" class="link-dark">
-            <div class="container d-flex justify-content-between" style="font-size: 17px;">
+            <div class="container d-flex justify-content-between sidebar-link" style="padding-left: 3px;">
               <div>{{forloop.counter}}</div>
               {% if q.status %}
               <i class="fa fa-check" style="color: green;"></i>
