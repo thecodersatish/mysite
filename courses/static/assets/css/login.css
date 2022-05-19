@@ -2948,35 +2948,8 @@ textarea.form-control-lg {
   transition: background-color 0.2s ease-in-out, background-position 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
   @media (prefers-reduced-motion: reduce) {
     .form-check-input {
-      transition: none; } }
-  .form-check-input[type="checkbox"] {
-    border-radius: 0.25em; }
-  .form-check-input[type="radio"] {
-    border-radius: 50%; }
-  .form-check-input:active {
-    filter: brightness(90%); }
-  .form-check-input:focus {
-    border-color: #4d6689;
-    outline: 0;
-    box-shadow: 0 0 0 0.18rem rgba(31, 41, 55, 0.25); }
-  .form-check-input:checked {
-    background-color: #1F2937;
-    border-color: #1F2937; }
-    .form-check-input:checked[type="checkbox"] {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e"); }
-    .form-check-input:checked[type="radio"] {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23ffffff'/%3e%3c/svg%3e"); }
-  .form-check-input[type="checkbox"]:indeterminate {
-    background-color: #1F2937;
-    border-color: #1F2937;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e"); }
-  .form-check-input:disabled {
-    pointer-events: none;
-    filter: none;
-    opacity: 0.5; }
-  .form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
-    opacity: 0.5; }
-
+      transition: none; }
+    }
 .form-switch {
   padding-left: 2.75em; }
   .form-switch .form-check-input {
@@ -5546,7 +5519,6 @@ textarea.form-control-lg {
   padding: 0.5rem 1rem;
   margin-bottom: 1rem;
   list-style: none;
-  background-color: #E5E7EB;
   border-radius: 0.5rem; }
 
 .breadcrumb-item + .breadcrumb-item {

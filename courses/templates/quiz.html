@@ -91,7 +91,18 @@
      </div><!-- content-header -->
       <div class="container-fluid">
         <br>
-        <h5>Q. {{question.question |safe}}</h5>
+        <div class="d-flex flex-row" style="padding-top: 10px;padding-bottom:10px">
+        <h5>Question 1</h5>
+        <span style="padding-left: 10px;"></span>
+        <div style="text-align: center;background-color: #f1f1f1;padding: 5px;padding-top: 2px;height: 30px;">
+          {% if not question.type %}
+          Single Choice
+          {% else %}
+          Multi Choice
+          {% endif %}
+        </div>
+        </div>
+        <h6 style="color: rgb(102, 102, 102)">{{question.question |safe}}</h6>
         {% if question.has_script %}
         <div style="padding-top: 10px;">
         <pre>{{ question.script }}</pre>
