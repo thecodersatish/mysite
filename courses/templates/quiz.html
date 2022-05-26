@@ -90,11 +90,11 @@
        <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
      </div><!-- content-header -->
       <div class="container-fluid">
-        <br>
-        <div class="d-flex flex-row" style="padding-top: 10px;padding-bottom:10px">
+        <div class="d-flex flex-row" style="padding-top: 40px;padding-bottom:10px">
         <h5>Question 1</h5>
         <span style="padding-left: 10px;"></span>
-        <div style="text-align: center;background-color: #f1f1f1;padding: 5px;padding-top: 2px;height: 30px;">
+        <div style="text-align: center;background: #ffc334;
+        color: #16192b;padding: 5px;padding-top: 2px;height: 30px;">
           {% if not question.type %}
           Single Choice
           {% else %}
@@ -102,7 +102,7 @@
           {% endif %}
         </div>
         </div>
-        <h6 style="color: rgb(102, 102, 102)">{{question.question |safe}}</h6>
+        <h6 style="color: rgb(102, 102, 102);font-size: 18px;">{{question.question |safe}}</h6>
         {% if question.has_script %}
         <div style="padding-top: 10px;">
         <pre>{{ question.script }}</pre>
@@ -171,7 +171,7 @@
           <br>
           <br>
           <footer>
-            <button type="button" class="btn btn-outline-primary">Prev</button><span style="padding-right: 50px;"></span><button class="btn btn-outline-primary">Next</button>
+            <button type="button" class="btn btn-outline-primary">Prev</button><span style="padding-right: 50px;"></span><button class="btn btn-primary">Next</button>
           </footer>
           <br>
         </div><!-- content-body -->

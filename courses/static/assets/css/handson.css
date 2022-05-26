@@ -57,8 +57,6 @@ del {
     padding: 0px;
     text-align: center;
     padding-top: 12px;
-    font-weight: 800;
-    color: rgb(139, 139, 139);
   }
   .list-group-item1:hover{
     background-color: #f1f1f1;
@@ -196,4 +194,14 @@ del {
   @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
+  }
+
+  .sidebar-link{
+    font-size: 17px;display: flex;
+    justify-content: center;
+    align-items: center;height: 50px;
+  }
+
+#status >  i{
+    padding-left: 5px;
   }

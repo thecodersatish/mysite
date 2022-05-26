@@ -45,11 +45,9 @@
           {% for q in questions %}
           {% if q.code == question.code %}
           <a href="{{q.code}}" class="text-blue">
-            <div class="container d-flex flex-row justify-content-between" style="display: flex;
-            justify-content: center;
-            align-items: center;height: 45px;
-            border-left: #282a4a 3px solid;background-color: #f3f7fd;">
-              {{forloop.counter}}
+            <div class="container d-flex justify-content-between sidebar-link" style="
+            border-left: #282a4a 3px solid;">
+              <div>{{forloop.counter}}</div>
               <div id="status">
               {% if q.status %}
               <i class="fa fa-check"></i>
@@ -503,7 +501,7 @@
                   else
                   $('#output').html(decode(json['stdout']));
                 }
-                $("#run").html('<i class="fa fa-play text-white" style="padding-right: 5px;font-size: 18px;"></i>Run');
+                $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
                 $("#run").prop('disabled',false);
               },
 
