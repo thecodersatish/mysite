@@ -33,7 +33,7 @@ del {
   }
   .readonly-highlight{
     background-color: lightblue;
-    opacity: 0.2;
+    opacity: 0.3;
     position: absolute;
   }
   pre{

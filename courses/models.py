@@ -89,8 +89,8 @@ class Problem(models.Model):
     input2 = models.CharField(max_length = 500,null=False,blank=False)
     output2 = models.CharField(max_length = 500,null=False,blank=False)
     non_editable_lines = models.IntegerField(default=0)
-    used = models.CharField(max_length = 100,default="")
-    not_used = models.CharField(max_length = 100,default="")
+    must_use = models.CharField(max_length = 100,default="")
+    dont_use = models.CharField(max_length = 100,default="")
 
 class Previous_Code(models.Model):
     problem=models.ForeignKey(Problem,on_delete=models.CASCADE)

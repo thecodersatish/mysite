@@ -120,6 +120,10 @@
             <pre>{{question.input2 |safe}}</pre>
             <h5>Output 2:</h5>
             <pre>{{question.output2 |safe}}</pre>
+            <h6>Must use:</h6>
+            <p>{{question.must_use}}</p>
+            <h6>Don't use:</h6>
+            <p>{{question.dont_use}}</p>
             </div>
             <div id="submissions-content" style="display: none;padding: 15px;">
               <h4 class="text-blue">Submissions</h4>
@@ -331,7 +335,7 @@
           window.location.reload();
         }
       }
-      //editor initializaation
+      //editor initialization
       var editor = ace.edit("editor")
       , session  = editor.getSession()
       , Range    = require("ace/range").Range;
@@ -387,6 +391,8 @@
             var x=decode(source);
             session.setValue(x);
             editor.clearSelection();
+            if('{{module_type}}'=='1')
+            readonly_lines(8);
             save();
           }
         });
@@ -463,6 +469,115 @@
         return true;
       });
       //making some part of code non editable
+      function set_readonly(editor,readonly_ranges) {
+      var  session  = editor.getSession()
+          , Range    = require("ace/range").Range;
+          ranges    = [];
+
+      function before(obj, method, wrapper) {
+        var orig = obj[method];
+        obj[method] = function() {
+          var args = Array.prototype.slice.call(arguments);
+          return wrapper.call(this, function(){
+              return orig.apply(obj, args);
+          }, args);
+        }
+        return obj[method];
+      }
+      function intersects(range) {
+          return editor.getSelectionRange().intersects(range);
+      }
+      function intersectsRange(newRange) {
+        for (i=0;i<ranges.length;i++)
+          if(newRange.intersects(ranges[i]))
+            return true;
+        return false;
+      }
+      function preventReadonly(next, args) {
+          for(i=0;i<ranges.length;i++){if (intersects(ranges[i])) return;}
+          next();
+      }
+      function onEnd(position){
+        var row = position["row"],column=position["column"];
+        for (i=0;i<ranges.length;i++)
+          if(ranges[i].end["row"] == row && ranges[i].end["column"]==column)
+            return true;
+        return false;
+      }
+      function outSideRange(position){
+        var row = position["row"],column=position["column"];
+        for (i=0;i<ranges.length;i++){
+          if(ranges[i].start["row"]< row && ranges[i].end["row"]>row)
+              return false;
+          if(ranges[i].start["row"]==row && ranges[i].start["column"]<column){
+              if(ranges[i].end["row"] != row || ranges[i].end["column"]>column)
+                return false;
+          }
+          else if(ranges[i].end["row"] == row&&ranges[i].end["column"]>column){
+                return false;
+          }
+        }
+        return true; 
+      }
+      for(i=0;i<readonly_ranges.length;i++){
+        ranges.push(new Range(...readonly_ranges[i]));
+      }
+      ranges.forEach(function(range){session.addMarker(range, "readonly-highlight");});
+      editor.keyBinding.addKeyboardHandler({
+          handleKeyboard : function(data, hash, keyString, keyCode, event) {
+            if (Math.abs(keyCode) == 13 && onEnd(editor.getCursorPosition())){
+              return false;
+            }
+            if (hash === -1 || (keyCode <= 40 && keyCode >= 37)) return false;
+            for(i=0;i<ranges.length;i++){
+              if (intersects(ranges[i])) {
+                  return {command:"null", passEvent:false};
+              }
+            }
+          }
+      });
+      before(editor, 'onPaste', preventReadonly);
+      before(editor, 'onCut',   preventReadonly);
+      for(i=0;i<ranges.length;i++){
+        ranges[i].start  = session.doc.createAnchor(ranges[i].start);
+        ranges[i].end    = session.doc.createAnchor(ranges[i].end);
+        ranges[i].end.$insertRight = true;
+       }
+
+      var old$tryReplace = editor.$tryReplace;
+      editor.$tryReplace = function(range, replacement) {
+          return intersectsRange(range)?null:old$tryReplace.apply(this, arguments);                        
+      }
+      var session = editor.getSession();
+      var oldInsert = session.insert;
+      session.insert = function(position, text) {
+          return oldInsert.apply(this, [position, outSideRange(position)?text:""]);
+      }
+      var oldRemove = session.remove;
+      session.remove = function(range) {
+          return intersectsRange(range)?false:oldRemove.apply(this, arguments);                        
+      }
+      var oldMoveText = session.moveText;
+      session.moveText = function(fromRange, toPosition, copy) {
+          if (intersectsRange(fromRange) || !outSideRange(toPosition)) return fromRange;
+          return oldMoveText.apply(this, arguments);
+      }
+
+      }
+      function refresheditor(readonly) {
+        set_readonly(editor,readonly);
+      }
+      function readonly_lines(line_numbers){
+        var x = editor.session.getLength();
+        var readonly_ranges=[];
+      
+        for(i=x-line_numbers;i<x;i++){
+          readonly_ranges.push([i,0,i+1,0]);
+        }
+        refresheditor(readonly_ranges);
+      }
+      if('{{module_type}}'=='1')
+      readonly_lines(8);
 
       function run(){
         save();
@@ -472,7 +587,7 @@
         $("#run").prop('disabled',true);
         if ($('#custominput').is(':checked')) {
           $.ajax({
-              url : "{% url 'run' %}", // the endpoint
+              url : "{% url 'code_ground' %}", // the endpoint
               type : "POST", // http method
               data : { source : encode(editor.getValue()),
                       input : encode($('#input').val()),
@@ -705,10 +820,12 @@
               s+='<span style="color: red;padding-left: 10px;">Time Limit Exceeded';
               else if(json['submissions'][i]['status']==6)
               s+='<span style="color: red;padding-left: 10px;">Compilation Error';
+              else if(json['submissions'][i]['status']==-2)
+              s+='<span style="color: red;padding-left: 10px;">Requirements not matched';
               else if(json['submissions'][i]['status']==-1)
-              s+='In Queue';
+              s+='<span style="padding-left: 10px;">In Queue';
               else
-              s+="Runtime Error";
+              s+='<span style="color: red;padding-left: 10px;">Runtime Error';
               s+='</span>\
                   </div>\
                   <div>(';

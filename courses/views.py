@@ -132,7 +132,7 @@ def problem_view(request,course_code,module_code,problem_code):
         context['source']=prev_code.source
     else:
         context['source']=context['default_code']
-    return render(request,'coding-problem.html',{'questions':questions,'question':context})
+    return render(request,'coding-problem.html',{'questions':questions,'question':context,'module_type':module.type})
 
 
 
@@ -215,39 +215,43 @@ def problem_submit(request):
         if Problem_Submission.objects.filter(problem=problem,user=request.user,status=3).exists():
             obj.delete()
             return JsonResponse({"status_id":1})
-        data = "{\"submissions\": ["
-        f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
-        l = f.readlines()
-        for i in range(2,7):
-            data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+l[i].strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+l[i+1].strip()+"\"}"
-            if i!=6:
-                data += ","
-        data += "]}"
-        f.close()
-        url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
-        querystring = {"base64_encoded":"true","fields":"*","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
-        headers = {
-        'content-type': "application/json",
-        'x-rapidapi-host': "judge0-ce.p.rapidapi.com",
-        'x-rapidapi-key': "513e11481bmshd740ecb0d4d638ap1d286cjsn0f35f7d4e420"
-        }
-        response = requests.request("POST", url, data=data, headers=headers, params=querystring)
-        tokens=response.json()
-        c=0
-        for i in range(5):
-            url = "https://judge0-ce.p.rapidapi.com/submissions/"+tokens[i]["token"]
-            response = requests.request("GET", url, headers=headers, params=querystring)
-            while response.json()["status_id"]<=2:
+        if (problem.dont_use!="None" and any(keyword in base64.b64decode(source).decode() for keyword in problem.dont_use.split(', '))) or (problem.must_use!="None" and problem.must_use not in base64.b64decode(source).decode()):
+            obj.status = -2
+            c=0
+        else:
+            data = "{\"submissions\": ["
+            f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
+            l = f.readlines()
+            for i in range(2,7):
+                data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+l[i].strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+l[i+1].strip()+"\"}"
+                if i!=6:
+                    data += ","
+            data += "]}"
+            f.close()
+            url = "https://judge0-ce.p.rapidapi.com/submissions/batch"
+            querystring = {"base64_encoded":"true","fields":"*","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
+            headers = {
+            'content-type': "application/json",
+            'x-rapidapi-host': "judge0-ce.p.rapidapi.com",
+            'x-rapidapi-key': "513e11481bmshd740ecb0d4d638ap1d286cjsn0f35f7d4e420"
+            }
+            response = requests.request("POST", url, data=data, headers=headers, params=querystring)
+            tokens=response.json()
+            c=0
+            for i in range(5):
+                url = "https://judge0-ce.p.rapidapi.com/submissions/"+tokens[i]["token"]
                 response = requests.request("GET", url, headers=headers, params=querystring)
-            if response.json()["status_id"]!=3:
-                break
-            c+=1
+                while response.json()["status_id"]<=2:
+                    response = requests.request("GET", url, headers=headers, params=querystring)
+                if response.json()["status_id"]!=3:
+                    break
+                c+=1
+            obj.status=response.json()['status_id']
         obj.date = d
         obj.source = source
-        obj.status=response.json()['status_id']
         obj.testcases_passed=c
         obj.save()
-        return JsonResponse({"status_id":response.json()['status_id']})
+        return JsonResponse({"status_id":obj.status})
 
 
 @csrf_exempt

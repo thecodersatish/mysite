@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 .navbar{
   box-shadow: 0 12px 10px -15px #1111112b;
-  height: 60px;
+  min-height: 60px;
 }
 .sidebar-show {
   overflow-x: hidden; }
