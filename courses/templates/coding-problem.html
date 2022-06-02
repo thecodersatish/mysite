@@ -61,7 +61,7 @@
           </a>
           {% endif %}
           {% if q.code != question.code %}
-          <a href="{{q.code}}" class="link-secondary">
+          <a href="{{q.code}}" class="link-primary">
             <div class="container d-flex flex-row justify-content-between" style="display: flex;
             justify-content: center;
             align-items: center;height: 45px;">
@@ -80,7 +80,7 @@
         </nav>
       </div><!-- sidebar-body -->
       <div class="sidebar-footer">
-        <a href="/courses/{{question.course}}/overview"><i class="fa fa-arrow-right-from-bracket" style="font-size: 25px;" title="back to course"></i></a>
+        <a href="/courses/{{question.course}}/overview"><i class="fa fa-arrow-right-from-bracket" style="font-size: 25px;" data-toggle="tooltip" title="back to course"></i></a>
         <div class="avatar-body">
           <div class="d-flex align-items-center justify-content-between">
             <h6>Back to Course Details</h6>
@@ -148,8 +148,8 @@
             <button class="btn btn-outline-success" style="width: 70px;height: 35px;padding: 0px;text-align: center;" id="save">Save</button>
             </div>
             <div class="d-flex flex-row">
-              <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="dark theme" height="25px">
-              <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" title="light theme" height="25px">
+              <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="dark theme" height="25px">
+              <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="light theme" height="25px">
               <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code" height="25px" data-toggle="tooltip" data-placement="bottom">
             </div>
           </div>
@@ -361,6 +361,7 @@
         }
       }
       $(function(){
+        $('[data-toggle="tooltip"]').tooltip();
         //change theme
         $('#dark_theme').on('click',function(){
           $('#dark_theme').hide();
@@ -687,7 +688,7 @@
                 var element = document.getElementById("testcases");
                 element.scrollIntoView({behavior: "smooth"});
               }
-              $("#run").html('<i class="fa fa-play text-white" style="padding-right: 5px;font-size: 18px;"></i>Run');
+              $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
               $("#run").prop('disabled',false);
             },
             statusCode:{

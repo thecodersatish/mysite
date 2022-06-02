@@ -87,7 +87,7 @@ del {
   @media (min-width: 962px) {
     .container__left {
       /* Initially, the left takes 3/4 width */
-      width: 30%;
+      width: 35%;
       min-width : 25%;
       /* Misc */
       display: flex;
@@ -104,8 +104,8 @@ del {
     .container__right {
         /* Take the remaining width */
         flex: 1;
-        min-width:55%;
-        width: 75%;
+        min-width:50%;
+        width: 65%;
         display: flex;
         overflow: scroll;
         height: 100%;
