@@ -63,7 +63,7 @@ def course_overview(request,course_code):
     try:
         course = Course.objects.get(code=course_code)
         modules= Module.objects.all().filter(course=course)
-        return render(request,'course-overview.html',{'course':course,'modules':modules})
+        return render(request,'course-overview.html',{'course':course,'modules':modules,'x':10})
     except Course.DoesNotExist:
         return render(request,"page-404.html",{})
 

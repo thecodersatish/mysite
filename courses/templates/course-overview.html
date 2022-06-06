@@ -30,6 +30,46 @@
             margin-left: 5rem;
             }
         }
+        @media (max-width: 962px) {
+            .btn-success > span{
+                display: none;
+            }
+            .module_progress{
+                display: none;
+            }
+        }
+        .module_active{
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        #module_name{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+        #overlay {
+            position: fixed;
+            display: block;
+            width: 100%;
+            height: 100%;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            }
+
+        #text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 50px;
+            color: white;
+            transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+        }
    </style>
   </head>
   <body  style="background-color: #f6f9fd!important;">
@@ -39,47 +79,45 @@
           <a class="navbar-brand" href="{% url 'home' %}">CodeHub</a>
         </div>
     </nav>
+    <div id="overlay" onclick="off()">
+        <div id="text"><i class="fa fa-spinner fa-spin"></i></div>
+      </div>
     <div class="container-fluid">
-        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);padding: 10px 0px 10px;" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item">Courses</li>
-                <li class="breadcrumb-item active">C programming</li>
-            </ol>
-        </nav>
+        <h2 class="h5 mb-0" style="padding: 25px;">{{course.name}} <a class="btn btn-sm btn-white">details</a></h2>
         <div class="row">
-            <div class="col-sm-4 modules"> 
+            <div class="col-md-4 col-sm-4 modules"> 
                 <div class="card border-light shadow-sm">
                     <div class="card-header border-bottom border-light d-flex justify-content-between">
                         <h2 class="h5 mb-0">Modules</h2>
-                        <a href="#" class="btn btn-sm btn-secondary">Total {{ modules|length }} modules</a>
+                        <a class="btn btn-sm btn-secondary">Total {{ modules|length }} modules</a>
                     </div>
                     <div class="card-body">
-                        <ul class="list-group list-group-flush list my--3">
+                        <ul class="list-group list-group">
                             {% for module in modules %}
-                            <li class="list-group-item px-0 {{module.id}}">
+                            <li class="list-group-item px-0" id="{{module.code}}">
                                 <div class="d-flex flex-row justify-content-between">
                                 <div>
                                     <h4 class="h6 mb-0">
-                                        <a href="#">{{ module.name }}</a>
+                                        <a class="module_link" id="{{module.code}}">{{ module.name }}</a>
                                     </h4>
                                     <span class="text-success">●</span>
                                     <small>Module {{ forloop.counter }}</small>
                                 </div>
                                 <div>
-                                    <a href="#" class="btn btn-sm btn-success"><i class="fas fa-calendar-check mr-1"></i> Completed</a>
+                                    <a class="btn btn-sm btn-success"><i class="fas fa-check mr-1"></i> <span>Completed</span></a>
                                 </div>
                                 </div>
                             </li>
                             {% endfor %}
                         </ul>
                     </div>
-                    </div>
+                </div>
+                <br>
             </div>
             <div class="col-md-3">
-                <div class="card border-light shadow-sm">
+                <div class="card border-light shadow-sm module_progress">
                     <div class="card-header border-bottom border-light">
-                        <h5>Conditional Statements</h5>
+                        <h5 id="module_name">Introduction,variables,input and output statements</h5>
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center mb-4">
@@ -89,7 +127,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <div class="h6 mb-0">Videos</div>
+                                        <a class="h6 mb-0">Videos <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>34 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -100,16 +138,16 @@
                         </div>
                         <div class="row align-items-center mb-4">
                             <div class="col-auto">
-                                <span class="icon icon-md text-danger"><span class="fab fa-angular"></span></span>
+                                <span class="icon icon-md text-danger"><span class="fa fa-list-check"></span></span>
                             </div>
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <div class="h6 mb-0">Quiz</div>
+                                        <a class="h6 mb-0">Quiz <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>60 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{x}}%;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +159,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <div class="h6 mb-0">Re-Arrange</div>
+                                        <a class="h6 mb-0">Re-Arrange <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>45 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -137,7 +175,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <div class="h6 mb-0">Hands-On</div>
+                                        <a class="h6 mb-0">Hands-On <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>35 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -153,7 +191,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <div class="h6 mb-0">Assessment</div>
+                                        <a class="h6 mb-0">Assessment <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>34 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -164,6 +202,7 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
             <div class="col-sm-3">
                 <div class="card border-light shadow-sm">
@@ -174,7 +213,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between border-bottom border-light pb-3">
                             <div>
-                                <h6 class="mb-0">Batch Rank</h6>
+                                <h6 class="mb-0"><i class="fa-solid fa-trophy text-secondary" style="padding-right: 5px;"></i>Batch Rank</h6>
                             </div>
                             <div>
                                 <a href="#" class="text-primary font-weight-bold"># 71</a>
@@ -198,12 +237,14 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
         </div>
     </div>
     <script src="{% static 'assets/js/overview.js' %}"></script>
     <script>
         $(function(){
+            $('#pcs0101').addClass('module_active');
             $('a[name="quiz"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/quiz";
             });
@@ -215,6 +256,12 @@
             });
             $('a[name="assessment"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/assessment";
+            });
+            //module change
+            $('a[class="module_link"]').on('click',function(){
+                $('li').removeClass('module_active');
+                $('li[id='+this.id+']').addClass('module_active');
+                $('#module_name').html($(this).html());
             });
         });
     </script>

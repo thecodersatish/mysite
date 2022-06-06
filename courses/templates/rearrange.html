@@ -184,27 +184,27 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-4 left">
-            <h4 style="margin-top: 10px;margin-bottom: 10px;">{{question.title}}</h4>
+            <h5 style="margin-top: 10px;margin-bottom: 10px;">{{question.title}}</h5>
             <p>{{question.description |safe}}</p>
             <hr />
-            <h5 style="margin-top: 10px;margin-bottom: 10px;">Input Format:</h5>
+            <h6 style="margin-top: 10px;margin-bottom: 10px;">Input Format:</h6>
             <p>{{question.input_format |safe}}</p>
             <hr />
-            <h5 style="margin-top: 10px;margin-bottom: 10px;">Output Format:</h5>
+            <h6 style="margin-top: 10px;margin-bottom: 10px;">Output Format:</h6>
             <p>{{question.output_format |safe}}</p>
             <hr />
-            <h5 style="margin-top: 10px;margin-bottom: 10px;">Sample input 1</h5>
+            <h6 style="margin-top: 10px;margin-bottom: 10px;">Sample input 1</h6>
             <pre>{{question.input1 |safe}}</pre>
-            <h5 style="margin-top: 10px;margin-bottom: 10px;">Sample Output 1</h5>
+            <h6 style="margin-top: 10px;margin-bottom: 10px;">Sample Output 1</h6>
             <pre>{{question.output1 |safe}}</pre>
-            <h5 style="margin-top: 10px;margin-bottom: 10px;">Sample input 2</h5>
+            <h6 style="margin-top: 10px;margin-bottom: 10px;">Sample input 2</h6>
             <pre>{{question.input2 |safe}}</pre>
-            <h5 style="margin-top: 10px;margin-bottom: 10px;">Sample Output 2</h5>
+            <h6 style="margin-top: 10px;margin-bottom: 10px;">Sample Output 2</h6>
             <pre>{{question.output2 |safe}}</pre>
         </div>
         <div class="col-sm-8 right bg-light">
           <div style="margin-top: 10px">
-            <h4 style="padding-top: 10px;">Rearrange the following statements:</h4>
+            <h5 style="padding-top: 10px;">Rearrange the following statements:</h5>
             <div class="bg-white border" id="error">
               <div class="d-flex flex-row justify-content-between">
                 <div style="color: red;font-size:medium;">
@@ -304,7 +304,7 @@
         }
         var statements = JSON.parse("{{statements|escapejs}}");
         for(var i=0;i<statements.length;i++){
-          $('#list').append('<xmp class="statement prettyprint">'+decode(statements[i]['statement'])+'</xmp>')
+          $('#list').append('<xmp class="statement border-light shadow-sm">'+decode(statements[i]['statement'])+'</xmp>')
         }
         function encode(str){
           return btoa(str);
