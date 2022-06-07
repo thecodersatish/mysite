@@ -25,17 +25,40 @@
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
     <style>
-        @media (min-width: 962px) {
-            .modules{
-            margin-left: 5rem;
+        * {
+        box-sizing: border-box;
+        }
+
+        /* Container for flexboxes */
+        .row {
+        display: flex;
+        flex-wrap: wrap;
+        }
+        /* Create four equal columns */
+        .column {
+        flex: 25%;
+        }
+        @media screen and (min-width: 962px) {
+            #module_progress{
+                display: block!important;
+                width: 30%;
+            }
+            #modules{
+                display: block!important;
+            }
+            #close_module_progress{
+                display: none!important;
             }
         }
         @media (max-width: 962px) {
             .btn-success > span{
                 display: none;
             }
-            .module_progress{
+            #module_progress{
                 display: none;
+            }
+            .row {
+                flex-direction: column;
             }
         }
         .module_active{
@@ -50,7 +73,7 @@
         }
         #overlay {
             position: fixed;
-            display: block;
+            display: none;
             width: 100%;
             height: 100%;
             top: 60px;
@@ -65,7 +88,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            font-size: 50px;
+            font-size: 30px;
             color: white;
             transform: translate(-50%,-50%);
             -ms-transform: translate(-50%,-50%);
@@ -80,12 +103,12 @@
         </div>
     </nav>
     <div id="overlay" onclick="off()">
-        <div id="text"><i class="fa fa-spinner fa-spin"></i></div>
+        <div id="text"><i class="fa fa-spinner fa-spin"></i><span>Loading</span></div>
       </div>
     <div class="container-fluid">
         <h2 class="h5 mb-0" style="padding: 25px;">{{course.name}} <a class="btn btn-sm btn-white">details</a></h2>
         <div class="row">
-            <div class="col-md-4 col-sm-4 modules"> 
+            <div class="column" id="modules">
                 <div class="card border-light shadow-sm">
                     <div class="card-header border-bottom border-light d-flex justify-content-between">
                         <h2 class="h5 mb-0">Modules</h2>
@@ -114,8 +137,9 @@
                 </div>
                 <br>
             </div>
-            <div class="col-md-3">
-                <div class="card border-light shadow-sm module_progress">
+            <div class="column" id="module_progress">
+                <a id="close_module_progress"><i class="fa fa-arrow-left"></i> back to course</a>
+                <div class="card border-light shadow-sm">
                     <div class="card-header border-bottom border-light">
                         <h5 id="module_name">Introduction,variables,input and output statements</h5>
                     </div>
@@ -144,10 +168,10 @@
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
                                         <a class="h6 mb-0">Quiz <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>60 %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span>{{progress.quiz}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{x}}%;"></div>
+                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.quiz}}%;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -160,10 +184,10 @@
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
                                         <a class="h6 mb-0">Re-Arrange <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>45 %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span>{{progress.rearrange}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-tertiary" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;"></div>
+                                        <div class="progress-bar bg-tertiary" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.rearrange}}%;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -176,10 +200,10 @@
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
                                         <a class="h6 mb-0">Hands-On <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>35 %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span>{{progress.problems}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: 35%;"></div>
+                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.problems}}%;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +228,7 @@
                 </div>
                 <br>
             </div>
-            <div class="col-sm-3">
+            <div class="statistics column">
                 <div class="card border-light shadow-sm">
                     <div class="card-header border-bottom border-light d-flex justify-content-between">
                         <h2 class="h5 mb-0">Statistics</h2>
@@ -243,8 +267,9 @@
     </div>
     <script src="{% static 'assets/js/overview.js' %}"></script>
     <script>
+        var module_code = "{{progress.code}}";
         $(function(){
-            $('#pcs0101').addClass('module_active');
+            $('#'+module_code).addClass('module_active');
             $('a[name="quiz"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/quiz";
             });
@@ -257,10 +282,19 @@
             $('a[name="assessment"]').on('click',function(){
                 window.location.href = "/courses/{{course.code}}/module/"+this.id+"/assessment";
             });
+            //closing module
+            $('#close_module_progress').on('click',function(){
+                $('#module_progress').hide();
+                $('#modules').show();
+            });
             //module change
             $('a[class="module_link"]').on('click',function(){
                 $('li').removeClass('module_active');
                 $('li[id='+this.id+']').addClass('module_active');
+                if($(window).width()<962){
+                    $('#modules').hide();
+                    $('#module_progress').show();
+                }
                 $('#module_name').html($(this).html());
             });
         });

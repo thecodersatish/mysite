@@ -63,7 +63,8 @@ def course_overview(request,course_code):
     try:
         course = Course.objects.get(code=course_code)
         modules= Module.objects.all().filter(course=course)
-        return render(request,'course-overview.html',{'course':course,'modules':modules,'x':10})
+        progress = eval(module_progress(request,modules[0].code).content.decode())
+        return render(request,'course-overview.html',{'course':course,'modules':modules,'progress':progress})
     except Course.DoesNotExist:
         return render(request,"page-404.html",{})
 
@@ -75,11 +76,9 @@ def quiz_view(request,course_code,module_code,quiz_code):
     for i in Quiz.objects.all().filter(module=module):
         d=model_to_dict(i)
         questions.append(d)
-        try:
+        if Quiz_Submission.objects.filter(quiz=i,user=request.user).exists():
             obj = Quiz_Submission.objects.get(quiz=i,user=request.user)
             d['status'] = obj.status
-        except:
-            pass
     if quiz_code=="":
         question = Quiz.objects.all().filter(course=course,module=module)[0]
     else:
@@ -455,3 +454,23 @@ def assessment_previous_code(request):
         except:
             source = problem.default_code
         return JsonResponse({'source':source})
+
+#module progress
+@csrf_exempt
+@login_required
+def module_progress(request,code=None):
+    if code==None:
+        code=request.GET.get('code')
+    module = Module.objects.get(code=code)
+    quiz_count = Quiz.objects.filter(module=module).count()
+    quiz_accepted = Quiz_Submission.objects.filter(user=request.user,status=True,quiz__module=module).count()
+    problem_count = Problem.objects.filter(module=module).count()
+    problems_accepted = Problem_Submission.objects.filter(problem__module=module,user=request.user,status=3).count()
+    rearrange_count = Rearrange_Problem.objects.filter(module=module).count()
+    rearrange_accepted = Rearrange_Problem_Submission.objects.filter(problem__module=module,user=request.user,status=True).count()
+    progress={}
+    progress['code']=code
+    progress['quiz'] = quiz_accepted/quiz_count*100
+    progress['problems']=problems_accepted/problem_count*100
+    progress['rearrange']=rearrange_accepted/rearrange_count*100
+    return JsonResponse(progress)
