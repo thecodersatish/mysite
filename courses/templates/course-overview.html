@@ -167,7 +167,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <a class="h6 mb-0">Quiz <i class="fa fa-external-link"></i></a>
+                                        <a class="h6 mb-0" name="quiz">Quiz <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>{{progress.quiz}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -183,7 +183,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <a class="h6 mb-0">Re-Arrange <i class="fa fa-external-link"></i></a>
+                                        <a class="h6 mb-0" name="rearrange">Re-Arrange <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>{{progress.rearrange}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -199,7 +199,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <a class="h6 mb-0">Hands-On <i class="fa fa-external-link"></i></a>
+                                        <a class="h6 mb-0" name="problems">Hands-On <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>{{progress.problems}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -215,7 +215,7 @@
                             <div class="col">
                                 <div class="progress-wrapper">
                                     <div class="progress-info">
-                                        <a class="h6 mb-0">Assessment <i class="fa fa-external-link"></i></a>
+                                        <a class="h6 mb-0" name="assessment">Assessment <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>34 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
@@ -271,16 +271,16 @@
         $(function(){
             $('#'+module_code).addClass('module_active');
             $('a[name="quiz"]').on('click',function(){
-                window.location.href = "/courses/{{course.code}}/module/"+this.id+"/quiz";
+                window.location.href = "/courses/{{course.code}}/module/"+module_code+"/quiz";
             });
             $('a[name="rearrange"]').on('click',function(){
-                window.location.href = "/courses/{{course.code}}/module/"+this.id+"/rearrange";
+                window.location.href = "/courses/{{course.code}}/module/"+module_code+"/rearrange";
             });
             $('a[name="problems"]').on('click',function(){
-                window.location.href = "/courses/{{course.code}}/module/"+this.id+"/problems";
+                window.location.href = "/courses/{{course.code}}/module/"+module_code+"/problems";
             });
             $('a[name="assessment"]').on('click',function(){
-                window.location.href = "/courses/{{course.code}}/module/"+this.id+"/assessment";
+                window.location.href = "/courses/{{course.code}}/module/"+module_code+"/assessment";
             });
             //closing module
             $('#close_module_progress').on('click',function(){
@@ -296,6 +296,7 @@
                     $('#module_progress').show();
                 }
                 $('#module_name').html($(this).html());
+                module_code = this.id;
             });
         });
     </script>
