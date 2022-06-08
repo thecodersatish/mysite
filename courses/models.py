@@ -46,6 +46,7 @@ class Course_Registration(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     mode = models.CharField(max_length=250,null=False,blank=False)
     no_of_questions_completed = models.IntegerField(default=0)
+    batch_id = models.CharField(max_length=50,default="All")
 
 class Module(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE)

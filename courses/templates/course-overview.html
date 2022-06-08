@@ -152,7 +152,7 @@
                                 <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="videos">Videos <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>34 %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span id="videospercent">34 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
                                         <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: 34%;" id="videosbar"></div>
@@ -168,7 +168,7 @@
                                 <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="quiz">Quiz <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>{{progress.quiz}} %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span id="quizpercent">{{progress.quiz}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
                                         <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.quiz}}%;" id="quizbar"></div>
@@ -184,7 +184,7 @@
                                 <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="rearrange">Re-Arrange <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>{{progress.rearrange}} %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span id="rearrangepercent">{{progress.rearrange}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
                                         <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.rearrange}}%;" id="rearrangebar"></div>
@@ -200,7 +200,7 @@
                                 <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="problems">Hands-On <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>{{progress.problems}} %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span id="problemspercent">{{progress.problems}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
                                         <div class="progress-bar bg-info" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.problems}}%;" id="problemsbar"></div>
@@ -216,7 +216,7 @@
                                 <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="assessment">Assessment <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>0 %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span id="assessmentpercent">0 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
                                         <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" id="assessmentbar"></div>
@@ -305,6 +305,9 @@
                             $('#modules').hide();
                             $('#module_progress').show();
                         }
+                        $('#quizpercent').html(json['quiz'].toString()+" %");
+                        $('#rearrangepercent').html(json['rearrange'].toString()+" %");
+                        $('#problemspercent').html(json['problems'].toString()+" %");
                         $('#quizbar').css('width',json['quiz'].toString()+"%");
                         $('#rearrangebar').css('width',json['rearrange'].toString()+"%");
                         $('#problemsbar').css('width',json['problems'].toString()+"%");
