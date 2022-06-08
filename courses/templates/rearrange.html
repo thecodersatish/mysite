@@ -145,11 +145,8 @@
           <hr>
           {% endif %}
           {% if q.code != question.code %}
-          <a href="{{q.code}}" class="link-dark">
-            <a href="{{q.code}}" class="link-primary" style="padding-left: 3px;">
-              <div class="container d-flex flex-row justify-content-between" style="display: flex;
-              justify-content: center;
-              align-items: center;height: 45px;">
+          <a href="{{q.code}}" class="link-dark" style="padding-left: 3px;">
+              <div class="container d-flex flex-row justify-content-between sidebar-link">
               <div>{{forloop.counter}}</div>
               {% if q.status %}
               <i class="fa fa-check" style="color: green;"></i>

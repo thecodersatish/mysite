@@ -32,4 +32,5 @@ urlpatterns = [
     path('assessment_save_code',views.assessment_save_code,name='assessment_save_code'),
     path('assessment_previous_code',views.assessment_previous_code,name='assessment_previous_code'),
     path('questions_completed',views.questions_completed,name='questions_completed'),
+    path('module_progress',views.module_progress,name='module_progress'),
 ]

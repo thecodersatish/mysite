@@ -61,10 +61,8 @@
           </a>
           {% endif %}
           {% if q.code != question.code %}
-          <a href="{{q.code}}" class="link-primary">
-            <div class="container d-flex flex-row justify-content-between" style="display: flex;
-            justify-content: center;
-            align-items: center;height: 45px;">
+          <a href="{{q.code}}" class="link-primary" style="padding-left: 3px;">
+            <div class="container d-flex flex-row justify-content-between sidebar-link">
               <div>{{forloop.counter}}</div>
               {% if q.status %}
               <i class="fa fa-check" style="color: green;"></i>
@@ -148,8 +146,8 @@
             <a class="btn btn-outline-success" data-toggle="tooltip" title="save code" id="save">Save</a>
             </div>
             <div class="d-flex flex-row">
-              <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="dark theme" height="25px">
-              <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="light theme" height="25px">
+              <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="light theme" height="25px">
+              <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="dark theme" height="25px">
               <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code" height="25px" data-toggle="tooltip" data-placement="bottom">
             </div>
           </div>

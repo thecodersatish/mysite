@@ -462,15 +462,14 @@ def module_progress(request,code=None):
     if code==None:
         code=request.GET.get('code')
     module = Module.objects.get(code=code)
-    quiz_count = Quiz.objects.filter(module=module).count()
+    quiz_count = Quiz.objects.filter(module=module).count()+1
     quiz_accepted = Quiz_Submission.objects.filter(user=request.user,status=True,quiz__module=module).count()
-    problem_count = Problem.objects.filter(module=module).count()
+    problem_count = Problem.objects.filter(module=module).count()+1
     problems_accepted = Problem_Submission.objects.filter(problem__module=module,user=request.user,status=3).count()
-    rearrange_count = Rearrange_Problem.objects.filter(module=module).count()
+    rearrange_count = Rearrange_Problem.objects.filter(module=module).count()+1
     rearrange_accepted = Rearrange_Problem_Submission.objects.filter(problem__module=module,user=request.user,status=True).count()
-    progress={}
-    progress['code']=code
-    progress['quiz'] = quiz_accepted/quiz_count*100
-    progress['problems']=problems_accepted/problem_count*100
-    progress['rearrange']=rearrange_accepted/rearrange_count*100
+    progress=model_to_dict(module)
+    progress['quiz'] = int(quiz_accepted/quiz_count*100)
+    progress['problems']=int(problems_accepted/problem_count*100)
+    progress['rearrange']=int(rearrange_accepted/rearrange_count*100)
     return JsonResponse(progress)

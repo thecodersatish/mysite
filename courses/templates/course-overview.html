@@ -145,81 +145,81 @@
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center mb-4">
-                            <div class="col-auto">
-                                <span class="icon icon-md text-purple"><span class="fab fa-youtube"></span></span>
-                            </div>
-                            <div class="col">
-                                <div class="progress-wrapper">
+                            <div class="d-flex flex-row">
+                                <div style="width: 8%;">
+                                    <span class="icon icon-md text-purple"><span class="fab fa-youtube"></span></span>
+                                </div>
+                                <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
-                                        <a class="h6 mb-0" href="javascript:void(0)">Videos <i class="fa fa-external-link"></i></a>
+                                        <a class="h6 mb-0" href="javascript:void(0)" name="videos">Videos <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>34 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100" style="width: 34%;"></div>
+                                        <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: 34%;" id="videosbar"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row align-items-center mb-4">
-                            <div class="col-auto">
-                                <span class="icon icon-md text-danger"><span class="fa fa-list-check"></span></span>
-                            </div>
-                            <div class="col">
-                                <div class="progress-wrapper">
+                            <div class="d-flex flex-row">
+                                <div style="width: 8%;">
+                                    <span class="icon icon-md text-danger"><span class="fa fa-list-check"></span></span>
+                                </div>
+                                <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="quiz">Quiz <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>{{progress.quiz}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.quiz}}%;"></div>
+                                        <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.quiz}}%;" id="quizbar"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row align-items-center mb-4">
-                            <div class="col-auto">
-                                <span class="icon icon-md text-success"><span class="fas fa-reorder"></span></span>
-                            </div>
-                            <div class="col">
-                                <div class="progress-wrapper">
+                            <div class="d-flex flex-row">
+                                <div style="width: 8%;">
+                                    <span class="icon icon-md text-secondary"><span class="fa fa-reorder"></span></span>
+                                </div>
+                                <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="rearrange">Re-Arrange <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>{{progress.rearrange}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-tertiary" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.rearrange}}%;"></div>
+                                        <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.rearrange}}%;" id="rearrangebar"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row align-items-center mb-4">
-                            <div class="col-auto">
-                                <span class="icon icon-md text-info"><span class="fa fa-code"></span></span>
-                            </div>
-                            <div class="col">
-                                <div class="progress-wrapper">
+                            <div class="d-flex flex-row">
+                                <div style="width: 8%;">
+                                    <span class="icon icon-md text-info"><span class="fa fa-code"></span></span>
+                                </div>
+                                <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="problems">Hands-On <i class="fa fa-external-link"></i></a>
                                         <div class="small font-weight-bold text-dark"><span>{{progress.problems}} %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.problems}}%;"></div>
+                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.problems}}%;" id="problemsbar"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <span class="icon icon-md text-purple"><span class="fa fa-terminal"></span></span>
-                            </div>
-                            <div class="col">
-                                <div class="progress-wrapper">
+                        <div class="row align-items-center mb-4">
+                            <div class="d-flex flex-row">
+                                <div style="width: 8%;">
+                                    <span class="icon icon-md text-purple"><span class="fa fa-terminal"></span></span>
+                                </div>
+                                <div class="progress-wrapper" style="width: 92%">
                                     <div class="progress-info">
                                         <a class="h6 mb-0" href="javascript:void(0)" name="assessment">Assessment <i class="fa fa-external-link"></i></a>
-                                        <div class="small font-weight-bold text-dark"><span>34 %</span></div>
+                                        <div class="small font-weight-bold text-dark"><span>0 %</span></div>
                                     </div>
                                     <div class="progress mb-0">
-                                        <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100" style="width: 34%;"></div>
+                                        <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;" id="assessmentbar"></div>
                                     </div>
                                 </div>
                             </div>
@@ -289,14 +289,30 @@
             });
             //module change
             $('a[class="module_link"]').on('click',function(){
-                $('li').removeClass('module_active');
-                $('li[id='+this.id+']').addClass('module_active');
-                if($(window).width()<962){
-                    $('#modules').hide();
-                    $('#module_progress').show();
-                }
-                $('#module_name').html($(this).html());
-                module_code = this.id;
+                $('#overlay').show();
+                var code = $(this).attr('id');
+                $.ajax({
+                    url : "{% url 'module_progress' %}", // the endpoint
+                    type : "GET", // http method
+                    data : { 
+                        code : code,
+                    }, // data sent with the post request
+                    // handle a successful response
+                    success : function(json){
+                        $('li').removeClass('module_active');
+                        $('li[id='+json['code']+']').addClass('module_active');
+                        if($(window).width()<962){
+                            $('#modules').hide();
+                            $('#module_progress').show();
+                        }
+                        $('#quizbar').css('width',json['quiz'].toString()+"%");
+                        $('#rearrangebar').css('width',json['rearrange'].toString()+"%");
+                        $('#problemsbar').css('width',json['problems'].toString()+"%");
+                        $('#module_name').html(json['name']);
+                        module_code = json['code'];
+                        $('#overlay').hide();
+                    }
+                });
             });
         });
     </script>
