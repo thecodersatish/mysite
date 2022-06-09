@@ -52,6 +52,8 @@ def index(request):
         return redirect('dashboard')
     return render(request,'index.html')
 
+def page_not_found_view(request, exception):
+    return render(request, 'page-404.html', status=404)
 
 @login_required
 def dashboard(request):
