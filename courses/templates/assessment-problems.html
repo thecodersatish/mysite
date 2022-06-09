@@ -25,6 +25,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js"></script>  
   <!-- Template CSS -->
     <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '/assets/css/login.css' %}">
     <style>
       del {
         text-decoration: none;
@@ -229,7 +230,7 @@
           <div class="col-12" id="demo"></div>
           </div>
         </div>
-        <button class="btn btn-primary" style="height: 60px;width: 100px;" id="end_assessment">submit</button>
+        <button class="btn btn-purple" style="height: 60px;width: 100px;" id="end_assessment">submit</button>
       </div>
       <!-- content-header -->
         <div class="container-fluid">
@@ -267,9 +268,9 @@
           <button class="btn saved" style="color: #ffdf6a;display: none;"><span class="dot"></span>auto save</button>
           </div>
           <div class="d-flex flex-row">
-            <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="cursor: pointer;padding-right: 10px;" title="dark theme" height="35px">
-            <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="light theme" height="35px">
-            <button class="btn btn-success shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
+            <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="dark theme" height="35px">
+            <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" title="light theme" height="35px">
+            <button class="btn btn-primary shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
           </div>
           </div>
           <div class="bg-white border" id="error" style="display: none;margin-top: 10px;padding: 10px;border-radius: 10px;">
@@ -424,7 +425,7 @@
       editor.renderer.updateFontSize();
       editor.resize();
       session.setMode("ace/mode/c_cpp");
-      editor.setTheme("ace/theme/chrome");
+      editor.setTheme("ace/theme/dracula");
       editor.setOptions({
         fontSize: "1.1rem"
       });
@@ -599,7 +600,7 @@
         $("#run").prop('disabled',true);
         if ($('#custominput').is(':checked')) {
           $.ajax({
-              url : "{% url 'run' %}", // the endpoint
+              url : "{% url 'code_ground' %}", // the endpoint
               type : "POST", // http method
               data : { source : encode(editor.getValue()),
                       input : encode($('#input').val()),
@@ -628,7 +629,7 @@
                   else
                   $('#output').html(decode(json['stdout']));
                 }
-                $("#run").html('<i class="fa fa-play text-white" style="padding-right: 5px;font-size: 18px;"></i>Run');
+                $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
                 $("#run").prop('disabled',false);
               },
 
@@ -699,7 +700,7 @@
                 var element = document.getElementById("testcases");
                 element.scrollIntoView({behavior: "smooth"});
               }
-              $("#run").html('<i class="fa fa-play text-white" style="padding-right: 5px;font-size: 18px;"></i>Run');
+              $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
               $("#run").prop('disabled',false);
             },
 
