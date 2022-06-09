@@ -25,4 +25,8 @@ $(function(){
     e.preventDefault();
     $('body').toggleClass('sidebar-show');
   });
+  $('.overlay').on('click', function(e){
+    e.preventDefault();
+    $('body').toggleClass('sidebar-show');
+  });
 });

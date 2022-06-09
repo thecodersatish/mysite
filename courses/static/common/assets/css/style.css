@@ -8,7 +8,12 @@
   .sidebar-show .sidebar {
     left: 0;
     opacity: 1;
-    animation:animateleft 0.5s }
+    animation:animateleft 0.5s ;
+  }
+  
+  .sidebar-show .overlay{
+    display: block;
+  }
 
 .sidebar {
   box-shadow: 0 0 5px #1111112b;
@@ -23,6 +28,19 @@
   z-index: 700;
   opacity: 0;
 }
+.overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+  }
   @keyframes animateleft{from{left:-300px;opacity:0} to{left:0;opacity:1}}
   @media (min-width: 992px) {
     .sidebar {

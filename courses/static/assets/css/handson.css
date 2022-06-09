@@ -75,12 +75,14 @@ del {
   #testcases{
     margin-bottom: 10px;
   }
+  @media (max-width: 962px) {
   .container__left {
-    width: 100%;
+    width: 100%!important;
   }
   .container__right {
-    width: 100%;
+    width: 100%!important;
   }
+}
   @media (min-width: 962px) {
     .container__left {
       /* Initially, the left takes 3/4 width */
