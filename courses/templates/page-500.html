@@ -1,11 +1,36 @@
-{% extends "layouts/base-fullscreen.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
 
-{% block title %} 500 Error {% endblock %} 
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" 
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Meta -->
+    <meta name="description" content="">
+    <meta name="author" content="Themepixels">
 
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+    <!-- Favicon -->
+    <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> -->
 
-{% block content %}
+    <title>Page not found</title>
+
+    <!-- Vendor CSS -->
+    <link href="lib/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+    <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg bg-light" style="height: 60px;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">CodeHub</a>
+            </div>
+        </nav>
 
     <main>
         <section class="vh-100 d-flex align-items-center justify-content-center">
@@ -17,14 +42,12 @@
                         <a class="btn btn-primary animate-hover" href="/"><i class="fas fa-chevron-left mr-3 pl-2 animate-left-3"></i>Go back home</a>
                     </div>
                     <div class="col-12 col-lg-7 order-1 order-lg-2 text-center d-flex align-items-center justify-content-center">
-                        <img class="img-fluid w-75" src="/static/assets/img/illustrations/500.svg" alt="500 Server Error">
+                        <img class="img-fluid w-75" src="{% static '/assets/img/500.svg' %}" alt="500 Server Error">
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-{% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+</body>
+</html>

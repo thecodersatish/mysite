@@ -55,6 +55,9 @@ def index(request):
 def page_not_found_view(request, exception):
     return render(request, 'page-404.html', status=404)
 
+def page_500_view(request):
+    return render(request, 'page-500.html', status=500)
+
 @login_required
 def dashboard(request):
     profile = Profile.objects.get(user=request.user)

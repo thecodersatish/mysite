@@ -22,3 +22,4 @@ urlpatterns = [
 ]
 
 handler404 = "courses.views.page_not_found_view"
+handler500 = "courses.views.page_500_view"
