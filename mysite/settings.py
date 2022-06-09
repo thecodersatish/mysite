@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "l5074en*jgi48%6&abe$8_izjtdzi!a7%s2ludjti=)cp-f@w*"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -153,5 +153,5 @@ STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR+'courses', 'static'),
 )
