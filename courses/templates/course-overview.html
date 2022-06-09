@@ -82,7 +82,7 @@
             bottom: 0;
             background-color: rgba(0,0,0,0.5);
             z-index: 2;
-            }
+        }
 
         #text{
             position: absolute;
@@ -106,13 +106,13 @@
         <div id="text"><i class="fa fa-spinner fa-spin"></i><span>Loading</span></div>
       </div>
     <div class="container-fluid">
-        <h2 class="h5 mb-0" style="padding: 25px;">{{course.name}} <a class="btn btn-sm btn-white">details</a></h2>
+        <h2 class="h5 mb-0" style="padding: 25px;">{{course.name}} <button class="btn btn-sm btn-white">details</button></h2>
         <div class="row">
             <div class="column" id="modules">
                 <div class="card border-light shadow-sm">
                     <div class="card-header border-bottom border-light d-flex justify-content-between">
                         <h2 class="h5 mb-0">Modules</h2>
-                        <a class="btn btn-sm btn-secondary">Total {{ modules|length }} modules</a>
+                        <button class="btn btn-sm btn-secondary">Total {{ modules|length }} modules</button>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group">

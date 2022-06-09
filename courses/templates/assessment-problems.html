@@ -200,10 +200,10 @@
               <i class="fa fa-remove"></i>
               {% endif %}
               </div>
-              <div class="question">{{q.title}}</div>
+              <div class="question">{{question1.title}}</div>
             </div>
           </a>
-          <a class="link-secondary" href="javascript:void(0)">
+          <a class="link-dark" href="javascript:void(0)">
             <div class="container d-flex flex-row justify-content-between sidebar-link" id="1">
               2
               {% if question2.status %}
@@ -212,7 +212,7 @@
               {% if question2.status == False %}
               <i class="fa fa-remove" style="color: red;"></i>
               {% endif %}
-              <div class="question">{{q.title}}</div>
+              <div class="question">{{question2.title}}</div>
             </div>
           </a>
         </nav>
@@ -234,7 +234,7 @@
       </div>
       <!-- content-header -->
         <div class="container-fluid">
-          <div class="loader bg-light"></div>
+          <div class="loader"></div>
           <div class="row" id="question-container">
             <div class="col-lg-4 bg-white left">
               <h2 class="title" style="padding-top: 10px;">{{question1.title}}</h2>  
@@ -255,7 +255,7 @@
               <h4>Sample Output 2</h4>
               <pre class="output2">{{question1.output2 |safe}}</pre>
           </div>
-        <div class="col-lg-8 right bg-light" id="right" style="position: relative;display: inline-block;">
+        <div class="col-lg-8 right" id="right" style="position: relative;display: inline-block;">
           <div class="d-flex flex-row justify-content-between" style="margin-top: 10px;">
           <div class="d-flex flex-row">
           <select class="form-select" aria-label="languages" style="width: 110px;" disabled>
@@ -265,11 +265,11 @@
             <option value="4">Java</option>
           </select>
           <span style="padding-left:10px"></span>
-          <button class="btn saved" style="color: #ffdf6a;display: none;"><span class="dot"></span>auto save</button>
+          <button class="btn saved" style="color: #ffdf6a;display: none;"><span class="dot"></span>saved</button>
           </div>
           <div class="d-flex flex-row">
-            <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" title="dark theme" height="35px">
-            <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" title="light theme" height="35px">
+            <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" data-toggle="tooltip" title="dark theme" height="35px">
+            <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" data-toggle="tooltip" title="light theme" height="35px">
             <button class="btn btn-primary shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
           </div>
           </div>
@@ -292,7 +292,7 @@
               <label class="form-check-label" for="custominput">Custom input</label>
             </div>
             <div class="d-flex flex-row">
-              <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code">
+              <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" data-toggle="tooltip" style="cursor: pointer;padding-right: 20px;" title="reset code">
               <button style="width: 120px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run</button>
             </div>
           </div>
@@ -444,6 +444,7 @@
         }
       }
       $(function(){
+        $('[data-toggle="tooltip"]').tooltip();
         //change theme
         $('#dark_theme').on('click',function(){
           $('#dark_theme').hide();
