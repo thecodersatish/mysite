@@ -172,7 +172,17 @@
           <br>
           <br>
           <footer>
-            <button type="button" class="btn btn-outline-primary">Prev</button><span style="padding-right: 50px;"></span><button class="btn btn-primary">Next</button>
+            {% if question.prev %}
+            <a type="button" class="btn btn-outline-primary" href="{{question.prev}}" >Prev</a>
+            {% else %}
+            <button type="button" class="btn btn-outline-primary" >Prev</button>
+            {% endif %}
+            <span style="padding-right: 50px;"></span>
+            {% if question.next %}
+            <a class="btn btn-primary" href="{{question.next}}">Next</a>
+            {% else %}
+            <a class="btn btn-primary" href="/courses/{{question.course}}/overview">Next</a>
+            {% endif %}
           </footer>
           <br>
         </div><!-- content-body -->

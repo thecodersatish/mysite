@@ -67,7 +67,7 @@ def dashboard(request):
 def course_overview(request,course_code):
     try:
         course = Course.objects.get(code=course_code)
-        modules= Module.objects.all().filter(course=course)
+        modules= Module.objects.filter(course=course)
         progress = eval(module_progress(request,modules[0].code).content.decode())
         return render(request,'course-overview.html',{'course':course,'modules':modules,'progress':progress})
     except Course.DoesNotExist:
@@ -78,25 +78,29 @@ def quiz_view(request,course_code,module_code,quiz_code):
     course = Course.objects.get(code=course_code)
     module= Module.objects.get(course=course,code=module_code)
     questions = []
-    for i in Quiz.objects.all().filter(module=module):
-        d=model_to_dict(i)
+    for i in Quiz.objects.filter(module=module):
+        d={'code':i.code,'question':i.question}
         questions.append(d)
         if Quiz_Submission.objects.filter(quiz=i,user=request.user).exists():
             obj = Quiz_Submission.objects.get(quiz=i,user=request.user)
             d['status'] = obj.status
     if quiz_code=="":
-        question = Quiz.objects.all().filter(course=course,module=module)[0]
+        question = Quiz.objects.get(course=course,module=module,code=questions[0]['code'])
     else:
         question = Quiz.objects.get(course=course,module=module,code=quiz_code)
     context=model_to_dict(question)
     if context['has_script']:
         context['script']=base64.b64decode(context['script']).decode()
-    try:
+    if Quiz_Submission.objects.filter(quiz=question,user=request.user).exists():
         obj = Quiz_Submission.objects.get(quiz=question,user=request.user)
         context['status'] = obj.status
         context['option_selected']=obj.option_selected
-    except:
-        pass
+    for i in range(len(questions)):
+        if(context['code']==questions[i]['code']):
+            if i!=0:
+                context['prev'] = questions[i-1]['code']
+            if i!=len(questions)-1:
+                context['next'] = questions[i+1]['code']
     return render(request,'quiz.html',{'questions':questions,'question':context,'data':dumps(context)})
 
 
@@ -119,7 +123,7 @@ def problem_view(request,course_code,module_code,problem_code):
     course = Course.objects.get(code=course_code)
     module= Module.objects.get(course=course,code=module_code)
     questions = []
-    for i in Problem.objects.all().filter(module=module):
+    for i in Problem.objects.filter(module=module):
         d={'code':i.code,'title':i.title}
         if Problem_Submission.objects.filter(problem=i,user=request.user,status=3).exists():
             d['status'] = True
@@ -127,7 +131,7 @@ def problem_view(request,course_code,module_code,problem_code):
             d['status'] = False
         questions.append(d)
     if problem_code=="":
-        question = Problem.objects.all().filter(course=course,module=module)[0]
+        question = Problem.objects.filter(course=course,module=module)[0]
     else:
         question = Problem.objects.get(course=course,module=module,code=problem_code)
     context=model_to_dict(question)
@@ -136,6 +140,12 @@ def problem_view(request,course_code,module_code,problem_code):
         context['source']=prev_code.source
     else:
         context['source']=context['default_code']
+    for i in range(len(questions)):
+        if(context['code']==questions[i]['code']):
+            if i!=0:
+                context['prev'] = questions[i-1]['code']
+            if i!=len(questions)-1:
+                context['next'] = questions[i+1]['code']
     return render(request,'coding-problem.html',{'questions':questions,'question':context,'module_type':module.type})
 
 
@@ -263,7 +273,7 @@ def problem_submit(request):
 def problem_submissions(request):
     if request.method=="GET":
         problem = Problem.objects.get(code=request.GET.get('problem_code'))
-        submissions = [model_to_dict(i) for i in Problem_Submission.objects.all().filter(user=request.user,problem=problem)]
+        submissions = [model_to_dict(i) for i in Problem_Submission.objects.filter(user=request.user,problem=problem)]
         return JsonResponse({"submissions":submissions})
 
 @csrf_exempt
@@ -280,7 +290,7 @@ def rearrange_view(request,course_code,module_code,problem_code):
     course = Course.objects.get(code=course_code)
     module= Module.objects.get(course=course,code=module_code)
     questions = []
-    for i in Rearrange_Problem.objects.all().filter(module=module):
+    for i in Rearrange_Problem.objects.filter(module=module):
         d={'code':i.code,'title':i.title}
         if Rearrange_Problem_Submission.objects.filter(problem=i,user=request.user,status=1).exists():
             d['status'] = True
@@ -299,6 +309,12 @@ def rearrange_view(request,course_code,module_code,problem_code):
     else:
         context = model_to_dict(question)
         context['status'] = True
+    for i in range(len(questions)):
+        if(context['code']==questions[i]['code']):
+            if i!=0:
+                context['prev'] = questions[i-1]['code']
+            if i!=len(questions)-1:
+                context['next'] = questions[i+1]['code']
     return render(request,'rearrange.html',{'questions':questions,'question':context,'statements':json.dumps(statements)})
 
 @csrf_exempt
@@ -407,7 +423,7 @@ def assessment_problem_view(request,course_code,module_code):
     assessment.start_time += datetime.timedelta(hours = 6.5)
     formatedDate = assessment.start_time.strftime("%Y-%m-%d %H:%M:%S")
     questions = []
-    for i in Assessment_Problem.objects.all().filter(module=module):
+    for i in Assessment_Problem.objects.filter(module=module):
         d=model_to_dict(i)
         if Assessment_Problem_Submission.objects.filter(problem=i,user=request.user,status=3).exists():
             d['status'] = True

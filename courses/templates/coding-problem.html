@@ -119,10 +119,14 @@
             <pre>{{question.input2 |safe}}</pre>
             <h5>Output 2:</h5>
             <pre>{{question.output2 |safe}}</pre>
+            {% if question.must_use != "None" %}
             <h6>Must use:</h6>
             <p>{{question.must_use}}</p>
+            {% endif %}
+            {% if question.must_use != "None" %}
             <h6>Don't use:</h6>
             <p>{{question.dont_use}}</p>
+            {% endif %}
             </div>
             <div id="submissions-content" style="display: none;padding: 15px;">
               <h4 class="text-blue">Submissions</h4>
@@ -241,8 +245,16 @@
             </div>
           </div>
           <div class="container d-flex justify-content-between" style="margin-bottom: 10px;">
-            <button class="btn btn-outline-primary" style="width: 100px;">Prev</button><button class="btn btn-outline-primary" style="width: 100px;">Next</button>
-          </div>
+            {% if question.prev %}
+            <a type="button" class="btn btn-outline-primary" href="{{question.prev}}" >Prev</a>
+            {% else %}
+            <button type="button" class="btn btn-outline-primary" >Prev</button>
+            {% endif %}
+            {% if question.next %}
+            <a class="btn btn-primary" href="{{question.next}}">Next</a>
+            {% else %}
+            <a class="btn btn-primary" href="/courses/{{question.course}}/overview">Next</a>
+            {% endif %}</div>
         </div>
         <div id="snackbar">saved..</div>
         <div class="modal" tabindex="-1" id="myModal">
