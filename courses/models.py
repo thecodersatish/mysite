@@ -40,6 +40,7 @@ class Course(models.Model):
     name = models.CharField(max_length=50,null=False,blank=False)
     img_url = models.CharField(max_length=50,null=False,blank=False)
     code = models.CharField(max_length=20,null=False,blank=False,primary_key = True)
+    language_code = models.IntegerField(default=75)
 
 class Course_Registration(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE)

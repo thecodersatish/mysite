@@ -385,7 +385,7 @@
             url : "{% url 'rearrange_submit' %}", // the endpoint
             type : "POST", // http method
             data : { source : encode(source),
-                    language_code : 50,
+                    language_code : "{{course.language_code}}",
                     problem_code : "{{question.code}}" }, // data sent with the post request
 
             // handle a successful response

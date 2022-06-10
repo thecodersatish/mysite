@@ -85,7 +85,6 @@
           <a class="navbar-brand" href="{% url 'home' %}">CodeHub</a>
         </div>
     </nav>
-    <br>
     <div class="container-fluid">
         <div class="text-center">
             <h3>Online IDE</h3>
@@ -125,7 +124,7 @@
     </div>
     <br>
     <div style="text-align: center;">
-        <button class="btn btn-success shadow" style="width: 100px;" onclick="run()" id="run"><i class="fa fa-play" style="font-size: 16px;padding-right:2px"></i>Run</button>
+        <button class="btn btn-success shadow" onclick="run()" id="run" style="min-width: 100px;"><i class="fa fa-play" style="font-size: 16px;padding-right:2px"></i>Run</button>
     </div>
     <br>
     </body>
@@ -147,6 +146,7 @@
         var input_editor = ace.edit("input-editor");
         var output_editor = ace.edit("output-editor");
         editor.resize()
+        editor.setTheme("ace/theme/dracula");
         editor.session.setMode("ace/mode/c_cpp");
         editor.setOptions({
             fontSize: "13pt",
@@ -179,7 +179,7 @@
                     editor.session.setMode("ace/mode/python");
                 }
                 else if(this.value==62){
-                    editor.setValue('//java program\nclass Main{\n    public static void main(String args[]){\n        System.out.println("Hello world;");\n    }\n}');
+                    editor.setValue('//java program\nclass Main{\n    public static void main(String args[]){\n        System.out.println("Hello world");\n    }\n}');
                     editor.session.setMode("ace/mode/java");
                 }
                 else if(this.value==63){

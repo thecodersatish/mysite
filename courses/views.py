@@ -73,6 +73,31 @@ def course_overview(request,course_code):
     except Course.DoesNotExist:
         return render(request,"page-404.html",{})
 
+@csrf_exempt
+@login_required
+def code_ground_view(request):
+    if request.method=="POST":
+        url = "https://judge0-ce.p.rapidapi.com/submissions"
+        data = "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+request.POST.get('source')+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true}"
+        querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
+        headers = {
+        'content-type': "application/json",
+        'x-rapidapi-host': "judge0-ce.p.rapidapi.com",
+        'x-rapidapi-key': "513e11481bmshd740ecb0d4d638ap1d286cjsn0f35f7d4e420"
+        }
+        response = requests.request("POST", url, data=data, headers=headers, params=querystring)
+        print(response)
+        url = "https://judge0-ce.p.rapidapi.com/submissions/"+response.json()["token"]
+        querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true"}
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        d=response.json()
+        return HttpResponse(
+            JsonResponse(d),
+            content_type="application/json"
+        )
+    else:
+        return render(request,'run.html')
+
 @login_required
 def quiz_view(request,course_code,module_code,quiz_code):
     course = Course.objects.get(code=course_code)
@@ -146,7 +171,7 @@ def problem_view(request,course_code,module_code,problem_code):
                 context['prev'] = questions[i-1]['code']
             if i!=len(questions)-1:
                 context['next'] = questions[i+1]['code']
-    return render(request,'coding-problem.html',{'questions':questions,'question':context,'module_type':module.type})
+    return render(request,'coding-problem.html',{'course':course,'questions':questions,'question':context,'module_type':module.type})
 
 
 
@@ -175,8 +200,6 @@ def run(request):
             JsonResponse(d),
             content_type="application/json"
         )
-    else:
-        return render(request,'run.html')
 
 @csrf_exempt
 @login_required
@@ -315,7 +338,7 @@ def rearrange_view(request,course_code,module_code,problem_code):
                 context['prev'] = questions[i-1]['code']
             if i!=len(questions)-1:
                 context['next'] = questions[i+1]['code']
-    return render(request,'rearrange.html',{'questions':questions,'question':context,'statements':json.dumps(statements)})
+    return render(request,'rearrange.html',{'course':course,'questions':questions,'question':context,'statements':json.dumps(statements)})
 
 @csrf_exempt
 @login_required

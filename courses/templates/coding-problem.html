@@ -163,7 +163,7 @@
             </div>
             <div><i class="fa fa-remove" title="close" id="close_error" style="font-size: 18px;color:red;cursor: pointer;"></i></div>
             </div>
-            <div id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></div>
+            <xmp id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></xmp>
           </div>
           <div id="custom-editor">
             <div id="editor" class="border shadow-sm"></div>
@@ -193,9 +193,9 @@
             </div>
           </div>
           <br>
-          <div class="container-fluid bg-white" id="testcases" style="display: none;">
+          <div class="container-fluid bg-white d-none" id="testcases">
             <ul class="list-group list-group-horizontal" style="padding: 0px;">
-              <a class="list-group-item content-active" id="testcase1" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
+              <a class="list-group-item testcase-active" id="testcase1" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
               <a class="list-group-item" id="testcase2" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
               <a class="list-group-item btn-primary" id="close-testcases" href="javascript:void(0)" style="width:50px;text-align: center;"><i class="fa fa-remove"></i></a>
             </ul>
@@ -600,7 +600,7 @@
               type : "POST", // http method
               data : { source : encode(editor.getValue()),
                       input : encode($('#input').val()),
-                      language_code : 50 }, // data sent with the post request
+                      language_code : "{{course.language_code}}"}, // data sent with the post request
 
               // handle a successful response
               success : function(json) {
@@ -646,7 +646,7 @@
             url : "{% url 'validate' %}", // the endpoint
             type : "POST", // http method
             data : { source : encode(editor.getValue()),
-                    language_code : 76,
+                    language_code : "{{course.language_code}}",
                     problem_code : "{{question.code}}" }, // data sent with the post request
             // handle a successful response
             success : function(json) {
@@ -750,7 +750,7 @@
           url : "{% url 'problem_submit' %}", // the endpoint
           type : "POST", // http method
           data : { source : encode(editor.getValue()),
-                  language_code : 50,
+                  language_code : "{{course.language_code}}",
                   problem_code : "{{question.code}}" }, // data sent with the post request
 
           // handle a successful response
