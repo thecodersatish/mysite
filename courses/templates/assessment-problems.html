@@ -605,7 +605,7 @@
               type : "POST", // http method
               data : { source : encode(editor.getValue()),
                       input : encode($('#input').val()),
-                      language_code : 50 }, // data sent with the post request
+                      language_code : "{{course.language_code}}" }, // data sent with the post request
 
               // handle a successful response
               success : function(json) {
@@ -651,7 +651,7 @@
             url : "{% url 'validate' %}", // the endpoint
             type : "POST", // http method
             data : { source : encode(editor.getValue()),
-                    language_code : 76,
+                    language_code : "{{course.language_code}}",
                     problem_code : question_codes[index]}, // data sent with the post request
             // handle a successful response
             success : function(json) {
@@ -756,7 +756,7 @@
           url : "{% url 'problem_submit' %}", // the endpoint
           type : "POST", // http method
           data : { source : encode(editor.getValue()),
-                  language_code : 50,
+                  language_code : "{{course.language_code}}",
                   problem_code : question_codes[index] }, // data sent with the post request
 
           // handle a successful response
