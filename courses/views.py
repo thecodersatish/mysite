@@ -78,7 +78,7 @@ def course_overview(request,course_code):
 def code_ground_view(request):
     if request.method=="POST":
         url = "https://judge0-ce.p.rapidapi.com/submissions"
-        data = "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+request.POST.get('source')+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true}"
+        data = "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+request.POST.get('source')+"\",\"stdin\": \""+request.POST.get('input')+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true}"
         querystring = {"base64_encoded":"true","fields":"*","redirect_stderr_to_stdout":"true","cpu_time_limit":1.0,"wall_time_limit":1.0,"stack_limit":1024.0}
         headers = {
         'content-type': "application/json",
@@ -259,9 +259,9 @@ def problem_submit(request):
             data = "{\"submissions\": ["
             f=open("courses/testcases/"+problem.course.code+"/"+problem.module.code+"/"+problem.code+".inout","r")
             l = f.readlines()
-            for i in range(2,7):
-                data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+l[i].strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+l[i+1].strip()+"\"}"
-                if i!=6:
+            for i in range(5):
+                data += "{\"language_id\": "+str(request.POST.get('language_code'))+",\"source_code\": \""+source+"\",\"stdin\": \""+l[2*i].strip()+"\",\"cpu_time_limit\":1.0,\"wall_time_limit\":1.0,\"redirect_stderr_to_stdout\":true,\"expected_output\":\""+l[2*i+1].strip()+"\"}"
+                if i!=4:
                     data += ","
             data += "]}"
             f.close()
