@@ -22,8 +22,8 @@ class LoginForm(forms.Form):
     rememberme = forms.BooleanField(
         widget = forms.CheckboxInput(
             attrs={
-                "class": "form-check-input",
-                'id' : "rememberme"
+                'id':"rememberme",
+                'class' : "form-check-input"
             }
         ),required=False
     )
