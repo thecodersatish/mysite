@@ -564,7 +564,31 @@
           timeout: 5000,
 
           error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert(textStatus);
+            $('#list').attr('uk-sortable', 'true');
+            $("#submit").html('Submit');
+            $("#submit").prop('disabled', false);
+            const notyf = new Notyf({
+              position: {
+                  x: 'right',
+                  y: 'top',
+              },
+              types: [
+                  {
+                      type: 'warning',
+                      background: 'red',
+                      icon: {
+                          className: 'fas fa-exclamation-triangle',
+                          tagName: 'span',
+                          color: '#fff'
+                      },
+                      dismissible: false
+                  }
+              ]
+          });
+          notyf.open({
+              type: 'warning',
+              message: 'unable to process your request. Please try agian'
+          });
           }
         });
       }
