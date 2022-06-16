@@ -119,16 +119,13 @@ class Rearrange_Problem(models.Model):
     output1 = models.CharField(max_length = 500,null=False,blank=False)
     input2 = models.CharField(max_length = 500,null=False,blank=False)
     output2 = models.CharField(max_length = 500,null=False,blank=False)
+    statements = models.TextField(max_length=20000,default="")
 
 class Rearrange_Problem_Submission(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
     status = models.BooleanField(default=0)
     version = models.IntegerField(default=0)
-
-class Statement(models.Model):
-    problem = models.ForeignKey(Rearrange_Problem,on_delete=models.CASCADE)
-    statement = models.CharField(max_length=500)
 
 class Assessment(models.Model):
     course = models.ForeignKey(Course,on_delete=models.CASCADE)

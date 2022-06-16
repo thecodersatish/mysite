@@ -324,7 +324,7 @@ def rearrange_view(request,course_code,module_code,problem_code):
         question = Rearrange_Problem.objects.filter(course=course,module=module)[0]
     else:
         question = Rearrange_Problem.objects.get(course=course,module=module,code=problem_code)
-    statements = [model_to_dict(i) for i in Statement.objects.filter(problem=question)]
+    statements = list(question.statements.split(","))
     if not Rearrange_Problem_Submission.objects.filter(problem=question,user=request.user,status=1).exists():
         random.shuffle(statements)
         context = model_to_dict(question)

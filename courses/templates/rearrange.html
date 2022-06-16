@@ -387,7 +387,7 @@
       }
       var statements = JSON.parse("{{statements|escapejs}}");
       for (var i = 0; i < statements.length; i++) {
-        $('#list').append('<xmp class="statement border-light shadow-sm">' + decode(statements[i]['statement']) + '</xmp>')
+        $('#list').append('<xmp class="statement border-light shadow-sm">' + decode(statements[i]) + '</xmp>')
       }
       function encode(str) {
         return btoa(str);
