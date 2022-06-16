@@ -1,97 +1,104 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" 
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<head>
 
-    <!-- Meta -->
-    <meta name="description" content="">
-    <meta name="author" content="Themepixels">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-    <!-- Favicon -->
-    <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> -->
+  <!-- Meta -->
+  <meta name="description" content="">
+  <meta name="author" content="Themepixels">
 
-    <title>Quiz</title>
+  <!-- Favicon -->
+  <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> -->
 
-    <!-- Vendor CSS -->
-    <link href="{% static 'commom/lib/remixicon/fonts/remixicon.css' %}" rel="stylesheet">
+  <title>Quiz</title>
+
+  <!-- Vendor CSS -->
+  <link href="{% static 'commom/lib/remixicon/fonts/remixicon.css' %}" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>   
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
   <!-- Template CSS -->
-    <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
-    <link rel="stylesheet" href="{% static '/assets/css/quiz.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
-  </head>
-  <body class="animate">
-    <div class="sidebar bg-white">
-      <i class="sidebar-close fa fa-remove" id="closeMenu"></i>
-      <div class="sidebar-header">
-        <a href="#" class="sidebar-logo"><span></span></a>
-        <a href="#" class="sidebar-logo-text text-blue">Code<span>Hub</span></a>
-      </div><!-- sidebar-header -->
-      <div class="sidebar-body">
-        <nav class="nav-sidebar">
-          {% for q in questions %}
-          {% if q.code == question.code %}
-          <a href="{{q.code}}" class="text-blue">
-            <div class="container d-flex flex-row justify-content-between sidebar-link" style="
+  <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
+  <link rel="stylesheet" href="{% static '/assets/css/quiz.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/notyf.min.css' %}">
+</head>
+
+<body class="animate">
+  <div class="sidebar bg-white">
+    <i class="sidebar-close fa fa-remove" id="closeMenu"></i>
+    <div class="sidebar-header">
+      <a href="#" class="sidebar-logo"><span></span></a>
+      <a href="#" class="sidebar-logo-text text-blue">Code<span>Hub</span></a>
+    </div><!-- sidebar-header -->
+    <div class="sidebar-body">
+      <nav class="nav-sidebar">
+        {% for q in questions %}
+        {% if q.code == question.code %}
+        <a href="{{q.code}}" class="text-blue">
+          <div class="container d-flex flex-row justify-content-between sidebar-link" style="
             border-left: #282a4a 3px solid;">
-              <div>{{forloop.counter}}</div>
-              <div id="status">
+            <div>{{forloop.counter}}</div>
+            <div id="status">
               {% if q.status %}
               <i class="fa fa-check"></i>
               {% endif %}
               {% if q.status == False %}
               <i class="fa fa-remove"></i>
               {% endif %}
-              </div>
-              <div class="question">{{q.question}}</div>
             </div>
-          </a>
-          {% endif %}
-          {% if q.code != question.code %}
-          <a href="{{q.code}}" class="link-primary" style="padding-left: 3px;">
-            <div class="container d-flex flex-row justify-content-between sidebar-link">
-              <div>{{forloop.counter}}</div>
-              {% if q.status %}
-              <i class="fa fa-check" style="color: green;"></i>
-              {% endif %}
-              {% if q.status == False %}
-              <i class="fa fa-remove" style="color: red;"></i>
-              {% endif %}
-              <div class="question">{{q.question}}</div>
-            </div>
-          </a>
-          {% endif %}
-          {% endfor %}
-        </nav>
-      </div><!-- sidebar-body -->
-      <div class="sidebar-footer">
-        <a href="/courses/{{question.course}}/overview"><i class="fa fa-arrow-right-from-bracket" data-toggle="tooltip" style="font-size: 25px;" title="back to course"></i></a>
-        <div class="avatar-body">
-          <div class="d-flex align-items-center justify-content-between">
-            <h6>Back to Course Details</h6>
-            <a href="" class="footer-menu"><i class="ri-settings-4-line"></i></a>
+            <div class="question">{{q.question}}</div>
           </div>
-        </div><!-- avatar-body -->
-      </div><!-- sidebar-footer -->
-    </div><!-- sidebar -->
+        </a>
+        {% endif %}
+        {% if q.code != question.code %}
+        <a href="{{q.code}}" class="link-primary" style="padding-left: 3px;">
+          <div class="container d-flex flex-row justify-content-between sidebar-link">
+            <div>{{forloop.counter}}</div>
+            {% if q.status %}
+            <i class="fa fa-check" style="color: green;"></i>
+            {% endif %}
+            {% if q.status == False %}
+            <i class="fa fa-remove" style="color: red;"></i>
+            {% endif %}
+            <div class="question">{{q.question}}</div>
+          </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+      </nav>
+    </div><!-- sidebar-body -->
+    <div class="sidebar-footer">
+      <a href="/courses/{{question.course}}/overview"><i class="fa fa-arrow-right-from-bracket" data-toggle="tooltip"
+          style="font-size: 25px;" title="back to course"></i></a>
+      <div class="avatar-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h6>Back to Course Details</h6>
+          <a href="" class="footer-menu"><i class="ri-settings-4-line"></i></a>
+        </div>
+      </div><!-- avatar-body -->
+    </div><!-- sidebar-footer -->
+  </div><!-- sidebar -->
 
-    <div class="content">
-      <div class="overlay"></div>
-      <div class="content-header navbar navbar-expand-lg">
-        <a class="content-menu d-lg-none"><i class="fa fa-bars" id="mobileMenu" style="font-size: 22px;"></i></a>
-       <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
-       <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
-     </div><!-- content-header -->
-      <div class="container-fluid">
-        <div class="d-flex flex-row" style="padding-top: 40px;padding-bottom:10px">
+  <div class="content">
+    <div class="overlay"></div>
+    <div class="content-header navbar navbar-expand-lg">
+      <a class="content-menu d-lg-none"><i class="fa fa-bars" id="mobileMenu" style="font-size: 22px;"></i></a>
+      <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
+      <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
+    </div><!-- content-header -->
+    <div class="container-fluid">
+      <div class="d-flex flex-row" style="padding-top: 40px;padding-bottom:10px">
         <h5>Question 1</h5>
         <span style="padding-left: 10px;"></span>
         <div style="text-align: center;background: #ffc334;
@@ -102,16 +109,16 @@
           Multi Choice
           {% endif %}
         </div>
-        </div>
-        <h6 style="color: rgb(102, 102, 102);font-size: 18px;">{{question.question |safe}}</h6>
-        {% if question.has_script %}
-        <div style="padding-top: 10px;">
+      </div>
+      <h6 style="color: rgb(102, 102, 102);font-size: 18px;">{{question.question |safe}}</h6>
+      {% if question.has_script %}
+      <div style="padding-top: 10px;">
         <pre>{{ question.script }}</pre>
-        </div>
-        {% endif %}
-        <div class="row gy-3" style="padding-top: 10px;font-size: 18px;">
-          {% if not question.type %}
-          <div> 
+      </div>
+      {% endif %}
+      <div class="row gy-3" style="padding-top: 10px;font-size: 18px;">
+        {% if not question.type %}
+        <div>
           <label class="form-check-label option" for="a">
             <input class="form-check-input" type="radio" name="options" value="a" id="a">
             <span style="padding-left: 3px;">{{ question.choice1|linebreaksbr }}</span>
@@ -136,7 +143,7 @@
               </label>
             </div>
             {% else %}
-            <div> 
+            <div>
               <label class="form-check-label option" for="a">
                 <input class="form-check-input" type="checkbox" name="options" value="a" id="a">
                 <span style="padding-left: 3px;">{{ question.choice1|linebreaksbr }}</span>
@@ -160,128 +167,176 @@
                     <span style="padding-left: 3px;">{{ question.choice4|linebreaksbr }}</span>
                   </label>
                 </div>
-            {% endif %}
-          </div>
-          <div id="error" style="color: red;"></div>
-          <br>
-          {% if question.status %}
-          <button class="btn btn-success">Submit</button>
-          {% else %}
-          <button class="btn btn-purple" onclick="submit()" id="quizsubmit">Submit</button>
-          {% endif %}
-          <br>
-          <br>
-          <footer>
-            {% if question.prev %}
-            <a type="button" class="btn btn-outline-primary" href="{{question.prev}}" >Prev</a>
-            {% else %}
-            <button type="button" class="btn btn-outline-primary" >Prev</button>
-            {% endif %}
-            <span style="padding-right: 50px;"></span>
-            {% if question.next %}
-            <a class="btn btn-primary" href="{{question.next}}">Next</a>
-            {% else %}
-            <a class="btn btn-primary" href="/courses/{{question.course}}/overview">Next</a>
-            {% endif %}
-          </footer>
-          <br>
-        </div><!-- content-body -->
-    </div><!-- content -->
-    <script src="{% static 'common/lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
-    <script src="{% static 'common/lib/feathericons/feather.min.js' %}"></script>
-    <script src="{% static 'common/assets/js/script.js' %}"></script>
-    <script>
-    if (!!window.performance && window.performance.navigation.type === 2) {
-      // value 2 means "The page was accessed by navigating into the history"
-      window.location.reload(); // reload whole page
-    }
-    window.onpageshow = function(event){
-      if(event.persisted){
-        window.location.reload();
-      }
-    }
-    $(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-      if('{{question.status}}'=='True'){
-        var options_selected = "{{question.option_selected}}";
-        for(var i=0;i<options_selected.length;i++){
-          $('input[id="'+options_selected[i]+'"]').prop("checked", true);
-          $('label[for="'+options_selected[i]+'"]').addClass('correct');
-        }
-        $('input[name="options"]').attr("disabled",true);
-      }else if('{{question.status}}'=='False'){
-        var options_selected = "{{question.option_selected}}";
-        for(var i=0;i<options_selected.length;i++){
-          $('input[id="'+options_selected[i]+'"]').prop("checked", true);
-          $('label[for="'+options_selected[i]+'"]').addClass('wrong');
-        }
-      }
-    });
-      function submit(){
-        var answer="";
-        $('input[name="options"]:checked').each(function(){
-          answer+=$(this).val();
-        });
-        if(answer){
-        $('#error').html('');
-        $("#quizsubmit").html("submittining...");
-        $('label').removeClass('wrong');
-        $.ajax({
-            url : "/quiz_submit/", // the endpoint
-            type : "POST", // http method
-            data : { code:"{{question.code}}",
-                    answer:answer}, // data sent with the post request
-        // handle a successful response
-            success : function(json) {
-              if(json['updated']){
-                alert('Your submission already in queue.Try again later');
-                return;
+                {% endif %}
+              </div>
+              <div id="error" style="color: red;"></div>
+              <br>
+              {% if question.status %}
+              <button class="btn btn-success">Submit</button>
+              {% else %}
+              <button class="btn btn-purple" onclick="submit()" id="quizsubmit">Submit</button>
+              {% endif %}
+              <br>
+              <br>
+              <footer>
+                {% if question.prev %}
+                <a type="button" class="btn btn-outline-primary" href="{{question.prev}}">Prev</a>
+                {% else %}
+                <button type="button" class="btn btn-outline-primary">Prev</button>
+                {% endif %}
+                <span style="padding-right: 50px;"></span>
+                {% if question.next %}
+                <a class="btn btn-primary" href="{{question.next}}">Next</a>
+                {% else %}
+                <a class="btn btn-primary" href="/courses/{{question.course}}/overview">Next</a>
+                {% endif %}
+              </footer>
+              <br>
+            </div><!-- content-body -->
+          </div><!-- content -->
+          <script src="{% static 'common/lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+          <script src="{% static 'common/lib/feathericons/feather.min.js' %}"></script>
+          <script src="{% static 'common/assets/js/script.js' %}"></script>
+          <script src="{% static 'assets/js/notyf.min.js' %}"></script>
+          <script>
+            if (!!window.performance && window.performance.navigation.type === 2) {
+              // value 2 means "The page was accessed by navigating into the history"
+              window.location.reload(); // reload whole page
+            }
+            window.onpageshow = function (event) {
+              if (event.persisted) {
+                window.location.reload();
               }
-              if(json['accepted']){
-                alert("Already Accepted");
-                $('input').prop("checked", false);
-                for(let i of json['answer']){
-                  $('label[for="'+i+'"]').addClass('correct');
-                  $('input[id="'+i+'"]').prop("checked", true);
+            }
+            $(function () {
+              $('[data-toggle="tooltip"]').tooltip();
+              if ('{{question.status}}' == 'True') {
+                var options_selected = "{{question.option_selected}}";
+                for (var i = 0; i < options_selected.length; i++) {
+                  $('input[id="' + options_selected[i] + '"]').prop("checked", true);
+                  $('label[for="' + options_selected[i] + '"]').addClass('correct');
                 }
-                $('#status').html('<i class="fa fa-check"></i>');
-                $('input[name="options"]').attr("disabled",true);
-                $('#quizsubmit').removeClass("btn-primary");
-                $('#quizsubmit').addClass("btn-success");
-                $('#quizsubmit').removeAttr('onclick');
-                $('#quizsubmit').html("Submit");
-                return;
+                $('input[name="options"]').attr("disabled", true);
+              } else if ('{{question.status}}' == 'False') {
+                var options_selected = "{{question.option_selected}}";
+                for (var i = 0; i < options_selected.length; i++) {
+                  $('input[id="' + options_selected[i] + '"]').prop("checked", true);
+                  $('label[for="' + options_selected[i] + '"]').addClass('wrong');
+                }
               }
-            if(json['status']){
-              $('input[name="options"]:checked').each(function(){
-                $('label[for="'+$(this).val()+'"]').addClass('correct');
+            });
+            function submit() {
+              var answer = "";
+              $('input[name="options"]:checked').each(function () {
+                answer += $(this).val();
               });
-              $('#status').html('<i class="fa fa-check"></i>');
-              $('input[name="options"]').attr("disabled",true);
-              $('#quizsubmit').removeClass("btn-primary");
-              $('#quizsubmit').addClass("btn-success");
-              $('#quizsubmit').removeAttr('onclick');
-              $('#quizsubmit').html("Submit");
-            }
-            else{
-              $('input[name="options"]:checked').each(function(){
-                $('label[for="'+$(this).val()+'"]').addClass('wrong');
-              });
-              $('#status').html('<i class="fa fa-remove"></i>');
-              $("#quizsubmit").html("Submit");
-            }
-        },
+              if (answer) {
+                $('#error').html('');
+                $("#quizsubmit").html("submittining...");
+                $('label').removeClass('wrong');
+                $.ajax({
+                  url: "/quiz_submit/", // the endpoint
+                  type: "POST", // http method
+                  data: {
+                    code: "{{question.code}}",
+                    answer: answer
+                  }, // data sent with the post request
+                  // handle a successful response
+                  success: function (json) {
+                    if (json['updated']) {
+                      alert('Your submission already in queue.Try again later');
+                      return;
+                    }
+                    if (json['accepted']) {
+                      alert("Already Accepted");
+                      $('input').prop("checked", false);
+                      for (let i of json['answer']) {
+                        $('label[for="' + i + '"]').addClass('correct');
+                        $('input[id="' + i + '"]').prop("checked", true);
+                      }
+                      $('#status').html('<i class="fa fa-check"></i>');
+                      $('input[name="options"]').attr("disabled", true);
+                      $('#quizsubmit').removeClass("btn-primary");
+                      $('#quizsubmit').addClass("btn-success");
+                      $('#quizsubmit').removeAttr('onclick');
+                      $('#quizsubmit').html("Submit");
+                      return;
+                    }
+                    if (json['status']) {
+                      const notyf = new Notyf({
+                        position: {
+                          x: 'right',
+                          y: 'top',
+                        },
+                        types: [
+                          {
+                            type: 'success',
+                            background: 'green',
+                            icon: {
+                              className: 'fas fa-check',
+                              tagName: 'span',
+                              color: '#fff'
+                            },
+                            dismissible: false
+                          }
+                        ]
+                      });
+                      notyf.open({
+                        type: 'success',
+                        message: 'correct answer'
+                      });
+                      $('input[name="options"]:checked').each(function () {
+                        $('label[for="' + $(this).val() + '"]').addClass('correct');
+                      });
+                      $('#status').html('<i class="fa fa-check"></i>');
+                      $('input[name="options"]').attr("disabled", true);
+                      $('#quizsubmit').removeClass("btn-primary");
+                      $('#quizsubmit').addClass("btn-success");
+                      $('#quizsubmit').removeAttr('onclick');
+                      $('#quizsubmit').html("Submit");
+                    }
+                    else {
+                      const notyf = new Notyf({
+                        position: {
+                          x: 'right',
+                          y: 'top',
+                        },
+                        types: [
+                          {
+                            type: 'warning',
+                            background: 'red',
+                            icon: {
+                              className: 'fas fa-remove',
+                              tagName: 'span',
+                              color: '#fff'
+                            },
+                            dismissible: false
+                          }
+                        ]
+                      });
+                      notyf.open({
+                        type: 'warning',
+                        message: 'wrong answer'
+                      });
+                      $('input[name="options"]:checked').each(function () {
+                        $('label[for="' + $(this).val() + '"]').addClass('wrong');
+                      });
+                      $('#status').html('<i class="fa fa-remove"></i>');
+                      $("#quizsubmit").html("Submit");
+                    }
+                  },
 
-        // handle a non-successful response
-        error : function(xhr,errmsg,err) {
-            alert(response["responseJSON"]["error"]);
-        }
-        });
-        }
-        else{
-        $('#error').html("please select an option");
-        }
-      }
-    </script>
-  </body>
+                  // handle a non-successful response
+                  error: function (xhr, errmsg, err) {
+                    alert(response["responseJSON"]["error"]);
+                  }
+                });
+              }
+              else {
+                $('#error').html("please select an option");
+              }
+            }
+          </script>
+</body>
+
 </html>

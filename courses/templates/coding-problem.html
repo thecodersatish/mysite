@@ -1,148 +1,160 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" 
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<head>
 
-    <!-- Meta -->
-    <meta name="description" content="">
-    <meta name="author" content="Themepixels">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-    <!-- Favicon -->
-    <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> -->
+  <!-- Meta -->
+  <meta name="description" content="">
+  <meta name="author" content="Themepixels">
 
-    <title>{{question.title}}</title>
+  <!-- Favicon -->
+  <!-- <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"> -->
 
-    <!-- Vendor CSS -->
+  <title>{{question.title}}</title>
+
+  <!-- Vendor CSS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js"></script> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>   
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
   <!-- Template CSS -->
-    <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/handson.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/notyf.min.css' %}" >
-    <style>
-      .resizer{
-        background-image: url("{% static '/assets/img/slider-icon.svg' %}");
-      }
-    </style>
-  </head>
-  <body class="animate">
-    <div class="sidebar">
-      <i class="sidebar-close fa fa-remove" id="closeMenu"></i>
-      <div class="sidebar-header">
-        <a href="#" class="sidebar-logo"><span></span></a>
-        <a href="#" class="sidebar-logo-text text-blue">Code<span>Hub</span></a>
-      </div><!-- sidebar-header -->
-      <div class="sidebar-body">
-        <nav class="nav-sidebar">
-          {% for q in questions %}
-          {% if q.code == question.code %}
-          <a href="{{q.code}}" class="text-blue">
-            <div class="container d-flex justify-content-between sidebar-link" style="
+  <link rel="stylesheet" href="{% static 'common/assets/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/handson.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/css/notyf.min.css' %}">
+  <style>
+    .resizer {
+      background-image: url("{% static '/assets/img/slider-icon.svg' %}");
+    }
+  </style>
+</head>
+
+<body class="animate">
+  <div class="sidebar">
+    <i class="sidebar-close fa fa-remove" id="closeMenu"></i>
+    <div class="sidebar-header">
+      <a href="#" class="sidebar-logo"><span></span></a>
+      <a href="#" class="sidebar-logo-text text-blue">Code<span>Hub</span></a>
+    </div><!-- sidebar-header -->
+    <div class="sidebar-body">
+      <nav class="nav-sidebar">
+        {% for q in questions %}
+        {% if q.code == question.code %}
+        <a href="{{q.code}}" class="text-blue">
+          <div class="container d-flex justify-content-between sidebar-link" style="
             border-left: #282a4a 3px solid;">
-              <div>{{forloop.counter}}</div>
-              <div id="status">
+            <div>{{forloop.counter}}</div>
+            <div id="status">
               {% if q.status %}
               <i class="fa fa-check"></i>
               {% endif %}
               {% if q.status == False %}
               <i class="fa fa-remove"></i>
               {% endif %}
-              </div>
-              <div class="question">{{q.title}}</div>
             </div>
-          </a>
-          {% endif %}
-          {% if q.code != question.code %}
-          <a href="{{q.code}}" class="link-primary" style="padding-left: 3px;">
-            <div class="container d-flex flex-row justify-content-between sidebar-link">
-              <div>{{forloop.counter}}</div>
-              {% if q.status %}
-              <i class="fa fa-check" style="color: green;"></i>
-              {% endif %}
-              {% if q.status == False %}
-              <i class="fa fa-remove" style="color: red;"></i>
-              {% endif %}
-              <div class="question">{{q.title}}</div>
-            </div>
-          </a>
-          {% endif %}
-          {% endfor %}
-        </nav>
-      </div><!-- sidebar-body -->
-      <div class="sidebar-footer">
-        <a href="/courses/{{question.course}}/overview"><i class="fa fa-arrow-right-from-bracket" style="font-size: 25px;" data-toggle="tooltip" title="back to course"></i></a>
-        <div class="avatar-body">
-          <div class="d-flex align-items-center justify-content-between">
-            <h6>Back to Course Details</h6>
-            <a href="" class="footer-menu"><i class="ri-settings-4-line"></i></a>
+            <div class="question">{{q.title}}</div>
           </div>
-        </div><!-- avatar-body -->
-      </div><!-- sidebar-footer -->
-    </div><!-- sidebar -->
-    <div class="content">
-      <div class="overlay"></div>
-      <div class="content-header navbar navbar-expand-lg">
-        <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i class="fa fa-bars" id="mobileMenu" style="font-size: 22px;"></i></a>
-       <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
-       <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
-     </div><!-- content-header -->
-        <div class="whole_container">
-          <div class="container__left" style="display: inline-block;margin: 0px;padding: 0px;">
-            <div class="d-flex flex-row justify-content-between" style="height: 45px;background-color: #f2f8fd;">
-              <a class="list-group-item1 content-active" id="description" href="javascript:void(0)"><i class="fa-solid fa-code" style="padding-right: 2px;"></i>Problem</a>
-              <a class="list-group-item1" id="submissions" href="javascript:void(0)"><i class="fa-regular fa-clock" style="padding-right: 2px;"></i>Submissions</a>
-              <a class="list-group-item1" id="support" href="javascript:void(0)"><i class="fa-solid fa-headset" style="padding-right: 2px;"></i>Support</a>
-            </div>
-            <div id="description-content" style="padding: 15px;">
-            <h4>{{question.title}}</h4>
-            <p>{{question.description |safe}}</p>
-            <hr />
-            <h5>Input Format:</h5>
-            <p>{{question.input_format |safe}}</p>
-            <hr />
-            <h5>Output Format:</h5>
-            <p>{{question.output_format |safe}}</p>
-            <hr />
-            <h5>input 1:</h5>
-            <pre>{{question.input1 |safe}}</pre>
-            <h5>Output 1:</h5>
-            <pre>{{question.output1 |safe}}</pre>
-            <h5>input 2:</h5>
-            <pre>{{question.input2 |safe}}</pre>
-            <h5>Output 2:</h5>
-            <pre>{{question.output2 |safe}}</pre>
-            {% if question.must_use != "None" %}
-            <h6>Must use:</h6>
-            <p>{{question.must_use}}</p>
+        </a>
+        {% endif %}
+        {% if q.code != question.code %}
+        <a href="{{q.code}}" class="link-primary" style="padding-left: 3px;">
+          <div class="container d-flex flex-row justify-content-between sidebar-link">
+            <div>{{forloop.counter}}</div>
+            {% if q.status %}
+            <i class="fa fa-check" style="color: green;"></i>
             {% endif %}
-            {% if question.must_use != "None" %}
-            <h6>Don't use:</h6>
-            <p>{{question.dont_use}}</p>
+            {% if q.status == False %}
+            <i class="fa fa-remove" style="color: red;"></i>
             {% endif %}
-            </div>
-            <div id="submissions-content" style="display: none;padding: 15px;">
-              <h4 class="text-blue">Submissions</h4>
-              <div class="accordion" id="myAccordion">
-              </div>
-            </div>
-            <div id="support-content" style="display: none;padding: 15px;">
-              <h4 class="text-blue">Support</h4>
-            </div>
+            <div class="question">{{q.title}}</div>
           </div>
-          <div class="resizer" id="dragMe"></div>
-        <div class="container__right bg-white" id="right" style="display: inline-block;margin: 0px;padding: 0px;">
-          <div class="d-flex flex-row justify-content-between" style="padding: 5px;background-color: #f3f7fd;height: 45px;">
-            <div class="d-flex flex-row">
-            <select class="form-select" aria-label="languages" style="width: 110px;height: 35px;padding: 0px;padding-left: 20px;" disabled>
+        </a>
+        {% endif %}
+        {% endfor %}
+      </nav>
+    </div><!-- sidebar-body -->
+    <div class="sidebar-footer">
+      <a href="/courses/{{question.course}}/overview"><i class="fa fa-arrow-right-from-bracket" style="font-size: 25px;"
+          data-toggle="tooltip" title="back to course"></i></a>
+      <div class="avatar-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <h6>Back to Course Details</h6>
+          <a href="" class="footer-menu"><i class="ri-settings-4-line"></i></a>
+        </div>
+      </div><!-- avatar-body -->
+    </div><!-- sidebar-footer -->
+  </div><!-- sidebar -->
+  <div class="content">
+    <div class="overlay"></div>
+    <div class="content-header navbar navbar-expand-lg">
+      <a id="mobileMenu" href="#" class="content-menu d-lg-none"><i class="fa fa-bars" id="mobileMenu"
+          style="font-size: 22px;"></i></a>
+      <a class="navbar-brand d-none d-lg-flex" href="{% url 'dashboard' %}">Dashboard</a>
+      <a class="navbar-brand d-lg-none" href="{% url 'dashboard' %}"><i class="fa fa-home"></i></a>
+    </div><!-- content-header -->
+    <div class="whole_container">
+      <div class="container__left" style="display: inline-block;margin: 0px;padding: 0px;">
+        <div class="d-flex flex-row justify-content-between" style="height: 45px;background-color: #f2f8fd;">
+          <a class="list-group-item1 content-active" id="description" href="javascript:void(0)"><i
+              class="fa-solid fa-code" style="padding-right: 2px;"></i>Problem</a>
+          <a class="list-group-item1" id="submissions" href="javascript:void(0)"><i class="fa-regular fa-clock"
+              style="padding-right: 2px;"></i>Submissions</a>
+          <a class="list-group-item1" id="support" href="javascript:void(0)"><i class="fa-solid fa-headset"
+              style="padding-right: 2px;"></i>Support</a>
+        </div>
+        <div id="description-content" style="padding: 15px;">
+          <h4>{{question.title}}</h4>
+          <p>{{question.description |safe}}</p>
+          <hr />
+          <h5>Input Format:</h5>
+          <p>{{question.input_format |safe}}</p>
+          <hr />
+          <h5>Output Format:</h5>
+          <p>{{question.output_format |safe}}</p>
+          <hr />
+          <h5>input 1:</h5>
+          <pre>{{question.input1 |safe}}</pre>
+          <h5>Output 1:</h5>
+          <pre>{{question.output1 |safe}}</pre>
+          <h5>input 2:</h5>
+          <pre>{{question.input2 |safe}}</pre>
+          <h5>Output 2:</h5>
+          <pre>{{question.output2 |safe}}</pre>
+          {% if question.must_use != "None" %}
+          <h6>Must use:</h6>
+          <p>{{question.must_use}}</p>
+          {% endif %}
+          {% if question.must_use != "None" %}
+          <h6>Don't use:</h6>
+          <p>{{question.dont_use}}</p>
+          {% endif %}
+        </div>
+        <div id="submissions-content" style="display: none;padding: 15px;">
+          <h4 class="text-blue">Submissions</h4>
+          <div class="accordion" id="myAccordion">
+          </div>
+        </div>
+        <div id="support-content" style="display: none;padding: 15px;">
+          <h4 class="text-blue">Support</h4>
+        </div>
+      </div>
+      <div class="resizer" id="dragMe"></div>
+      <div class="container__right bg-white" id="right" style="display: inline-block;margin: 0px;padding: 0px;">
+        <div class="d-flex flex-row justify-content-between"
+          style="padding: 5px;background-color: #f3f7fd;height: 45px;">
+          <div class="d-flex flex-row">
+            <select class="form-select" aria-label="languages"
+              style="width: 110px;height: 35px;padding: 0px;padding-left: 20px;" disabled>
               <option value="1">C</option>
               <option value="2">C++</option>
               <option value="3">Python</option>
@@ -150,668 +162,713 @@
             </select>
             <span style="padding-left:10px"></span>
             <a class="btn btn-outline-success" data-toggle="tooltip" title="save code" id="save">Save</a>
-            </div>
-            <div class="d-flex flex-row">
-              <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme" style="display: none;cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="light theme" height="25px">
-              <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme" style="cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip" title="dark theme" height="25px">
-              <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code" style="cursor: pointer;padding-right: 20px;" title="reset code" height="25px" data-toggle="tooltip" data-placement="bottom">
-            </div>
           </div>
-          <div class="bg-white border" id="error" style="display: none;margin-top: 10px;padding: 10px;border-radius: 10px;">
+          <div class="d-flex flex-row">
+            <img src="{% static 'assets/img/dark-theme.svg' %}" id="dark_theme"
+              style="display: none;cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip"
+              title="light theme" height="25px">
+            <img src="{% static 'assets/img/light-theme.svg' %}" id="light_theme"
+              style="cursor: pointer;padding-right: 10px;" data-placement="bottom" data-toggle="tooltip"
+              title="dark theme" height="25px">
+            <img src="{% static 'assets/img/reset_code.svg' %}" id="reset_code"
+              style="cursor: pointer;padding-right: 20px;" title="reset code" height="25px" data-toggle="tooltip"
+              data-placement="bottom">
+          </div>
+        </div>
+        <div class="bg-white border" id="error"
+          style="display: none;margin-top: 10px;padding: 10px;border-radius: 10px;">
           <div class="d-flex flex-row justify-content-between">
             <div style="color: red;font-size:medium;">
               Error(s):
             </div>
-            <div><i class="fa fa-remove" title="close" id="close_error" style="font-size: 18px;color:red;cursor: pointer;"></i></div>
-            </div>
-            <xmp id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></xmp>
+            <div><i class="fa fa-remove" title="close" id="close_error"
+                style="font-size: 18px;color:red;cursor: pointer;"></i></div>
           </div>
-          <div id="custom-editor">
-            <div id="editor" class="border shadow-sm"></div>
-          </div>
-          <br>
-          <div class="d-flex flex-row justify-content-between">
-            <div class="form-check" style="padding-top: 10px;font-size: 18px;">
-              <input class="form-check-input" type="checkbox" id="custominput">
-              <label class="form-check-label" for="custominput">Custom input</label>
-            </div>
-            <div class="d-flex flex-row">
-              <button style="width: 110px;margin-right: 10px;" class="btn btn-success" id="run" onclick="run()"><i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run</button>
-              <button class="btn btn-primary shadow" style="width: 110px;" onclick="submit()" id="submit"><img src="{% static 'assets/img/check-square.svg' %}" height="18px" style="padding-right: 5px;">Submit</button>
-            </div>
-          </div>
-          <div class="container" id="custominputbox" style="display: none;">
-            <br>
-            <div class="row gy-2">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <textarea class="form-control" rows="5" id="input" placeholder="input..."></textarea>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <pre id="output" style="height: 135px;background-color: white;margin:0px;">output...</pre>
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="container-fluid bg-white" id="testcases" style="display: none;">
-            <ul class="list-group list-group-horizontal" style="padding: 0px;">
-              <a class="list-group-item testcase-active" id="testcase1" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
-              <a class="list-group-item" id="testcase2" href="javascript:void(0)" style="width: 48%;text-align: center;"></a>
-              <a class="list-group-item btn-primary" id="close-testcases" href="javascript:void(0)" style="width:50px;text-align: center;"><i class="fa fa-remove"></i></a>
-            </ul>
-            <div class="testcases-content" style="padding: 10px;">
-              <div id="testcase1-content">
-                <h5>Input:</h5>
-                <pre id="testcase1input" style="height: 135px;background-color: white;margin:0px"></pre>
-                <div class="row gy-1" style="margin-top: 5px;">
-                  <div class="col-sm-6">
-                    <h5>Expected Result:</h5>
-                    <pre id="testcase1expected" style="height: 150px;background-color: white;margin:0px"></pre>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="d-flex flex-row justify-content-between">
-                      <h5>Actual Result:</h5>
-                      <div class="form-check form-switch" style="font-size: 18px;">
-                        <input class="form-check-input" type="checkbox" role="switch" id="diff1"/>
-                        <label class="form-check-label" for="diff1">Diff</label>
-                      </div>
-                    </div>
-                    <pre id="testcase1actual" style="height: 150px;background-color: white;margin:0px" contenteditable="true"></pre>
-                    <pre id="testcase1actualdiff" style="height: 150px;display: none;background-color: white;margin:0px" contenteditable="true"></pre>
-                  </div>
-                </div>
-              </div>
-              <div id="testcase2-content" style="display: none;">
-                <h5>Input:</h5>
-                <pre id="testcase2input" style="height: 135px;background-color: white;margin:0px"></pre>
-                <div class="row gy-1" style="margin-top: 5px;">
-                  <div class="col-sm-6">
-                    <h5>Expected Result:</h5>
-                    <pre id="testcase2expected" style="height: 150px;background-color: white;margin:0px"></pre>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="d-flex flex-row justify-content-between">
-                      <h5>Actual Result:</h5>
-                      <div class="form-check form-switch" style="font-size: 18px;">
-                        <input class="form-check-input" type="checkbox" role="switch" id="diff2"/>
-                        <label class="form-check-label" for="diff2">Diff</label>
-                      </div>
-                    </div>
-                    <pre id="testcase2actual" style="height: 150px;background-color: white;margin:0px" contenteditable="true"></pre>
-                    <pre id="testcase2actualdiff" style="height: 150px;display: none;background-color: white;margin:0px" contenteditable="true"></pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container d-flex justify-content-between" style="margin-bottom: 10px;">
-            {% if question.prev %}
-            <a type="button" class="btn btn-outline-primary" href="{{question.prev}}" >Prev</a>
-            {% else %}
-            <button type="button" class="btn btn-outline-primary" >Prev</button>
-            {% endif %}
-            {% if question.next %}
-            <a class="btn btn-primary" href="{{question.next}}">Next</a>
-            {% else %}
-            <a class="btn btn-primary" href="/courses/{{question.course}}/overview">Next</a>
-            {% endif %}</div>
+          <xmp id="error-description" style="font-size:medium;white-space: pre;width: 100%;overflow: auto;"></xmp>
         </div>
-        <div id="snackbar">saved..</div>
-        <div class="modal fade" id="modal-achievement" tabindex="-1" aria-labelledby="modal-achievement" aria-modal="true" role="dialog">
-          <div class="modal-dialog modal-success modal-dialog-centered" role="document">
-              <div class="modal-content">
-                  <div class="modal-header mx-auto">
-                      <p class="lead mb-0 text-white">You just completed a new problem</p>
-                  </div>
-                  <div class="modal-body">
-                      <div class="py-3 px-5 text-center">
-                          <span class="modal-icon display-1"><span class="fas fa-code"></span></span>
-                          <h2 class="h3 modal-title mb-3 text-white">{{question.title}}</h2>
-                          <p class="mb-4 text-white">One Thousand Dollars! Well done mate - heads are turning your way.</p>
-                          <div class="progress-wrapper">
-                              <div class="progress">
-                                  <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="modal-footer d-flex justify-content-center">
-                      <button type="button" class="btn btn-sm btn-white text-tertiary" class="btn-close" data-bs-dismiss="modal" aria-label="Close">Awesome!</button>
-                  </div>
-              </div>
+        <div id="custom-editor">
+          <div id="editor" class="border shadow-sm"></div>
+        </div>
+        <br>
+        <div class="d-flex flex-row justify-content-between">
+          <div class="form-check" style="padding-top: 10px;font-size: 18px;">
+            <input class="form-check-input" type="checkbox" id="custominput">
+            <label class="form-check-label" for="custominput">Custom input</label>
           </div>
+          <div class="d-flex flex-row">
+            <button style="width: 110px;margin-right: 10px;" class="btn btn-success" id="run" onclick="run()"><i
+                class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run</button>
+            <button class="btn btn-primary shadow" style="width: 110px;" onclick="submit()" id="submit"><img
+                src="{% static 'assets/img/check-square.svg' %}" height="18px"
+                style="padding-right: 5px;">Submit</button>
+          </div>
+        </div>
+        <div class="container" id="custominputbox" style="display: none;">
+          <br>
+          <div class="row gy-2">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <textarea class="form-control" rows="5" id="input" placeholder="input..."></textarea>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <pre id="output" style="height: 135px;background-color: white;margin:0px;">output...</pre>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="container-fluid bg-white" id="testcases" style="display: none;">
+          <ul class="list-group list-group-horizontal" style="padding: 0px;">
+            <a class="list-group-item testcase-active" id="testcase1" href="javascript:void(0)"
+              style="width: 48%;text-align: center;"></a>
+            <a class="list-group-item" id="testcase2" href="javascript:void(0)"
+              style="width: 48%;text-align: center;"></a>
+            <a class="list-group-item btn-primary" id="close-testcases" href="javascript:void(0)"
+              style="width:50px;text-align: center;"><i class="fa fa-remove"></i></a>
+          </ul>
+          <div class="testcases-content" style="padding: 10px;">
+            <div id="testcase1-content">
+              <h5>Input:</h5>
+              <pre id="testcase1input" style="height: 135px;background-color: white;margin:0px"></pre>
+              <div class="row gy-1" style="margin-top: 5px;">
+                <div class="col-sm-6">
+                  <h5>Expected Result:</h5>
+                  <pre id="testcase1expected" style="height: 150px;background-color: white;margin:0px"></pre>
+                </div>
+                <div class="col-sm-6">
+                  <div class="d-flex flex-row justify-content-between">
+                    <h5>Actual Result:</h5>
+                    <div class="form-check form-switch" style="font-size: 18px;">
+                      <input class="form-check-input" type="checkbox" role="switch" id="diff1" />
+                      <label class="form-check-label" for="diff1">Diff</label>
+                    </div>
+                  </div>
+                  <pre id="testcase1actual" style="height: 150px;background-color: white;margin:0px"
+                    contenteditable="true"></pre>
+                  <pre id="testcase1actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"
+                    contenteditable="true"></pre>
+                </div>
+              </div>
+            </div>
+            <div id="testcase2-content" style="display: none;">
+              <h5>Input:</h5>
+              <pre id="testcase2input" style="height: 135px;background-color: white;margin:0px"></pre>
+              <div class="row gy-1" style="margin-top: 5px;">
+                <div class="col-sm-6">
+                  <h5>Expected Result:</h5>
+                  <pre id="testcase2expected" style="height: 150px;background-color: white;margin:0px"></pre>
+                </div>
+                <div class="col-sm-6">
+                  <div class="d-flex flex-row justify-content-between">
+                    <h5>Actual Result:</h5>
+                    <div class="form-check form-switch" style="font-size: 18px;">
+                      <input class="form-check-input" type="checkbox" role="switch" id="diff2" />
+                      <label class="form-check-label" for="diff2">Diff</label>
+                    </div>
+                  </div>
+                  <pre id="testcase2actual" style="height: 150px;background-color: white;margin:0px"
+                    contenteditable="true"></pre>
+                  <pre id="testcase2actualdiff" style="height: 150px;display: none;background-color: white;margin:0px"
+                    contenteditable="true"></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container d-flex justify-content-between" style="margin-bottom: 10px;">
+          {% if question.prev %}
+          <a type="button" class="btn btn-outline-primary" href="{{question.prev}}">Prev</a>
+          {% else %}
+          <button type="button" class="btn btn-outline-primary">Prev</button>
+          {% endif %}
+          {% if question.next %}
+          <a class="btn btn-primary" href="{{question.next}}">Next</a>
+          {% else %}
+          <a class="btn btn-primary" href="/courses/{{question.course}}/overview">Next</a>
+          {% endif %}
+        </div>
       </div>
-      </div><!-- content-body -->
-    </div><!-- content -->
-    <script src="{% static 'common/lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
-    <script src="{% static 'common/lib/feathericons/feather.min.js' %}"></script>
-    <script src="{% static 'common/assets/js/script.js' %}"></script>
-    <script src="{% static 'assets/js/problem.js' %}" ></script>
-    <script src="{% static 'assets/js/diff.js' %}" ></script>
-    <script src="{% static 'assets/js/confetti.js' %}" ></script>
-    <script src="{% static 'assets/js/notyf.min.js' %}" ></script>
-    <script defer>
+      <div id="snackbar">saved..</div>
+      <div class="modal fade" id="modal-achievement" tabindex="-1" aria-labelledby="modal-achievement" aria-modal="true"
+        role="dialog">
+        <div class="modal-dialog modal-success modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header mx-auto">
+              <p class="lead mb-0 text-white">You just completed a new problem</p>
+            </div>
+            <div class="modal-body">
+              <div class="py-3 px-5 text-center">
+                <span class="modal-icon display-1"><span class="fas fa-code"></span></span>
+                <h2 class="h3 modal-title mb-3 text-white">{{question.title}}</h2>
+                <p class="mb-4 text-white">One Thousand Dollars! Well done mate - heads are turning your way.</p>
+                <div class="progress-wrapper">
+                  <div class="progress">
+                    <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                      aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="button" class="btn btn-sm btn-white text-tertiary" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close">Awesome!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- content-body -->
+  </div><!-- content -->
+  <script src="{% static 'common/lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+  <script src="{% static 'common/lib/feathericons/feather.min.js' %}"></script>
+  <script src="{% static 'common/assets/js/script.js' %}"></script>
+  <script src="{% static 'assets/js/problem.js' %}"></script>
+  <script src="{% static 'assets/js/diff.js' %}"></script>
+  <script src="{% static 'assets/js/confetti.js' %}"></script>
+  <script src="{% static 'assets/js/notyf.min.js' %}"></script>
+  <script defer>
     if (!!window.performance && window.performance.navigation.type === 2) {
-        // value 2 means "The page was accessed by navigating into the history"
-        window.location.reload(); // reload whole page
+      // value 2 means "The page was accessed by navigating into the history"
+      window.location.reload(); // reload whole page
+    }
+    window.onpageshow = function (event) {
+      if (event.persisted) {
+        window.location.reload();
       }
-      window.onpageshow = function(event){
-        if(event.persisted){
-          window.location.reload();
-        }
+    }
+    //editor initialization
+    var editor = ace.edit("editor")
+      , session = editor.getSession()
+      , Range = require("ace/range").Range;
+    editor.container.style.lineHeight = 1.2
+    editor.renderer.updateFontSize();
+    editor.resize();
+    session.setMode("ace/mode/c_cpp");
+    editor.setTheme("ace/theme/dracula");
+    editor.setOptions({
+      fontSize: "1.1rem"
+    });
+    session.setValue(decode("{{question.source}}"));
+    editor.clearSelection();
+    function encode(str) {
+      return btoa(str);
+    }
+    function decode(bytes) {
+      var escaped = escape(atob(bytes || ""));
+      try {
+        return decodeURIComponent(escaped);
+      } catch {
+        return unescape(escaped);
       }
-      //editor initialization
-      var editor = ace.edit("editor")
-      , session  = editor.getSession()
-      , Range    = require("ace/range").Range;
-        editor.container.style.lineHeight = 1.2
-      editor.renderer.updateFontSize();
-      editor.resize();
-      session.setMode("ace/mode/c_cpp");
-      editor.setTheme("ace/theme/dracula");
-      editor.setOptions({
-        fontSize: "1.1rem"
+    }
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      //change theme
+      $('#dark_theme').on('click', function () {
+        $('#dark_theme').hide();
+        $("#light_theme").show();
+        editor.setTheme("ace/theme/dracula");
       });
-      session.setValue(decode("{{question.source}}"));
-      editor.clearSelection();
-      function encode(str){
-        return btoa(str);
-      }
-      function decode(bytes) {
-        var escaped = escape(atob(bytes || ""));
-        try {
-            return decodeURIComponent(escaped);
-        } catch {
-            return unescape(escaped);
-        }
-      }
-      $(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-        //change theme
-        $('#dark_theme').on('click',function(){
-          $('#dark_theme').hide();
-          $("#light_theme").show();
-          editor.setTheme("ace/theme/dracula");
-        });
-        $('#light_theme').on('click',function(){
-          $('#light_theme').hide();
-          $("#dark_theme").show();
-          editor.setTheme("ace/theme/chrome");
-        });
-        //calling save function on clicking save button
-        $('#save').on('click',function(){
-          save();
-          var x = document.getElementById("snackbar");
-          x.className = "show";
-          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-        });
-        //error closing
-        $('#close_error').on('click',function(){
-          $('#error').hide();
-        });
-        //reset code
-        $('#reset_code').on('click',function(){
-          if (confirm('Are you sure you want to reset the code?')) {
-            // Save it!
-            var source="{{question.default_code}}";
-            var x=decode(source);
-            session.setValue(x);
-            editor.clearSelection();
-            if('{{module_type}}'=='1')
+      $('#light_theme').on('click', function () {
+        $('#light_theme').hide();
+        $("#dark_theme").show();
+        editor.setTheme("ace/theme/chrome");
+      });
+      //calling save function on clicking save button
+      $('#save').on('click', function () {
+        save();
+      });
+      //error closing
+      $('#close_error').on('click', function () {
+        $('#error').hide();
+      });
+      //reset code
+      $('#reset_code').on('click', function () {
+        if (confirm('Are you sure you want to reset the code?')) {
+          // Save it!
+          var source = "{{question.default_code}}";
+          var x = decode(source);
+          session.setValue(x);
+          editor.clearSelection();
+          if ('{{module_type}}' == '1')
             readonly_lines(parseInt("{{question.non_editable_lines}}"));
-            save();
-          }
-        });
-        //difference toggle
-        $("#diff1").on('change', function() {
-          if ($(this).is(':checked')) {
-            $('#testcase1actual').hide();
-            $('#testcase1actualdiff').show();
-          }
-          else {
-            $('#testcase1actualdiff').hide();
-            $('#testcase1actual').show();
-          }
-        });
-        $("#diff2").on('change', function() {
-          if ($(this).is(':checked')) {
-            $('#testcase2actual').hide();
-            $('#testcase2actualdiff').show();
-          }
-          else {
-            $('#testcase2actualdiff').hide();
-            $('#testcase2actual').show();
-          }
-        });
-        $('#submissions').on('click',function(){
-          $('#submissions').addClass('content-active');
-          $('#description').removeClass('content-active');
-          $('#support').removeClass('content-active');
-          if($(window).width()<962){
-            $('#right').hide();
-          }
-          $('#description-content').hide();
-          $('#submissions-content').show();
-          $('#support-content').hide();
-          get_submissions();
-        });
-      });
-      //save function
-      function save(){
-        $.ajax({
-            url : "/save_code", // the endpoint
-            type : "POST", // http method
-            data : { problem_code:"{{question.code}}",
-                    source: encode(editor.getValue())}, // data sent with the post request
-        // handle a successful response
-            success : function(json) {
-            }
-          });
-      }
-      //scroll function
-      function scrolling(){
-        var element = document.getElementById("testcases");
-        element.scrollIntoView({behavior: "smooth"});
-      }
-      //saving code
-      $(document).keydown(function(e) {
-        var key = undefined;
-        var possible = [ e.key, e.keyIdentifier, e.keyCode, e.which ];
-
-        while (key === undefined && possible.length > 0)
-        {
-            key = possible.pop();
-        }
-
-        if (key && (key == '115' || key == '83' ) && (e.ctrlKey || e.metaKey) && !(e.altKey))
-        {
-          e.preventDefault();
           save();
-          var x = document.getElementById("snackbar");
-          x.className = "show";
-          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000); 
-          return false;
         }
-        return true;
       });
-      //making some part of code non editable
-      function set_readonly(editor,readonly_ranges) {
-      var  session  = editor.getSession()
-          , Range    = require("ace/range").Range;
-          ranges    = [];
+      //difference toggle
+      $("#diff1").on('change', function () {
+        if ($(this).is(':checked')) {
+          $('#testcase1actual').hide();
+          $('#testcase1actualdiff').show();
+        }
+        else {
+          $('#testcase1actualdiff').hide();
+          $('#testcase1actual').show();
+        }
+      });
+      $("#diff2").on('change', function () {
+        if ($(this).is(':checked')) {
+          $('#testcase2actual').hide();
+          $('#testcase2actualdiff').show();
+        }
+        else {
+          $('#testcase2actualdiff').hide();
+          $('#testcase2actual').show();
+        }
+      });
+      $('#submissions').on('click', function () {
+        $('#submissions').addClass('content-active');
+        $('#description').removeClass('content-active');
+        $('#support').removeClass('content-active');
+        if ($(window).width() < 962) {
+          $('#right').hide();
+        }
+        $('#description-content').hide();
+        $('#submissions-content').show();
+        $('#support-content').hide();
+        get_submissions();
+      });
+    });
+    //save function
+    function save() {
+      $.ajax({
+        url: "/save_code", // the endpoint
+        type: "POST", // http method
+        data: {
+          problem_code: "{{question.code}}",
+          source: encode(editor.getValue())
+        }, // data sent with the post request
+        // handle a successful response
+        success: function (json) {
+          const notyf = new Notyf({
+            position: {
+              x: 'right',
+              y: 'bottom',
+            },
+            types: [
+              {
+                type: 'success',
+                background: 'green',
+                icon: {
+                  className: 'fas fa-save',
+                  tagName: 'span',
+                  color: '#fff'
+                },
+                dismissible: false
+              }
+            ]
+          });
+          notyf.open({
+            type: 'success',
+            message: 'saved...'
+          });
+        }
+      });
+    }
+    //scroll function
+    function scrolling() {
+      var element = document.getElementById("testcases");
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    //saving code
+    $(document).keydown(function (e) {
+      var key = undefined;
+      var possible = [e.key, e.keyIdentifier, e.keyCode, e.which];
+
+      while (key === undefined && possible.length > 0) {
+        key = possible.pop();
+      }
+
+      if (key && (key == '115' || key == '83') && (e.ctrlKey || e.metaKey) && !(e.altKey)) {
+        e.preventDefault();
+        save();
+        return false;
+      }
+      return true;
+    });
+    //making some part of code non editable
+    function set_readonly(editor, readonly_ranges) {
+      var session = editor.getSession()
+        , Range = require("ace/range").Range;
+      ranges = [];
 
       function before(obj, method, wrapper) {
         var orig = obj[method];
-        obj[method] = function() {
+        obj[method] = function () {
           var args = Array.prototype.slice.call(arguments);
-          return wrapper.call(this, function(){
-              return orig.apply(obj, args);
+          return wrapper.call(this, function () {
+            return orig.apply(obj, args);
           }, args);
         }
         return obj[method];
       }
       function intersects(range) {
-          return editor.getSelectionRange().intersects(range);
+        return editor.getSelectionRange().intersects(range);
       }
       function intersectsRange(newRange) {
-        for (i=0;i<ranges.length;i++)
-          if(newRange.intersects(ranges[i]))
+        for (i = 0; i < ranges.length; i++)
+          if (newRange.intersects(ranges[i]))
             return true;
         return false;
       }
       function preventReadonly(next, args) {
-          for(i=0;i<ranges.length;i++){if (intersects(ranges[i])) return;}
-          next();
+        for (i = 0; i < ranges.length; i++) { if (intersects(ranges[i])) return; }
+        next();
       }
-      function onEnd(position){
-        var row = position["row"],column=position["column"];
-        for (i=0;i<ranges.length;i++)
-          if(ranges[i].end["row"] == row && ranges[i].end["column"]==column)
+      function onEnd(position) {
+        var row = position["row"], column = position["column"];
+        for (i = 0; i < ranges.length; i++)
+          if (ranges[i].end["row"] == row && ranges[i].end["column"] == column)
             return true;
         return false;
       }
-      function outSideRange(position){
-        var row = position["row"],column=position["column"];
-        for (i=0;i<ranges.length;i++){
-          if(ranges[i].start["row"]< row && ranges[i].end["row"]>row)
+      function outSideRange(position) {
+        var row = position["row"], column = position["column"];
+        for (i = 0; i < ranges.length; i++) {
+          if (ranges[i].start["row"] < row && ranges[i].end["row"] > row)
+            return false;
+          if (ranges[i].start["row"] == row && ranges[i].start["column"] < column) {
+            if (ranges[i].end["row"] != row || ranges[i].end["column"] > column)
               return false;
-          if(ranges[i].start["row"]==row && ranges[i].start["column"]<column){
-              if(ranges[i].end["row"] != row || ranges[i].end["column"]>column)
-                return false;
           }
-          else if(ranges[i].end["row"] == row&&ranges[i].end["column"]>column){
-                return false;
+          else if (ranges[i].end["row"] == row && ranges[i].end["column"] > column) {
+            return false;
           }
         }
-        return true; 
+        return true;
       }
-      for(i=0;i<readonly_ranges.length;i++){
+      for (i = 0; i < readonly_ranges.length; i++) {
         ranges.push(new Range(...readonly_ranges[i]));
       }
-      ranges.forEach(function(range){session.addMarker(range, "readonly-highlight");});
+      ranges.forEach(function (range) { session.addMarker(range, "readonly-highlight"); });
       editor.keyBinding.addKeyboardHandler({
-          handleKeyboard : function(data, hash, keyString, keyCode, event) {
-            if (Math.abs(keyCode) == 13 && onEnd(editor.getCursorPosition())){
-              return false;
-            }
-            if (hash === -1 || (keyCode <= 40 && keyCode >= 37)) return false;
-            for(i=0;i<ranges.length;i++){
-              if (intersects(ranges[i])) {
-                  return {command:"null", passEvent:false};
-              }
+        handleKeyboard: function (data, hash, keyString, keyCode, event) {
+          if (Math.abs(keyCode) == 13 && onEnd(editor.getCursorPosition())) {
+            return false;
+          }
+          if (hash === -1 || (keyCode <= 40 && keyCode >= 37)) return false;
+          for (i = 0; i < ranges.length; i++) {
+            if (intersects(ranges[i])) {
+              return { command: "null", passEvent: false };
             }
           }
+        }
       });
       before(editor, 'onPaste', preventReadonly);
-      before(editor, 'onCut',   preventReadonly);
-      for(i=0;i<ranges.length;i++){
-        ranges[i].start  = session.doc.createAnchor(ranges[i].start);
-        ranges[i].end    = session.doc.createAnchor(ranges[i].end);
+      before(editor, 'onCut', preventReadonly);
+      for (i = 0; i < ranges.length; i++) {
+        ranges[i].start = session.doc.createAnchor(ranges[i].start);
+        ranges[i].end = session.doc.createAnchor(ranges[i].end);
         ranges[i].end.$insertRight = true;
-       }
+      }
 
       var old$tryReplace = editor.$tryReplace;
-      editor.$tryReplace = function(range, replacement) {
-          return intersectsRange(range)?null:old$tryReplace.apply(this, arguments);                        
+      editor.$tryReplace = function (range, replacement) {
+        return intersectsRange(range) ? null : old$tryReplace.apply(this, arguments);
       }
       var session = editor.getSession();
       var oldInsert = session.insert;
-      session.insert = function(position, text) {
-          return oldInsert.apply(this, [position, outSideRange(position)?text:""]);
+      session.insert = function (position, text) {
+        return oldInsert.apply(this, [position, outSideRange(position) ? text : ""]);
       }
       var oldRemove = session.remove;
-      session.remove = function(range) {
-          return intersectsRange(range)?false:oldRemove.apply(this, arguments);                        
+      session.remove = function (range) {
+        return intersectsRange(range) ? false : oldRemove.apply(this, arguments);
       }
       var oldMoveText = session.moveText;
-      session.moveText = function(fromRange, toPosition, copy) {
-          if (intersectsRange(fromRange) || !outSideRange(toPosition)) return fromRange;
-          return oldMoveText.apply(this, arguments);
+      session.moveText = function (fromRange, toPosition, copy) {
+        if (intersectsRange(fromRange) || !outSideRange(toPosition)) return fromRange;
+        return oldMoveText.apply(this, arguments);
       }
 
-      }
-      function refresheditor(readonly) {
-        set_readonly(editor,readonly);
-      }
-      function readonly_lines(line_numbers){
-        var x = editor.session.getLength();
-        var readonly_ranges=[];
-        readonly_ranges.push([x-line_numbers,0,x,0]);
-        refresheditor(readonly_ranges);
-      }
-      if('{{module_type}}'=='1')
+    }
+    function refresheditor(readonly) {
+      set_readonly(editor, readonly);
+    }
+    function readonly_lines(line_numbers) {
+      var x = editor.session.getLength();
+      var readonly_ranges = [];
+      readonly_ranges.push([x - line_numbers, 0, x, 0]);
+      refresheditor(readonly_ranges);
+    }
+    if ('{{module_type}}' == '1')
       readonly_lines(parseInt("{{question.non_editable_lines}}"));
 
-      function run(){
-        save();
-        $('#error').hide();
-        $("#testcases").hide();
-        $("#run").html('<i class="fa fa-spinner fa-spin"></i>');
-        $("#run").prop('disabled',true);
-        if ($('#custominput').is(':checked')) {
-          $.ajax({
-              url : "{% url 'code_ground' %}", // the endpoint
-              type : "POST", // http method
-              data : { source : encode(editor.getValue()),
-                      input : encode($('#input').val()),
-                      language_code : "{{course.language_code}}"}, // data sent with the post request
-
-              // handle a successful response
-              success : function(json) {
-                if(json['status']['id']==6){
-                  $('#error-description').html(decode(json['compile_output']));
-                  $('#error').show();
-                  var element = document.getElementById("error");
-                  element.scrollIntoView({behavior: "smooth"});
-                }
-                else if(json['status_id']==5){
-                  $('#output').html(json['status']['description'])
-                }
-                else if(json['status_id']==8){
-                  $('#output').html(decode(json['stdout'])+"\n"+json['status']['description']+": Output Limit Exceeded")
-                }
-                else if(json['status_id']==11){
-                  $('#output').html(decode(json['stdout'])+"\n"+json['status']['description']);
-                }
-                else{
-                  if(json['compile_output']!=null)
-                  $('#output').html(decode(json['stdout'])+"\n"+decode(json['compile_output']));
-                  else
-                  $('#output').html(decode(json['stdout']));
-                }
-                $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
-                $("#run").prop('disabled',false);
-              },
-
-              statusCode:{
-                  500: function(){
-                      alert("unable to process request. please try again");
-                  }
-              },
-
-              // handle a non-successful response
-              error : function(xhr,errmsg,err) {
-                  alert(response["responseJSON"]["error"]);
-              }
-          });
-        }
-        else{
-          $.ajax({
-            url : "{% url 'validate' %}", // the endpoint
-            type : "POST", // http method
-            data : { source : encode(editor.getValue()),
-                    language_code : "{{course.language_code}}",
-                    problem_code : "{{question.code}}" }, // data sent with the post request
-            // handle a successful response
-            success : function(json) {
-              if(json[0]['status']['id']==6){
-                $('#error-description').html(decode(json[0]['compile_output']));
-                $('#error').show();
-                var element = document.getElementById("error");
-                element.scrollIntoView({behavior: "smooth"});
-              }
-              else{
-                $("#testcase1input").html(decode(json[0]['stdin']));
-                $("#testcase1expected").html(decode(json[0]['expected_output']));
-                $("#testcase2input").html(decode(json[1]['stdin']));
-                $("#testcase2expected").html(decode(json[1]['expected_output']));
-                if(json[0]['status']['id']==5){
-                  $('#testcase1actual').html(json[0]['status']['description'])
-                }
-                else if(json[0]['status']['id']==8){
-                  $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json[0]['message']));
-                }
-                else{
-                  $('#testcase1actual').html(decode(json[0]['stdout'])+"\n"+decode(json['compile_output']));
-                }
-                if(json[1]['status']['id']==5){
-                  $('#testcase2actual').html(json[1]['status']['description'])
-                }
-                else if(json[1]['status']['id']==8){
-                  $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json[1]['message']));
-                }
-                else{
-                  $('#testcase2actual').html(decode(json[1]['stdout'])+"\n"+decode(json['compile_output']));
-                }
-                if(json[0]['status']['id']==3)
-                $('#testcase1').html('Testcase 1 (Passed)');
-                else
-                $('#testcase1').html('Testcase 1 (Failed)');
-                if(json[1]['status']['id']==3)
-                $('#testcase2').html('Testcase 2 (Passed)');
-                else
-                $('#testcase2').html('Testcase 2 (Failed)');
-                launch();
-                $('#testcase1').addClass('content-active');
-                $('#testcase2').removeClass('content-active');
-                $('#testcase2-content').hide();
-                $('#testcase1-content').show();
-                $('#testcases').show();
-                var element = document.getElementById("testcases");
-                element.scrollIntoView({behavior: "smooth"});
-              }
-              $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
-              $("#run").prop('disabled',false);
-            },
-            statusCode:{
-                500: function(){
-                    alert("unable to process request. please try again");
-                }
-            },
-            // handle a non-successful response
-            error : function(xhr,errmsg,err) {
-                alert(response["responseJSON"]["error"]);
-            }
-          });
-        }
-      }
-      //difference function
-      var dmp = new diff_match_patch();
-
-      function launch() {
-        var text1 = $('#testcase1expected').html();
-        var text2 = $('#testcase1actual').html();
-        dmp.Diff_Timeout = 99.0;
-        dmp.Diff_EditCost = 30.0;
-
-        var ms_start = (new Date()).getTime();
-        var d = dmp.diff_main(text1, text2);
-        var ms_end = (new Date()).getTime();
-        dmp.diff_cleanupEfficiency(d);
-        var ds = dmp.diff_prettyHtml(d);
-        document.getElementById('testcase1actualdiff').innerHTML = ds;
-        text1 = $('#testcase2expected').html();
-        text2 = $('#testcase2actual').html();
-        dmp.Diff_Timeout = 99.0;
-        dmp.Diff_EditCost = 30.0;
-
-        var ms_start = (new Date()).getTime();
-        var d = dmp.diff_main(text1, text2);
-        var ms_end = (new Date()).getTime();
-        dmp.diff_cleanupEfficiency(d);
-        var ds = dmp.diff_prettyHtml(d);
-        document.getElementById('testcase2actualdiff').innerHTML = ds;
-      }
-
-      //submit function
-      function submit(){
-        save();
-        $('#error').hide();
-        $("#testcases").hide();
-        $("#submit").html('<i class="fa fa-spinner fa-spin"></i>');
-        $("#submit").prop('disabled',true);
+    function run() {
+      save();
+      $('#error').hide();
+      $("#testcases").hide();
+      $("#run").html('<i class="fa fa-spinner fa-spin"></i>');
+      $("#run").prop('disabled', true);
+      if ($('#custominput').is(':checked')) {
         $.ajax({
-          url : "{% url 'problem_submit' %}", // the endpoint
-          type : "POST", // http method
-          data : { source : encode(editor.getValue()),
-                  language_code : "{{course.language_code}}",
-                  problem_code : "{{question.code}}" }, // data sent with the post request
+          url: "{% url 'code_ground' %}", // the endpoint
+          type: "POST", // http method
+          data: {
+            source: encode(editor.getValue()),
+            input: encode($('#input').val()),
+            language_code: "{{course.language_code}}"
+          }, // data sent with the post request
 
           // handle a successful response
-          success : function(json) {
-            $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
-            $("#submit").prop('disabled',false);
-            if(json['status_id']==-1){
-              alert("One of your submission already in queue. Please try again");
+          success: function (json) {
+            if (json['status']['id'] == 6) {
+              $('#error-description').html(decode(json['compile_output']));
+              $('#error').show();
+              var element = document.getElementById("error");
+              element.scrollIntoView({ behavior: "smooth" });
             }
-            else if(json['status_id']==1){
-              alert("One of your solutions already accepted");
+            else if (json['status_id'] == 5) {
+              $('#output').html(json['status']['description'])
             }
-            else{
-              get_submissions();
-              if(json['status_id']==3){
-                $('#status').html('<i class="fa fa-check"></i>');
-                var myModal = new bootstrap.Modal(document.getElementById('modal-achievement'), {
-                  keyboard: false
-                });
-                myModal.show();
-                const start = () => {
-                    setTimeout(function() {
-                        confetti.start()
-                    }, 0); // 1000 is time that after 1 second start the confetti ( 1000 = 1 sec)
-                };
-                //  for stopping the confetti 
-                const stop = () => {
-                    setTimeout(function() {
-                        confetti.stop()
-                    }, 5000); // 5000 is time that after 5 second stop the confetti ( 5000 = 5 sec)
-                };
-                // after this here we are calling both the function so it works
-                start();
-                stop();
-              }
-              else{
-                $('#status').html('<i class="fa fa-remove"></i>');
-              }
-              $('#submissions').addClass('content-active');
-              $('#description').removeClass('content-active');
-              $('#support').removeClass('content-active');
-              if($(window).width()<962){
-                  $('#right').hide();
-              }
-              $('#description-content').hide();
-              $('#submissions-content').fadeIn('slow');
-              $('#support-content').hide();
+            else if (json['status_id'] == 8) {
+              $('#output').html(decode(json['stdout']) + "\n" + json['status']['description'] + ": Output Limit Exceeded")
             }
+            else if (json['status_id'] == 11) {
+              $('#output').html(decode(json['stdout']) + "\n" + json['status']['description']);
+            }
+            else {
+              if (json['compile_output'] != null)
+                $('#output').html(decode(json['stdout']) + "\n" + decode(json['compile_output']));
+              else
+                $('#output').html(decode(json['stdout']));
+            }
+            $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
+            $("#run").prop('disabled', false);
+          },
+
+          statusCode: {
+            500: function () {
+              alert("unable to process request. please try again");
+            }
+          },
+
+          // handle a non-successful response
+          error: function (xhr, errmsg, err) {
+            alert(response["responseJSON"]["error"]);
           }
         });
       }
-      //get all submissions
-      function get_submissions(){
+      else {
         $.ajax({
-          url : "{% url 'problem_submissions' %}", // the endpoint
-          type : "GET", // http method
-          data : { problem_code : "{{question.code}}" }, // data sent with the post request
-
+          url: "{% url 'validate' %}", // the endpoint
+          type: "POST", // http method
+          data: {
+            source: encode(editor.getValue()),
+            language_code: "{{course.language_code}}",
+            problem_code: "{{question.code}}"
+          }, // data sent with the post request
           // handle a successful response
-          success : function(json) {
-            $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
-            $("#submit").prop('disabled',false);
-            $("#myAccordion").html("");
-            for(var i=json['submissions'].length-1;i>=0;i--){
-              var sub_time = new Date(json['submissions'][i]['date']);
-              var s='<div class="accordion-item">\
-            <div class="accordion-header" id="headingOne">\
-                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#submission'+i+'">\
-                <div class="d-flex flex-row justify-content-between">\
-                    <div><span>#'+(i+1)+'</span>';
-              if(json['submissions'][i]['status']==3)
-              s+='<span style="color: green;padding-left: 10px;">Accepted';
-              else if(json['submissions'][i]['status']==4)
-              s+='<span style="color: red;padding-left: 10px;">Wrong Answer';
-              else if(json['submissions'][i]['status']==5)
-              s+='<span style="color: red;padding-left: 10px;">Time Limit Exceeded';
-              else if(json['submissions'][i]['status']==6)
-              s+='<span style="color: red;padding-left: 10px;">Compilation Error';
-              else if(json['submissions'][i]['status']==-2)
-              s+='<span style="color: red;padding-left: 10px;">Requirements not matched';
-              else if(json['submissions'][i]['status']==-1)
-              s+='<span style="padding-left: 10px;">In Queue';
+          success: function (json) {
+            if (json[0]['status']['id'] == 6) {
+              $('#error-description').html(decode(json[0]['compile_output']));
+              $('#error').show();
+              var element = document.getElementById("error");
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+            else {
+              $("#testcase1input").html(decode(json[0]['stdin']));
+              $("#testcase1expected").html(decode(json[0]['expected_output']));
+              $("#testcase2input").html(decode(json[1]['stdin']));
+              $("#testcase2expected").html(decode(json[1]['expected_output']));
+              if (json[0]['status']['id'] == 5) {
+                $('#testcase1actual').html(json[0]['status']['description'])
+              }
+              else if (json[0]['status']['id'] == 8) {
+                $('#testcase1actual').html(decode(json[0]['stdout']) + "\n" + decode(json[0]['message']));
+              }
+              else {
+                $('#testcase1actual').html(decode(json[0]['stdout']) + "\n" + decode(json['compile_output']));
+              }
+              if (json[1]['status']['id'] == 5) {
+                $('#testcase2actual').html(json[1]['status']['description'])
+              }
+              else if (json[1]['status']['id'] == 8) {
+                $('#testcase2actual').html(decode(json[1]['stdout']) + "\n" + decode(json[1]['message']));
+              }
+              else {
+                $('#testcase2actual').html(decode(json[1]['stdout']) + "\n" + decode(json['compile_output']));
+              }
+              if (json[0]['status']['id'] == 3)
+                $('#testcase1').html('Testcase 1 (Passed)');
               else
-              s+='<span style="color: red;padding-left: 10px;">Runtime Error';
-              s+='</span>\
+                $('#testcase1').html('Testcase 1 (Failed)');
+              if (json[1]['status']['id'] == 3)
+                $('#testcase2').html('Testcase 2 (Passed)');
+              else
+                $('#testcase2').html('Testcase 2 (Failed)');
+              launch();
+              $('#testcase1').addClass('content-active');
+              $('#testcase2').removeClass('content-active');
+              $('#testcase2-content').hide();
+              $('#testcase1-content').show();
+              $('#testcases').show();
+              var element = document.getElementById("testcases");
+              element.scrollIntoView({ behavior: "smooth" });
+            }
+            $("#run").html('<i class="fa fa-play" style="padding-right: 5px;font-size: 18px;"></i>Run');
+            $("#run").prop('disabled', false);
+          },
+          statusCode: {
+            500: function () {
+              alert("unable to process request. please try again");
+            }
+          },
+          // handle a non-successful response
+          error: function (xhr, errmsg, err) {
+            alert(response["responseJSON"]["error"]);
+          }
+        });
+      }
+    }
+    //difference function
+    var dmp = new diff_match_patch();
+
+    function launch() {
+      var text1 = $('#testcase1expected').html();
+      var text2 = $('#testcase1actual').html();
+      dmp.Diff_Timeout = 99.0;
+      dmp.Diff_EditCost = 30.0;
+
+      var ms_start = (new Date()).getTime();
+      var d = dmp.diff_main(text1, text2);
+      var ms_end = (new Date()).getTime();
+      dmp.diff_cleanupEfficiency(d);
+      var ds = dmp.diff_prettyHtml(d);
+      document.getElementById('testcase1actualdiff').innerHTML = ds;
+      text1 = $('#testcase2expected').html();
+      text2 = $('#testcase2actual').html();
+      dmp.Diff_Timeout = 99.0;
+      dmp.Diff_EditCost = 30.0;
+
+      var ms_start = (new Date()).getTime();
+      var d = dmp.diff_main(text1, text2);
+      var ms_end = (new Date()).getTime();
+      dmp.diff_cleanupEfficiency(d);
+      var ds = dmp.diff_prettyHtml(d);
+      document.getElementById('testcase2actualdiff').innerHTML = ds;
+    }
+
+    //submit function
+    function submit() {
+      save();
+      $('#error').hide();
+      $("#testcases").hide();
+      $("#submit").html('<i class="fa fa-spinner fa-spin"></i>');
+      $("#submit").prop('disabled', true);
+      $.ajax({
+        url: "{% url 'problem_submit' %}", // the endpoint
+        type: "POST", // http method
+        data: {
+          source: encode(editor.getValue()),
+          language_code: "{{course.language_code}}",
+          problem_code: "{{question.code}}"
+        }, // data sent with the post request
+
+        // handle a successful response
+        success: function (json) {
+          $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
+          $("#submit").prop('disabled', false);
+          if (json['status_id'] == -1) {
+            alert("One of your submission already in queue. Please try again");
+          }
+          else if (json['status_id'] == 1) {
+            alert("One of your solutions already accepted");
+          }
+          else {
+            get_submissions();
+            if (json['status_id'] == 3) {
+              $('#status').html('<i class="fa fa-check"></i>');
+              var myModal = new bootstrap.Modal(document.getElementById('modal-achievement'), {
+                keyboard: false
+              });
+              myModal.show();
+              const start = () => {
+                setTimeout(function () {
+                  confetti.start()
+                }, 0); // 1000 is time that after 1 second start the confetti ( 1000 = 1 sec)
+              };
+              //  for stopping the confetti 
+              const stop = () => {
+                setTimeout(function () {
+                  confetti.stop()
+                }, 5000); // 5000 is time that after 5 second stop the confetti ( 5000 = 5 sec)
+              };
+              // after this here we are calling both the function so it works
+              start();
+              stop();
+            }
+            else {
+              $('#status').html('<i class="fa fa-remove"></i>');
+            }
+            $('#submissions').addClass('content-active');
+            $('#description').removeClass('content-active');
+            $('#support').removeClass('content-active');
+            if ($(window).width() < 962) {
+              $('#right').hide();
+            }
+            $('#description-content').hide();
+            $('#submissions-content').fadeIn('slow');
+            $('#support-content').hide();
+          }
+        }
+      });
+    }
+    //get all submissions
+    function get_submissions() {
+      $.ajax({
+        url: "{% url 'problem_submissions' %}", // the endpoint
+        type: "GET", // http method
+        data: { problem_code: "{{question.code}}" }, // data sent with the post request
+
+        // handle a successful response
+        success: function (json) {
+          $('#submit').html('<img src="{% static "assets/img/check-square.svg" %}" height="18px" style="padding-right: 5px;">Submit');
+          $("#submit").prop('disabled', false);
+          $("#myAccordion").html("");
+          for (var i = json['submissions'].length - 1; i >= 0; i--) {
+            var sub_time = new Date(json['submissions'][i]['date']);
+            var s = '<div class="accordion-item">\
+            <div class="accordion-header" id="headingOne">\
+                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#submission'+ i + '">\
+                <div class="d-flex flex-row justify-content-between">\
+                    <div><span>#'+ (i + 1) + '</span>';
+            if (json['submissions'][i]['status'] == 3)
+              s += '<span style="color: green;padding-left: 10px;">Accepted';
+            else if (json['submissions'][i]['status'] == 4)
+              s += '<span style="color: red;padding-left: 10px;">Wrong Answer';
+            else if (json['submissions'][i]['status'] == 5)
+              s += '<span style="color: red;padding-left: 10px;">Time Limit Exceeded';
+            else if (json['submissions'][i]['status'] == 6)
+              s += '<span style="color: red;padding-left: 10px;">Compilation Error';
+            else if (json['submissions'][i]['status'] == -2)
+              s += '<span style="color: red;padding-left: 10px;">Requirements not matched';
+            else if (json['submissions'][i]['status'] == -1)
+              s += '<span style="padding-left: 10px;">In Queue';
+            else
+              s += '<span style="color: red;padding-left: 10px;">Runtime Error';
+            s += '</span>\
                   </div>\
                   <div>(';
-              s+=json['submissions'][i]['testcases_passed']*20;
-              s +='%)</div></div>\
+            s += json['submissions'][i]['testcases_passed'] * 20;
+            s += '%)</div></div>\
             </button>\
             </div>\
-            <div id="submission'+i+'" class="accordion-collapse collapse" data-bs-parent="#myAccordion">\
+            <div id="submission'+ i + '" class="accordion-collapse collapse" data-bs-parent="#myAccordion">\
                 <div class="card-body" style="padding:1px">\
-                  <div class="d-flex flex-row justify-content-between" style="margin:5px"><p>submission time</p><p>'+sub_time.toString().substring(4,21)+'</p></div>\
-                    <pre id="source'+i+'"></pre>\
+                  <div class="d-flex flex-row justify-content-between" style="margin:5px"><p>submission time</p><p>'+ sub_time.toString().substring(4, 21) + '</p></div>\
+                    <pre id="source'+ i + '"></pre>\
                 </div>\
             </div>\
             </div>';
-              $('#myAccordion').append(s);
-              $('#source'+i).text(decode(json['submissions'][i]['source']));
-            }
-            if(json['submissions'].length==0)
-            $("#myAccordion").html("<h4>No Submissions<h4>");
+            $('#myAccordion').append(s);
+            $('#source' + i).text(decode(json['submissions'][i]['source']));
           }
-        });
-      }
-    </script>
-    </body>
-  </html>
+          if (json['submissions'].length == 0)
+            $("#myAccordion").html("<h4>No Submissions<h4>");
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
