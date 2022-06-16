@@ -561,17 +561,10 @@
             }
           },
 
-          statusCode: {
-            500: function () {
-              $('#list').addAttr('uk-sortable');
-              alert("unable to process request. please try again");
-            }
-          },
+          timeout: 5000,
 
-          // handle a non-successful response
-          error: function (xhr, errmsg, err) {
-            $('#list').addAttr('uk-sortable');
-            alert(response["responseJSON"]["error"]);
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(textStatus);
           }
         });
       }
