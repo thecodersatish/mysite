@@ -296,7 +296,7 @@ def problem_submit(request):
 def problem_submissions(request):
     if request.method=="GET":
         problem = Problem.objects.get(code=request.GET.get('problem_code'))
-        submissions = [model_to_dict(i) for i in Problem_Submission.objects.filter(user=request.user,problem=problem)]
+        submissions = [model_to_dict(i) for i in Problem_Submission.objects.filter(user=request.user,problem=problem).order_by('date')]
         return JsonResponse({"submissions":submissions})
 
 @csrf_exempt
@@ -381,6 +381,7 @@ def rearrange_submit(request):
         else:
             return JsonResponse({'accepted':True})
         d["updated"]=updated
+        print(d)
         return JsonResponse(d)
 
 @login_required
