@@ -29,4 +29,40 @@ An interactive **online learning platform** built with **Python (Django Framewor
 ---
 
 ## 📁 Project Structure
+online_courses/
+│
+├── courses/ # App for course management
+├── users/ # App for user authentication and profiles
+├── lessons/ # App for videos, MCQs, coding modules
+├── assessments/ # App for quizzes and evaluation
+├── static/ # Static assets (CSS, JS, images)
+├── templates/ # HTML templates
+├── manage.py
+└── requirements.txt
 
+---
+
+## ⚙️ Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/thecodersatish/mysite.git
+   cd mysite
+
+2. **Create and activate virtual environment**
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate     # On Windows  
+   source venv/bin/activate  # On Mac/Linux  
+
+4. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+5. **Apply migrations**
+   ```bash
+   python manage.py migrate
+6. **Run the development server**
+   ```bash
+   python manage.py runserver
+
+Open your browser and go to: http://127.0.0.1:8000/
